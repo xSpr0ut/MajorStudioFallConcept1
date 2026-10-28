@@ -1,2 +1,7 @@
-NAME,CHART FILE PATH,MUSIC FILE PATH
-Last Night on Earth,last_night_bs_15_8key,green day - last night on earth
+NAME,CHART FILE PATH,MUSIC FILE PATH,IMAGE FILE PATH
+Green Rock Festival,green_rock_festival_song_only_bs_10_8key,Green_rock_festival,GRFEST_1.avi_000000000
+Home Sweet Home,home_sweet_home_bs_15_8key,Home Sweet Home,homeSweethomeCover
+Last Night on Earth,last_night_bs_15_8key,green day - last night on earth,lastDayOnEarthCover
+Something,mueonga_bs_10_8key,Something,somethingimage
+Ring Ding Dong,ring_ding_dong_bs_10_3key_8key,Ring_ding_dong,ringdingdongimage
+Test file,test,test,test

@@ -32,12 +32,14 @@ public class SongSelector : MonoBehaviour
         public string songName;
         public string chartFilePath;
         public string musicFilePath;
+        public string image;
 
-        public Song(string sn, string cfp, string mfp)
+        public Song(string sn, string cfp, string mfp, string img)
         {
             songName = sn;
             chartFilePath = cfp;
             musicFilePath = mfp;
+            image = img;
         }
     }
 
@@ -86,7 +88,7 @@ public class SongSelector : MonoBehaviour
         {
             cc.anchoredPosition = new Vector2(cc.anchoredPosition.x, moveTarget);
             selectedSongFrame.SetActive(true);
-            //selectedSongFrame.GetComponent<Image>().sprite = Resources.Load<Sprite>("SongImages/" + listOfTracks[selectedSong].image);
+            selectedSongFrame.GetComponent<Image>().sprite = Resources.Load<Sprite>("SongImages/" + listOfTracks[selectedSong].image);
             selectedSongName.text = listOfTracks[selectedSong].songName;
             canStart = true;
 
@@ -129,12 +131,14 @@ public class SongSelector : MonoBehaviour
             string songName;
             string chartFilePath;
             string musicFilePath;
+            string imageFilePath;
 
             songName = columns[0].Trim();
             chartFilePath = columns[1].Trim();
             musicFilePath = columns[2].Trim();
+            imageFilePath = columns[3].Trim();
 
-            Song song = new Song(songName, chartFilePath, musicFilePath);
+            Song song = new Song(songName, chartFilePath, musicFilePath, imageFilePath);
             listOfTracks.Add(song);
         }
     }
@@ -146,6 +150,10 @@ public class SongSelector : MonoBehaviour
 
             TextMeshProUGUI textComp = placedSong.GetComponentInChildren<TextMeshProUGUI>();
             textComp.text = song.songName;
+
+            // can you BELIEVE getcomponentinchildren includes the calling gameobject!!?
+            Image[] i = placedSong.GetComponentsInChildren<Image>();
+            i[1].sprite = Resources.Load<Sprite>("SongImages/" + song.image);
         }
     }
 }
