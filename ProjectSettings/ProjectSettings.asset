@@ -4,7 +4,7 @@
 PlayerSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 30
-  productGUID: e2bd287a3ba0ec44d8a7eb839b7c49d8
+  productGUID: 4474042be1b4cfb47bfa7d3fc74c094d
   AndroidProfiler: 0
   AndroidFilterTouchesWhenObscured: 0
   AndroidEnableSustainedPerformanceMode: 0
@@ -13,7 +13,7 @@ PlayerSettings:
   useOnDemandResources: 0
   accelerometerFrequency: 60
   companyName: DefaultCompany
-  productName: tempname
+  productName: aaa
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
   m_SplashScreenBackgroundColor: {r: 0.13725491, g: 0.12156863, b: 0.1254902, a: 1}
@@ -612,14 +612,14 @@ PlayerSettings:
   editorAssembliesCompatibilityLevel: 1
   m_RenderingPath: 1
   m_MobileRenderingPath: 1
-  metroPackageName: tempname
+  metroPackageName: aaa
   metroPackageVersion: 
   metroCertificatePath: 
   metroCertificatePassword: 
   metroCertificateSubject: 
   metroCertificateIssuer: 
   metroCertificateNotAfter: 0000000000000000
-  metroApplicationDescription: tempname
+  metroApplicationDescription: aaa
   wsaImages: {}
   metroTileShortName: 
   metroTileShowName: 0
@@ -690,10 +690,10 @@ PlayerSettings:
   activeInputHandler: 1
   windowsGamepadBackendHint: 0
   enableDirectStorage: 0
-  cloudProjectId: 06656d2d-1444-4733-8859-5199cfb49587
+  cloudProjectId: 1f4db44a-8ee5-44e8-97a4-85087f081982
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
-  projectName: tempname
+  projectName: aaa
   organizationId: serenali
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0
