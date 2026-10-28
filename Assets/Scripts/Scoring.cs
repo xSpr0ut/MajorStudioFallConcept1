@@ -45,7 +45,7 @@ public class Scoring : MonoBehaviour
     Score Good = new Score("GOOD", 140, 500, Color.green, 0);
     Score Ok = new Score("OK", 190, 240, Color.yellow, 0);
     Score Bad = new Score("BAD", 250, 100, Color.red, 0);
-    public Score Miss = new Score("MISS", 250, 0, Color.gray, 0);
+    Score Miss = new Score("MISS", 250, 0, Color.gray, 0);
 
     public void inputScore(double timeDifference, int lane)
     {
@@ -126,7 +126,7 @@ public class Scoring : MonoBehaviour
 
     public void spawnRank(Score score, int lane)
     {
-        var frp = GameManager.Instance.spawnInCircle(floatingRankPrefab, endHeight + frpOffset, 0, 6, lane);
+        var frp = GameManager.Instance.spawnAtLocation(floatingRankPrefab, Vector3.zero);
 
         frp.GetComponent<FloatAndDisappear>().text = score.name;
         frp.GetComponent<FloatAndDisappear>().color = score.color;
@@ -134,13 +134,15 @@ public class Scoring : MonoBehaviour
 
     public void spawnParticle(Score score, int lane)
     {
-        var partSys = GameManager.Instance.spawnInCircle(partSysPrefab, endHeight + partSysHeightOffset, 0, 2, lane);
+        var partSys = GameManager.Instance.spawnAtLocation(partSysPrefab, Vector3.zero);
 
         var mainMod = partSys.GetComponent<ParticleSystem>().main;
 
         mainMod.startColor = score.color;
     }
     public int getMissRange() { return Miss.range; }
+
+    public Score getMiss() { return Miss; }
 
     public int getScore() { return score; }
 

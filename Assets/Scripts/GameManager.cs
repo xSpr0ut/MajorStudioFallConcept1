@@ -18,7 +18,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private double noteSpeed = 1; // in units/second, player controlled
 
     [SerializeField] private float initialHeight = 5f;
-    [SerializeField] private float endHeight = 1f;
+    [SerializeField] private float endHeight = 0f;
     [SerializeField] private float initialDistFromPlayer = 5f;
     [SerializeField] private float endDistFromPlayer = 5;
 
@@ -64,7 +64,7 @@ public class GameManager : MonoBehaviour
     {
         if (Manager != null && Manager != this)
         {
-            Destroy(this.gameObject);
+            Destroy(gameObject);
         }
         else
         {
@@ -126,20 +126,16 @@ public class GameManager : MonoBehaviour
                 startDelay = Math.Abs(visualCues[0].spawnTime) + 1;
             }
         }
-        else
-        {
-            Debug.LogWarning("[Max] selected song produced no cues — check its chart file/path");
-        }
 
         // lines to indicate timing
         for (int i = 0; i < 8; i++)
         {
-            var k = spawnInCircle(keyPrefab, endHeight, 0, 0, i);
+            var k = spawnAtLocation(keyPrefab, new Vector3(-4 + i, 0, 0));
 
-            Image keyRect = k.transform.GetChild(0).GetChild(0).GetComponent<Image>();
-            keyRect.sprite = arrows[i];
-            //keyRect.rotation = Quaternion.Euler(0, 90, i * 45);
-            k.transform.GetChild(0).GetChild(1).GetComponent<TextMeshProUGUI>().text = i.ToString();
+            //Image keyRect = k.transform.GetChild(0).GetChild(0).GetComponent<Image>();
+            //keyRect.sprite = arrows[i];
+            ////keyRect.rotation = Quaternion.Euler(0, 90, i * 45);
+            //k.transform.GetChild(0).GetChild(1).GetComponent<TextMeshProUGUI>().text = i.ToString();
             keyLines.Add(k);
         }
 
@@ -182,11 +178,11 @@ public class GameManager : MonoBehaviour
             {
                 if (spawnHorizontally)
                 {
-                    n = spawnInCircle(longNotePrefab, endHeight, initialDistFromPlayer, 0, visualCues[currentVisualCue].lane);
+                    n = spawnAtLocation(longNotePrefab, new Vector3(visualCues[currentVisualCue].lane - 4, initialHeight, 0));
                 }
                 else
                 {
-                    n = spawnInCircle(longNotePrefab, initialHeight, 0, 0, visualCues[currentVisualCue].lane);
+                    n = spawnAtLocation(longNotePrefab, new Vector3(visualCues[currentVisualCue].lane - 4, initialHeight, 0));
                 }
                 
             }
@@ -194,26 +190,37 @@ public class GameManager : MonoBehaviour
             {
                 if (spawnHorizontally)
                 {
-                    n = spawnInCircle(notePrefab, endHeight, initialDistFromPlayer, 0, visualCues[currentVisualCue].lane);
+                    n = spawnAtLocation(notePrefab, new Vector3(visualCues[currentVisualCue].lane - 4, initialHeight, 0));
                 }
                 else
                 {
-                    n = spawnInCircle(notePrefab, initialHeight, 0, 0, visualCues[currentVisualCue].lane);
+                    n = spawnAtLocation(notePrefab, new Vector3(visualCues[currentVisualCue].lane - 4, initialHeight, 0));
                 }
                 
             }
 
-            n.GetComponent<Note>().startTime = visualCues[currentVisualCue].spawnTime + startTime;
-            n.GetComponent<Note>().endTime = visualCues[currentVisualCue].actualTime + startTime;
-            n.GetComponent<Note>().fallSpd = noteSpeed;
-            //n.GetComponent<Note>().endHeight = endHeight;
-            n.GetComponent<Note>().endLocation = new Vector3(keyLines[visualCues[currentVisualCue].lane].transform.position.x,
+            
+
+            Vector3 endlocation = new Vector3(keyLines[visualCues[currentVisualCue].lane].transform.position.x,
                                                              keyLines[visualCues[currentVisualCue].lane].transform.position.y,
                                                              keyLines[visualCues[currentVisualCue].lane].transform.position.z); // lol
 
+            n.GetComponent<Note>().setVars(visualCues[currentVisualCue].spawnTime + startTime,
+                                           visualCues[currentVisualCue].actualTime + startTime,
+                                           noteSpeed,
+                                           endlocation, Color.white);
+
+            //n.GetComponent<Note>().startTime = visualCues[currentVisualCue].spawnTime + startTime;
+            //n.GetComponent<Note>().endTime = visualCues[currentVisualCue].actualTime + startTime;
+            //n.GetComponent<Note>().fallSpd = noteSpeed;
+            ////n.GetComponent<Note>().endHeight = endHeight;
+            //n.GetComponent<Note>().endLocation = new Vector3(keyLines[visualCues[currentVisualCue].lane].transform.position.x,
+            //                                                 keyLines[visualCues[currentVisualCue].lane].transform.position.y,
+            //                                                 keyLines[visualCues[currentVisualCue].lane].transform.position.z); // lol
+
             if (visualCues[currentVisualCue].hold)
             {
-                n.GetComponent<LongNote>().topStartTime = visualCues[currentVisualCue].topSpawnTime + startTime;
+                n.GetComponent<NoteBarLong>().topStartTime = visualCues[currentVisualCue].topSpawnTime + startTime;
             }
 
             // lot of shuffling but you assign the note object to the Note value in one of the VisualCues in the current lane
@@ -240,7 +247,7 @@ public class GameManager : MonoBehaviour
                     Destroy(allLanes[i][closestNoteToBottom[i]].note.gameObject);
                     allLanes[i][closestNoteToBottom[i]].note = null;
 
-                    scorer.inputScore(scorer.Miss, i);
+                    scorer.inputScore(scorer.getMiss(), i);
 
                     closestNoteToBottom[i]++;
                     continue;
@@ -256,7 +263,7 @@ public class GameManager : MonoBehaviour
 
             while (closestNoteToBottom[i] < allLanes[i].Count &&
                    allLanes[i][closestNoteToBottom[i]].hold &&
-                   allLanes[i][closestNoteToBottom[i]].evaluationTime + startTime + (double)scorer.Miss.range / 1000.0 <= currentTime)
+                   allLanes[i][closestNoteToBottom[i]].evaluationTime + startTime + (double)scorer.getMissRange() / 1000.0 <= currentTime)
             {
                 // sometimes it breaks idk
                 if (allLanes[i][closestNoteToBottom[i]].note != null)
@@ -266,7 +273,7 @@ public class GameManager : MonoBehaviour
                         allLanes[i][closestNoteToBottom[i]].note.disableNote();
                         allLanes[i][closestNoteToBottom[i]].note = null;
 
-                        scorer.inputScore(scorer.Miss, i);
+                        scorer.inputScore(scorer.getMiss(), i);
 
                         closestNoteToBottom[i]++;
                         continue;
@@ -309,7 +316,7 @@ public class GameManager : MonoBehaviour
             double timeDifference = Math.Abs(((double)allLanes[lane][closestNoteToBottom[lane]].actualTime + startTime) - AudioSettings.dspTime);
 
             // if the note is nowhere near the player, don't accept input
-            if (timeDifference > (double)scorer.Miss.range / 1000)
+            if (timeDifference > (double)scorer.getMissRange() / 1000)
             {
                 return;
             }
@@ -327,7 +334,7 @@ public class GameManager : MonoBehaviour
             if (allLanes[lane][closestNoteToBottom[lane]].hold)
             {
                 // lmfao
-                allLanes[lane][closestNoteToBottom[lane]].note.gameObject.GetComponent<LongNote>().onHold();
+                allLanes[lane][closestNoteToBottom[lane]].note.gameObject.GetComponent<NoteBarLong>().onHold();
             }
             else
             {
@@ -375,13 +382,9 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public GameObject spawnInCircle(GameObject toSpawn, float spawnHeight, float spawnDist, float rotationOffset, int lane)
+    public GameObject spawnAtLocation(GameObject noteToSpawn, Vector2 loc)
     {
-        return Instantiate(toSpawn,
-                               new Vector3(Mathf.Cos(toRadians((360 / 8) * lane)) * (endDistFromPlayer + spawnDist),
-                                           spawnHeight,
-                                           Mathf.Sin(toRadians((360 / 8) * lane)) * (endDistFromPlayer + spawnDist)),
-                               Quaternion.Euler(0, -(lane + rotationOffset) * (360 / 8), 0));
+        return Instantiate(noteToSpawn, loc, Quaternion.identity);
     }
     private float toRadians(float value)
     {

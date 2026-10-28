@@ -75,7 +75,7 @@ public class SongSelector : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    { /*
+    {
         if (Mathf.Abs(cc.anchoredPosition.y - moveTarget) > moveSpeed)
         {
             cc.anchoredPosition = new Vector2(cc.anchoredPosition.x, cc.anchoredPosition.y + moveSpeed * -Mathf.Sign(cc.anchoredPosition.y - moveTarget));
@@ -86,7 +86,7 @@ public class SongSelector : MonoBehaviour
         {
             cc.anchoredPosition = new Vector2(cc.anchoredPosition.x, moveTarget);
             selectedSongFrame.SetActive(true);
-            selectedSongFrame.GetComponent<Image>().sprite = Resources.Load<Sprite>("SongImages/" + listOfTracks[selectedSong].image);
+            //selectedSongFrame.GetComponent<Image>().sprite = Resources.Load<Sprite>("SongImages/" + listOfTracks[selectedSong].image);
             selectedSongName.text = listOfTracks[selectedSong].songName;
             canStart = true;
 
@@ -101,13 +101,13 @@ public class SongSelector : MonoBehaviour
         {
             selectedSong = Mathf.Clamp(selectedSong - 1, 0, listOfTracks.Count - 1);
             moveTarget = Mathf.Clamp(moveTarget - songPrefabHeight, minScroll, maxScroll);
-            
+
         }
         else if (Input.GetKeyDown(KeyCode.S))
         {
             selectedSong = Mathf.Clamp(selectedSong + 1, 0, listOfTracks.Count - 1);
             moveTarget = Mathf.Clamp(moveTarget + songPrefabHeight, minScroll, maxScroll);
-        } */
+        }
     }
 
     private void readCSV()

@@ -1,8 +1,7 @@
 using UnityEngine;
 
-public class LongNote : Note
+public class NoteBarLong : NoteBar
 {
-    [SerializeField] Material holding;
     public double topStartTime;
 
     // used for calculating percentage
@@ -63,6 +62,5 @@ public class LongNote : Note
 
     public void onHold()
     {
-        GetComponent<Renderer>().material = holding;
     }
 }
