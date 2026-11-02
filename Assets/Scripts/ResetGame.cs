@@ -1,6 +1,7 @@
 using Unity.Burst.CompilerServices;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 public class ResetGame : MonoBehaviour
@@ -14,7 +15,7 @@ public class ResetGame : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.D))
+        if (Keyboard.current.dKey.wasPressedThisFrame)
         {
             // reload game
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);

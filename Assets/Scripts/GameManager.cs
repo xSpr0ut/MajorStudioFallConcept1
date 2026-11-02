@@ -80,10 +80,10 @@ public class GameManager : MonoBehaviour
     }
     void Start()
     {
+        keys.Add(Keyboard.current.dKey);
         keys.Add(Keyboard.current.fKey);
         keys.Add(Keyboard.current.jKey);
         keys.Add(Keyboard.current.kKey);
-        keys.Add(Keyboard.current.dKey);
         keys.Add(Keyboard.current.spaceKey);
 
         audioSrc = GetComponent<AudioSource>();
@@ -153,7 +153,9 @@ public class GameManager : MonoBehaviour
 
         scorer.gameObject.SetActive(true);
 
-        AudioClip a = Resources.Load<AudioClip>("Audio/" + selectedSong.musicFilePath + audioCues[currentAudioCue].name.Replace(".wav", ""));
+        //lol
+        string filePath = "Audio/" + selectedSong.musicFilePath + audioCues[currentAudioCue].name.Replace(".wav", "").Replace(".mp3", "");
+        AudioClip a = Resources.Load<AudioClip>(filePath);
 
         started = true;
         startTime = AudioSettings.dspTime + startDelay;
@@ -168,12 +170,11 @@ public class GameManager : MonoBehaviour
     }
     private void spawnAudioCue(double currentTime)
     {
-        double songTime = currentTime - startTime; // track/trajectory time: 0 == backing-track start
+        double songTime = currentTime - startTime; 
 
-        // sendToMax == false: Unity plays the backing track locally from the note chart's audio cues.
         while (currentAudioCue < audioCues.Count && audioCues[currentAudioCue].actualTime + startTime <= currentTime)
         {
-            AudioClip a = Resources.Load<AudioClip>("Audio/" + selectedSong.musicFilePath + audioCues[currentAudioCue].name.Replace(".wav", ""));
+            AudioClip a = Resources.Load<AudioClip>("Audio/" + selectedSong.musicFilePath + audioCues[currentAudioCue].name.Replace(".wav", "").Replace(".mp3", ""));
             if (a != null) AudioSource.PlayClipAtPoint(a, new Vector3(0, 0, 0));
             currentAudioCue++;
         }
@@ -188,30 +189,13 @@ public class GameManager : MonoBehaviour
             GameObject n;
             if (visualCues[currentVisualCue].hold)
             {
-                if (spawnHorizontally)
-                {
-                    n = spawnAtLocation(longNotePrefab, new Vector3(visualCues[currentVisualCue].lane - 4, initialHeight, 0));
-                }
-                else
-                {
-                    n = spawnAtLocation(longNotePrefab, new Vector3(visualCues[currentVisualCue].lane - 4, initialHeight, 0));
-                }
-                
+                n = spawnAtLocation(longNotePrefab, new Vector3(visualCues[currentVisualCue].lane - 4, initialHeight, 0));
+
             }
             else
             {
-                if (spawnHorizontally)
-                {
-                    n = spawnAtLocation(notePrefab, new Vector3(visualCues[currentVisualCue].lane - 4, initialHeight, 0));
-                }
-                else
-                {
-                    n = spawnAtLocation(notePrefab, new Vector3(visualCues[currentVisualCue].lane - 4, initialHeight, 0));
-                }
-                
+                n = spawnAtLocation(notePrefab, new Vector3(visualCues[currentVisualCue].lane - 4, initialHeight, 0));
             }
-
-            
 
             Vector3 endlocation = new Vector3(keyLines[visualCues[currentVisualCue].lane].transform.position.x,
                                                              keyLines[visualCues[currentVisualCue].lane].transform.position.y,
@@ -313,7 +297,7 @@ public class GameManager : MonoBehaviour
 
             if (key.wasReleasedThisFrame)
             {
-                resolveHit(keys.IndexOf(key));
+                resolveRelease(keys.IndexOf(key));
             }
         }
     }

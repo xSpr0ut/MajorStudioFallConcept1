@@ -164,8 +164,8 @@ public class Scoring : MonoBehaviour
         yield return new WaitForSeconds(1);
 
         // lol
-        TextMeshProUGUI rankName = endUI.transform.GetChild(1).GetComponent<TextMeshProUGUI>();
-        TextMeshProUGUI rankNum = endUI.transform.GetChild(2).GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI rankName = endUI.transform.GetChild(2).GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI rankNum = endUI.transform.GetChild(3).GetComponent<TextMeshProUGUI>();
 
         // extra lol
         rankName.text += Perfect.name + "\n";

@@ -18,11 +18,6 @@ public class NoteBarLong : NoteBar
         numTotalDistance = Vector3.Distance(originalLocation, endLocation);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
     override
     protected void move()
     {
@@ -42,6 +37,8 @@ public class NoteBarLong : NoteBar
 
         Vector3 midPoint = (topCoord + bottomCoord) / 2;
         float scale = Mathf.Clamp(Vector3.Distance(topCoord, bottomCoord), 0, Vector3.Distance(originalLocation, endLocation));
+
+        Debug.Log(percentageTravelledBottom + "  " + percentageTravelledTop);
 
         transform.position = midPoint;
         transform.localScale = new Vector3(transform.localScale.x, scale, transform.localScale.z);

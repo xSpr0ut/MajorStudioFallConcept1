@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using JetBrains.Annotations;
 using System;
 using Unity.Tutorials.Editor;
+using System.Security.Cryptography;
 public class ChartParser
 {
     private string title;
@@ -40,14 +41,14 @@ public class ChartParser
     {
         string assetPath = AssetDatabase.GetAssetPath(Resources.Load<TextAsset>("Charts/" + song.chartFilePath));
 
+        char[] keyToLanes = new char[5];
+
         foreach (string line in File.ReadLines(assetPath))
         {
             if (string.IsNullOrWhiteSpace(line)) continue;
 
             // Split line into columns based on commas
             string[] columns = line.Split(',');
-
-            int[] keyToLanes = new int[5];
 
             if (columns[0].Equals("t")) // line 1
             {
@@ -62,6 +63,11 @@ public class ChartParser
                         break;
                     }
                 }
+
+                //foreach (char c in keyToLanes)
+                //{
+                //    Debug.Log(c);
+                //}
             }
 
             double timeToPress = 0;
@@ -99,16 +105,15 @@ public class ChartParser
                     }
 
                     // get held notes
-                    int ind = Array.IndexOf(keyToLanes, c);
+                    int ind = Array.IndexOf(keyToLanes, c);;
 
                     if (ind != -1)
                     {
-                        Debug.Log("there are hedl notes");
-                        if (!columns[ind].IsNullOrWhiteSpace())
+                        if (!columns[ind + 2].IsNullOrWhiteSpace())
                         {
                             held = true;
 
-                            if (double.TryParse(columns[0].Trim(), out double ht))
+                            if (double.TryParse(columns[ind + 2].Trim(), out double ht))
                             {
                                 heldtime = ht;
                             }

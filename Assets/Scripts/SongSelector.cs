@@ -17,12 +17,12 @@ public class SongSelector : MonoBehaviour
     [SerializeField] private TextMeshProUGUI selectedSongName;
 
     private RectTransform cc;
-    private int songPrefabHeight = 50;
+    private int songPrefabHeight = 100;
 
     private int selectedSong;
     private bool canStart = false;
 
-    private float minScroll = -125f;
+    private float minScroll = -250f;
     private float maxScroll;
 
     private float originalPos;
@@ -45,19 +45,11 @@ public class SongSelector : MonoBehaviour
     }
 
     private List<Song> listOfTracks = new List<Song>();
-    //private Song GRFBMS = new Song("Green Rock Festival", false, "Audio/GRF/", "Charts/Green Rock Festival", "SongImages/GRFEST TITLE", "Charts/traj_angle_green_rock_festival_with_cue", 0.7888, 184.0, "Green_rock_festival.wav"); // BMS shares the CSV's raw timeline, so same offset to match the music
-    //private Song GRFCSV = new Song("Green_rock_festival_8keys", true, "Green_rock_festival", "Charts/Green_rock_festival_8keys", "SongImages/GRFEST_1.avi_000000000", "Charts/traj_angle_green_rock_festival_with_cue", 0.7888, 184.0, "Green_rock_festival.wav"); // backing wav at Resources root; chart offset 0.7888 s; 184 bpm
-
-    //private Song GRFCSVEZ = new Song("GREEN ROCK FESTIVAL EASY", true, "Green_rock_festival", "Charts/green_rock_festival_easy_bs_8key", "SongImages/GRFEST_1.avi_000000000", "Charts/traj_angle_green_rock_festival_with_cue", 0.7888, 184.0, "Green_rock_festival.wav"); // backing wav at Reso
-
     
     private void Awake()
     {
         selectedSong = 0;
         readCSV();
-
-        //listOfTracks.Add(GRFCSV);
-        //listOfTracks.Add(GRFCSVEZ);
 
         cc = contentContainer.gameObject.GetComponent<RectTransform>();
         cc.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, listOfTracks.Count * songPrefabHeight);
@@ -65,7 +57,7 @@ public class SongSelector : MonoBehaviour
         originalPos = cc.anchoredPosition.y;
         moveTarget = originalPos;
 
-        maxScroll = minScroll + listOfTracks.Count * songPrefabHeight - 50;
+        maxScroll = minScroll + listOfTracks.Count * songPrefabHeight - 100;
 
         populateList();
     }
