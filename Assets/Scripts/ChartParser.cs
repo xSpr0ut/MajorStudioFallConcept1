@@ -17,7 +17,7 @@ public class ChartParser
     Dictionary<string, string> wavs = new Dictionary<string, string>(); // for converting pairs to file name (parsing)
 
     private double prescheduleTime = 1;
-    public double chartTimeOffset = 0; // global shift (s) added to ALL note times (BMS and CSV) to align the chart to the music
+    public double chartTimeOffset = 0.5; // global shift (s) added to ALL note times to align the chart to the music
 
     private List<AudioCue> audioCues = new List<AudioCue>();
     private List<VisualCue> visualCues = new List<VisualCue>();
@@ -124,12 +124,14 @@ public class ChartParser
                     visualCue.actualTime = timeToPress + chartTimeOffset;
                     visualCue.evaluationTime = timeToPress + chartTimeOffset;
                     visualCue.lane = lane;
+                    visualCue.type = VisualCue.NoteTypes.BAR;
 
                     if (held)
                     {
                         visualCue.hold = true;
                         visualCue.topEndTime = heldtime + chartTimeOffset;
                         visualCue.evaluationTime = visualCue.topEndTime;
+                        visualCue.type = VisualCue.NoteTypes.LONGBAR;
                     }
 
                     visualCues.Add(visualCue);

@@ -6,6 +6,7 @@ public abstract class Note : MonoBehaviour
 
     protected double initialTime;
     protected double startTime;
+    protected double topStartTime;
     protected double endTime;
     protected double totalTravelTime;
 
@@ -18,7 +19,7 @@ public abstract class Note : MonoBehaviour
 
     private Color disableColor;
 
-    private SpriteRenderer spriteRenderer;
+    protected SpriteRenderer spriteRenderer;
 
     private void Awake()
     {
@@ -34,6 +35,11 @@ public abstract class Note : MonoBehaviour
         this.color = color;
 
         disableColor = new Color(color.r, color.g, color.b, 0.5f);
+    }
+
+    public void setLongNoteVars(double topStartTime)
+    {
+        this.topStartTime = topStartTime;
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created

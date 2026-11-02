@@ -126,7 +126,7 @@ public class Scoring : MonoBehaviour
 
     public void spawnRank(Score score, int lane)
     {
-        var frp = GameManager.Instance.spawnAtLocation(floatingRankPrefab, new Vector3(lane - 4, -1, 0));
+        var frp = GameManager.Instance.spawnAtLocation(floatingRankPrefab, new Vector3(-3 + lane * 2, -3.7f, 0));
 
         frp.GetComponent<FloatAndDisappear>().text = score.name;
         frp.GetComponent<FloatAndDisappear>().color = score.color;
@@ -134,7 +134,7 @@ public class Scoring : MonoBehaviour
 
     public void spawnParticle(Score score, int lane)
     {
-        var partSys = GameManager.Instance.spawnAtLocation(partSysPrefab, new Vector3(lane - 4, -1, 0));
+        var partSys = GameManager.Instance.spawnAtLocation(partSysPrefab, new Vector3(-3 + lane * 2, -3.7f, 0));
 
         var mainMod = partSys.GetComponent<ParticleSystem>().main;
 

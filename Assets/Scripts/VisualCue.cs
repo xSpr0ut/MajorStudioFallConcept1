@@ -1,14 +1,13 @@
 using System;
 using UnityEngine;
 
-public class VisualCue : IComparable<VisualCue>
+public class VisualCue
 {
     public double beatPos;
     public int lane;
     public AudioClip clip;
     public double spawnTime;
     public double actualTime;
-    public string name;
 
     public bool hold;
     public double topSpawnTime;
@@ -19,27 +18,14 @@ public class VisualCue : IComparable<VisualCue>
 
     public Note note;
 
-    public int CompareTo(VisualCue v)
+    public enum NoteTypes
     {
-        if (beatPos > v.beatPos)
-        {
-            return 1;
-        }
-        else if (beatPos < v.beatPos)
-        {
-            return -1;
-        }
-
-        // if measures are the same, sort by channel
-        if (lane > v.lane)
-        {
-            return 1;
-        }
-        else if (lane < v.lane)
-        {
-            return -1;
-        }
-
-        return 0;
+        BAR,
+        LONGBAR,
+        CIRCLE,
+        LONGCIRCLE
     }
+
+
+    public NoteTypes type;
 }

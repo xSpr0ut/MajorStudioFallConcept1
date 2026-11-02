@@ -22,12 +22,8 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private float initialHeight = 5f;
     [SerializeField] private float endHeight = 0f;
-    [SerializeField] private float initialDistFromPlayer = 5f;
-    [SerializeField] private float endDistFromPlayer = 5;
 
-    [SerializeField] private bool spawnHorizontally = true;
-
-    [Header("Pre integration ONLY. Remove when done")]
+    [Header("Audio stuff")]
     public AudioSource audioSrc;
     public AudioClip defaultClip;
 
@@ -56,6 +52,7 @@ public class GameManager : MonoBehaviour
 
     // game variables
     private ChartParser chartParser;
+    private NoteSpawner noteSpawner;
     [SerializeField] private Scoring scorer;
     private bool started = false;
 
@@ -77,6 +74,7 @@ public class GameManager : MonoBehaviour
             Manager = this;
         }
 
+        noteSpawner = GetComponent<NoteSpawner>();  
     }
     void Start()
     {
@@ -100,7 +98,7 @@ public class GameManager : MonoBehaviour
 
             spawnAudioCue(currentTime);
 
-            spawnVisualCue(currentTime, spawnHorizontally);
+            spawnVisualCue(currentTime);
 
             checkMissedNotes(currentTime);
 
@@ -140,15 +138,16 @@ public class GameManager : MonoBehaviour
         }
 
         // lines to indicate timing
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i < 4; i++)
         {
-            var k = spawnAtLocation(keyPrefab, new Vector3(-4 + i, 0, 0));
+            var k = spawnAtLocation(keyPrefab, new Vector3(-3 + 2 * i, -4, 0));
 
             //Image keyRect = k.transform.GetChild(0).GetChild(0).GetComponent<Image>();
             //keyRect.sprite = arrows[i];
             ////keyRect.rotation = Quaternion.Euler(0, 90, i * 45);
             //k.transform.GetChild(0).GetChild(1).GetComponent<TextMeshProUGUI>().text = i.ToString();
             keyLines.Add(k);
+            noteSpawner.level4locs.Add(k.transform);
         }
 
         scorer.gameObject.SetActive(true);
@@ -180,49 +179,17 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void spawnVisualCue(double currentTime, bool vertical)
+    private void spawnVisualCue(double currentTime)
     {
         // spawning notes
         while (currentVisualCue < visualCues.Count && visualCues[currentVisualCue].spawnTime + startTime <= currentTime)
         {
-            // create a note prefab
-            GameObject n;
-            if (visualCues[currentVisualCue].hold)
-            {
-                n = spawnAtLocation(longNotePrefab, new Vector3(visualCues[currentVisualCue].lane - 4, initialHeight, 0));
-
-            }
-            else
-            {
-                n = spawnAtLocation(notePrefab, new Vector3(visualCues[currentVisualCue].lane - 4, initialHeight, 0));
-            }
-
-            Vector3 endlocation = new Vector3(keyLines[visualCues[currentVisualCue].lane].transform.position.x,
-                                                             keyLines[visualCues[currentVisualCue].lane].transform.position.y,
-                                                             keyLines[visualCues[currentVisualCue].lane].transform.position.z); // lol
-
-            n.GetComponent<Note>().setVars(visualCues[currentVisualCue].spawnTime + startTime,
-                                           visualCues[currentVisualCue].actualTime + startTime,
-                                           noteSpeed,
-                                           endlocation, Color.white);
-
-            //n.GetComponent<Note>().startTime = visualCues[currentVisualCue].spawnTime + startTime;
-            //n.GetComponent<Note>().endTime = visualCues[currentVisualCue].actualTime + startTime;
-            //n.GetComponent<Note>().fallSpd = noteSpeed;
-            ////n.GetComponent<Note>().endHeight = endHeight;
-            //n.GetComponent<Note>().endLocation = new Vector3(keyLines[visualCues[currentVisualCue].lane].transform.position.x,
-            //                                                 keyLines[visualCues[currentVisualCue].lane].transform.position.y,
-            //                                                 keyLines[visualCues[currentVisualCue].lane].transform.position.z); // lol
-
-            if (visualCues[currentVisualCue].hold)
-            {
-                n.GetComponent<NoteBarLong>().topStartTime = visualCues[currentVisualCue].topSpawnTime + startTime;
-            }
+            Note n = noteSpawner.spawnVisualCue(visualCues[currentVisualCue], startTime, noteSpeed);
 
             // lot of shuffling but you assign the note object to the Note value in one of the VisualCues in the current lane
             int currentLane = visualCues[currentVisualCue].lane;
 
-            allLanes[currentLane][currentNoteSpawning[currentLane]].note = n.GetComponent<Note>();
+            allLanes[currentLane][currentNoteSpawning[currentLane]].note = n;
 
             currentVisualCue++;
             currentNoteSpawning[currentLane]++;
@@ -316,12 +283,13 @@ public class GameManager : MonoBehaviour
 
             scorer.inputScore(timeDifference, lane);
 
-            if (!String.IsNullOrEmpty(allLanes[lane][closestNoteToBottom[lane]].name))
-            {
-                AudioClip clip = defaultClip;
-                clip = Resources.Load<AudioClip>(selectedSong.musicFilePath + allLanes[lane][closestNoteToBottom[lane]].name.Replace(".wav", ""));
-                audioSrc.PlayOneShot(clip);
-            }
+            // put this back when we want sound effects with our music ig
+            //if (!String.IsNullOrEmpty(allLanes[lane][closestNoteToBottom[lane]].name))
+            //{
+            //    AudioClip clip = defaultClip;
+            //    clip = Resources.Load<AudioClip>(selectedSong.musicFilePath + allLanes[lane][closestNoteToBottom[lane]].name.Replace(".wav", ""));
+            //    audioSrc.PlayOneShot(clip);
+            //}
 
             allLanes[lane][closestNoteToBottom[lane]].hit = true;
             if (allLanes[lane][closestNoteToBottom[lane]].hold)

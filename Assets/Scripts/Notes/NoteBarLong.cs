@@ -2,18 +2,14 @@ using UnityEngine;
 
 public class NoteBarLong : NoteBar
 {
-    public double topStartTime;
-
     // used for calculating percentage
     private float numTotalDistance;
     // Start is called once before the first execution of Update after the MonoBehaviour is created 
     void Start()
     {
         initialTime = AudioSettings.dspTime;
-        //originalHeight = transform.position.y;
         originalLocation = transform.position;
         totalTravelTime = endTime - startTime;
-        //totalHeight = originalHeight - endHeight;
         totalDistance = originalLocation - endLocation;
         numTotalDistance = Vector3.Distance(originalLocation, endLocation);
     }
@@ -46,6 +42,6 @@ public class NoteBarLong : NoteBar
 
     public void onHold()
     {
-
+        spriteRenderer.color = Color.greenYellow;
     }
 }
