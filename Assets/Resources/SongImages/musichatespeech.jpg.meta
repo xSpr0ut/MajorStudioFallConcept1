@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 56377e0778ea1db4c9f39b845d01badb
+guid: b47980d7559b2aa4c94205f3e954b3a3
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -58872241921468576
-    second: GRFEST_1.avi_000000000_0
+      213: 7041026388753040385
+    second: musichatespeech_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -115,13 +115,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: GRFEST_1.avi_000000000_0
+      name: musichatespeech_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 256
-        height: 256
+        width: 613
+        height: 500
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -130,8 +130,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 067d3250208de2ff0800000000000000
-      internalID: -58872241921468576
+      spriteID: 104c6c31230c6b160800000000000000
+      internalID: 7041026388753040385
       vertices: []
       indices: 
       edges: []
@@ -150,7 +150,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      GRFEST_1.avi_000000000_0: -58872241921468576
+      musichatespeech_0: 7041026388753040385
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System;
 using TMPro;
 using UnityEngine.UI;
+using UnityEngine.Assemblies;
+using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Controls;
 
 // unbastardized documentation https://docs.unity3d.com/ScriptReference/AudioSettings-dspTime.html
 public class GameManager : MonoBehaviour
@@ -15,7 +18,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject notePrefab;
     [SerializeField] private GameObject longNotePrefab;
 
-    [SerializeField] private double noteSpeed = 1; // in units/second, player controlled
+    [SerializeField] private double noteSpeed = 5; // in units/second, player controlled
 
     [SerializeField] private float initialHeight = 5f;
     [SerializeField] private float endHeight = 0f;
@@ -44,17 +47,20 @@ public class GameManager : MonoBehaviour
     private int currentAudioCue = 0;
     private int currentVisualCue = 0;
     
-    private int[] currentNoteSpawning = new int[8]; // keeping track of which position each lane is in
-    private int[] closestNoteToBottom = new int[8]; // keeping track of the lowest note in each lane
+    private int[] currentNoteSpawning = new int[5]; // keeping track of which position each lane is in
+    private int[] closestNoteToBottom = new int[5]; // keeping track of the lowest note in each lane
 
     //list of all notes
-    List<VisualCue>[] allLanes = new List<VisualCue>[8];
+    List<VisualCue>[] allLanes = new List<VisualCue>[5];
     List<GameObject> keyLines = new List<GameObject>();
 
     // game variables
     private ChartParser chartParser;
     [SerializeField] private Scoring scorer;
     private bool started = false;
+
+    // list of keys for easy looping
+    private List<KeyControl> keys = new List<KeyControl>();
 
     // singleton bs
     private static GameManager Manager;
@@ -74,6 +80,12 @@ public class GameManager : MonoBehaviour
     }
     void Start()
     {
+        keys.Add(Keyboard.current.fKey);
+        keys.Add(Keyboard.current.jKey);
+        keys.Add(Keyboard.current.kKey);
+        keys.Add(Keyboard.current.dKey);
+        keys.Add(Keyboard.current.spaceKey);
+
         audioSrc = GetComponent<AudioSource>();
 
         // these may take a while
@@ -128,7 +140,7 @@ public class GameManager : MonoBehaviour
         }
 
         // lines to indicate timing
-        for (int i = 0; i < 8; i++)
+        for (int i = 0; i < 5; i++)
         {
             var k = spawnAtLocation(keyPrefab, new Vector3(-4 + i, 0, 0));
 
@@ -292,19 +304,16 @@ public class GameManager : MonoBehaviour
     }
     private void detectKeyPress()
     {
-        for (int i = 0; i < 8; i++)
+        foreach (KeyControl key in keys)
         {
-            // Check Top Row Numbers (KeyCode.Alpha0 is 48, Alpha1 is 49...)
-            KeyCode topRowKey = KeyCode.Alpha0 + i;
-
-            if (Input.GetKeyDown(topRowKey))
+            if (key.wasPressedThisFrame)
             {
-                resolveHit(i);
+                resolveHit(keys.IndexOf(key));
             }
 
-            if (Input.GetKeyUp(topRowKey))
+            if (key.wasReleasedThisFrame)
             {
-                resolveRelease(i);
+                resolveHit(keys.IndexOf(key));
             }
         }
     }

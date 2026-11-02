@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.IO;
 using UnityEditor;
+using UnityEngine.InputSystem;
 
 public class SongSelector : MonoBehaviour
 {
@@ -92,20 +93,20 @@ public class SongSelector : MonoBehaviour
             selectedSongName.text = listOfTracks[selectedSong].songName;
             canStart = true;
 
-            if (Input.GetKeyDown(KeyCode.D))
+            if (Keyboard.current.dKey.wasPressedThisFrame)
             {
                 GameManager.Instance.startGame(listOfTracks[selectedSong]);
                 gameObject.SetActive(false);
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.W))
+        if (Keyboard.current.wKey.wasPressedThisFrame)
         {
             selectedSong = Mathf.Clamp(selectedSong - 1, 0, listOfTracks.Count - 1);
             moveTarget = Mathf.Clamp(moveTarget - songPrefabHeight, minScroll, maxScroll);
 
         }
-        else if (Input.GetKeyDown(KeyCode.S))
+        else if (Keyboard.current.sKey.wasPressedThisFrame)
         {
             selectedSong = Mathf.Clamp(selectedSong + 1, 0, listOfTracks.Count - 1);
             moveTarget = Mathf.Clamp(moveTarget + songPrefabHeight, minScroll, maxScroll);

@@ -2,6 +2,9 @@ using UnityEditor;
 using UnityEngine;
 using System.IO;
 using System.Collections.Generic;
+using JetBrains.Annotations;
+using System;
+using Unity.Tutorials.Editor;
 public class ChartParser
 {
     private string title;
@@ -18,12 +21,12 @@ public class ChartParser
     private List<AudioCue> audioCues = new List<AudioCue>();
     private List<VisualCue> visualCues = new List<VisualCue>();
 
-    private List<VisualCue>[] allLanes = new List<VisualCue>[8];
+    private List<VisualCue>[] allLanes = new List<VisualCue>[5];
 
     public ChartParser()
     {
         // instantiate lanes
-        for (int i = 0; i < 8; i++)
+        for (int i = 0; i < 5; i++)
         {
             allLanes[i] = new List<VisualCue>();
         }
@@ -44,33 +47,88 @@ public class ChartParser
             // Split line into columns based on commas
             string[] columns = line.Split(',');
 
+            int[] keyToLanes = new int[5];
+
+            if (columns[0].Equals("t")) // line 1
+            {
+                // assign column to lane (for some reason, rhythmplus doesn't export consistently
+                for (int i = 2; i < columns.Length; i++)
+                {
+                    if (columns[i].Contains("h/")) {
+                        keyToLanes[i - 2] = columns[i][2]; // put char into correct lane
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+            }
+
             double timeToPress = 0;
-            if (double.TryParse(columns[1].Trim(), out double result))
+            if (double.TryParse(columns[0].Trim(), out double result))
             {
                 timeToPress = result;
 
-                for (int i = 2; i < columns.Length; i++)
+                // get each key that's pressed in that time and convert to lane
+                foreach (char c in columns[1])
                 {
-                    if (int.TryParse(columns[i].Trim(), out int value))
+                    int lane = 0;
+                    bool held = false;
+                    double heldtime = 0.0;
+
+                    switch (c)
                     {
-                        int pressed = value;
-                        if (pressed != 0)
+                        case 'd':
+                            lane = 0;
+                            break;
+                        case 'f':
+                            lane = 1;
+                            break;
+
+                        case 'j':
+                            lane = 2;
+                            break;
+
+                        case 'k':
+                            lane = 3;
+                            break;
+
+                        case ' ':
+                            lane = 4;
+                            break;
+                    }
+
+                    // get held notes
+                    int ind = Array.IndexOf(keyToLanes, c);
+
+                    if (ind != -1)
+                    {
+                        Debug.Log("there are hedl notes");
+                        if (!columns[ind].IsNullOrWhiteSpace())
                         {
-                            VisualCue visualCue = new VisualCue();
-                            visualCue.actualTime = timeToPress + chartTimeOffset;
-                            visualCue.evaluationTime = timeToPress + chartTimeOffset;
-                            visualCue.lane = i - 2;
+                            held = true;
 
-                            if (pressed == 2)
+                            if (double.TryParse(columns[0].Trim(), out double ht))
                             {
-                                visualCue.hold = true;
-                                visualCue.topEndTime = visualCue.actualTime + 0.5;
-                                visualCue.evaluationTime = visualCue.topEndTime;
+                                heldtime = ht;
                             }
-
-                            visualCues.Add(visualCue);
                         }
                     }
+
+                    VisualCue visualCue = new VisualCue();
+                    visualCue.actualTime = timeToPress + chartTimeOffset;
+                    visualCue.evaluationTime = timeToPress + chartTimeOffset;
+                    visualCue.lane = lane;
+
+                    if (held)
+                    {
+                        visualCue.hold = true;
+                        visualCue.topEndTime = heldtime + chartTimeOffset;
+                        visualCue.evaluationTime = visualCue.topEndTime;
+                    }
+
+                    visualCues.Add(visualCue);
+
                 }
             }
         }
@@ -101,7 +159,7 @@ public class ChartParser
 
         //Debug.Log
     }
-    void OLDparseCSV(SongSelector.Song song)
+    /*void OLDparseCSV(SongSelector.Song song)
     {
         string assetPath = AssetDatabase.GetAssetPath(Resources.Load<TextAsset>("Charts/" + song.chartFilePath));
 
@@ -168,7 +226,7 @@ public class ChartParser
         }
 
         //Debug.Log
-    }
+    } */
 
     public List<AudioCue> getAudioCues() { return audioCues; }
 
