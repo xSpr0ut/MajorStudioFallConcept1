@@ -118,7 +118,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::FloatAndDisappaer
   text: 
   color: {r: 0, g: 0, b: 0, a: 0}
-  textMeshPro: {fileID: 0}
+  textMeshPro: {fileID: 1166159555777910673}
 --- !u!1 &2420483642530173123
 GameObject:
   m_ObjectHideFlags: 0
