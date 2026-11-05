@@ -517,7 +517,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a24028a418ab1c4d9554cd35e1de7fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  listOfSongs: {fileID: 4900000, guid: c49ace9ffb7873344ac27c0955f4c684, type: 3}
+  listOfSongs: {fileID: 4900000, guid: 155aa6577786a5d4d88ed5c62e9aefde, type: 3}
   contentContainer: {fileID: 1971386919}
   songPrefab: {fileID: 636267982140661258, guid: 08686f9dc3f306c4f9a9057265eb3b84, type: 3}
   selectedSongFrame: {fileID: 559049025}
@@ -1048,7 +1048,7 @@ Transform:
   m_GameObject: {fileID: 707911581}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.64, y: -0.44, z: -1}
+  m_LocalPosition: {x: 0.61, y: -1.81, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1484,7 +1484,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
   notePrefab: {fileID: 4689114425792000130, guid: 53fbca8692f446643ab66d845ef5038d, type: 3}
   longNotePrefab: {fileID: 5087948777329422413, guid: 413167333ff506148841ee78448565a6, type: 3}
-  noteSpeed: 3
+  noteSpeed: 5
   initialHeight: 5
   endHeight: 1
   audioSrc: {fileID: 1158347980}
@@ -1610,6 +1610,7 @@ MonoBehaviour:
   - {fileID: 1882933990}
   - {fileID: 1323213181}
   - {fileID: 2032738301}
+  level4locs: []
 --- !u!1 &1182594594
 GameObject:
   m_ObjectHideFlags: 0
@@ -2078,7 +2079,7 @@ Transform:
   m_GameObject: {fileID: 1323213180}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.57, y: 2.33, z: -1}
+  m_LocalPosition: {x: -3.54, y: 2.9, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2643,7 +2644,7 @@ Transform:
   m_GameObject: {fileID: 1882933989}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.57, y: 2.33, z: -1}
+  m_LocalPosition: {x: 3.02, y: 2.95, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3074,7 +3075,7 @@ Transform:
   m_GameObject: {fileID: 2032738300}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.64, y: -0.44, z: -1}
+  m_LocalPosition: {x: -0.51, y: -1.57, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
