@@ -1,3 +1,9 @@
+/* NoteCircleLong.cs
+ * Osu style held note that inherits from NoteCircle
+ * Jessica this is the file you should change
+ * Does not do what it's supposed to do at all. Currently, it behaves like a traditional rhythmplus note
+ */
+
 using UnityEngine;
 
 public class NoteCircleLong : NoteCircle
@@ -12,6 +18,10 @@ public class NoteCircleLong : NoteCircle
         totalDistance = originalLocation - endLocation;
         numTotalDistance = Vector3.Distance(originalLocation, endLocation);
     }
+
+    // Hi Jessica feel free to delete this method and replace it with your own
+    // Reference NoteCircle.move() for expanding note movement
+    // Current method stretches note out so it appears to be falling to correct location, but doesn't work
     override
     protected void move()
     {
