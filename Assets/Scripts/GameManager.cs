@@ -137,6 +137,8 @@ public class GameManager : MonoBehaviour
         audioCues = chartParser.getAudioCues();
         allLanes = chartParser.getAllLanes();
 
+        DanceAnimController.Instance.StartDancing();
+
         // it's possible some events start very early, so we need to make sure that they start properly
         // also, I anticipate the above two methods taking a long time, so dspTime will definitely be positive when update comes around
         if (audioCues.Count > 0 && visualCues.Count > 0)
@@ -180,6 +182,8 @@ public class GameManager : MonoBehaviour
     {
         started = false;
         scorer.endGame();
+
+        DanceAnimController.Instance.StopDancing();
     }
     private void spawnAudioCue(double currentTime)
     {
