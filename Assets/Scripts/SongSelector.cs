@@ -2,8 +2,6 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using System.IO;
-using UnityEditor;
 using UnityEngine.InputSystem;
 
 public class SongSelector : MonoBehaviour
@@ -107,9 +105,7 @@ public class SongSelector : MonoBehaviour
 
     private void readCSV()
     {
-        string assetPath = AssetDatabase.GetAssetPath(listOfSongs);
-
-        foreach (string line in File.ReadLines(assetPath))
+        foreach (string line in listOfSongs.text.Split(new string[] { "\r\n", "\n" }, System.StringSplitOptions.None))
         {
             if (string.IsNullOrWhiteSpace(line)) continue;
 

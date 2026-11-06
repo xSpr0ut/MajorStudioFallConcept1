@@ -23,6 +23,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private float initialHeight = 5f;
     [SerializeField] private float endHeight = 0f;
 
+    [SerializeField] private bool osuStyleNotes = false;
+
     [Header("Audio stuff")]
     public AudioSource audioSrc;
     public AudioClip defaultClip;
@@ -117,7 +119,7 @@ public class GameManager : MonoBehaviour
 
         chartParser = new ChartParser();
         selectedSong = songToPlay;
-        chartParser.parseChart(selectedSong, noteSpeed, initialHeight);
+        chartParser.parseChart(selectedSong, noteSpeed, initialHeight, osuStyleNotes);
 
         visualCues = chartParser.getVisualCues();
         audioCues = chartParser.getAudioCues();
@@ -295,7 +297,7 @@ public class GameManager : MonoBehaviour
             if (allLanes[lane][closestNoteToBottom[lane]].hold)
             {
                 // lmfao
-                allLanes[lane][closestNoteToBottom[lane]].note.gameObject.GetComponent<NoteBarLong>().onHold();
+                allLanes[lane][closestNoteToBottom[lane]].note.onHold();
             }
             else
             {

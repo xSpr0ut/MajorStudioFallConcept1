@@ -1,6 +1,4 @@
-using UnityEditor;
 using UnityEngine;
-using System.IO;
 using System.Collections.Generic;
 using JetBrains.Annotations;
 using System;
@@ -32,18 +30,27 @@ public class ChartParser
             allLanes[i] = new List<VisualCue>();
         }
     }
-    public void parseChart(SongSelector.Song song, double noteSpeed, float initialHeight)
+    private bool osuStyle = false;
+
+    public void parseChart(SongSelector.Song song, double noteSpeed, float initialHeight, bool osuStyle = false)
     {
+        this.osuStyle = osuStyle;
         parseCSV(song);
         addDspTimeCSV(noteSpeed, initialHeight);
     }
     void parseCSV(SongSelector.Song song)
     {
-        string assetPath = AssetDatabase.GetAssetPath(Resources.Load<TextAsset>("Charts/" + song.chartFilePath));
+        TextAsset chart = Resources.Load<TextAsset>("Charts/" + song.chartFilePath);
+
+        if (chart == null)
+        {
+            Debug.LogError("couldn't find chart: Charts/" + song.chartFilePath);
+            return;
+        }
 
         char[] keyToLanes = new char[5];
 
-        foreach (string line in File.ReadLines(assetPath))
+        foreach (string line in chart.text.Split(new string[] { "\r\n", "\n" }, StringSplitOptions.None))
         {
             if (string.IsNullOrWhiteSpace(line)) continue;
 
@@ -124,14 +131,14 @@ public class ChartParser
                     visualCue.actualTime = timeToPress + chartTimeOffset;
                     visualCue.evaluationTime = timeToPress + chartTimeOffset;
                     visualCue.lane = lane;
-                    visualCue.type = VisualCue.NoteTypes.BAR;
+                    visualCue.type = osuStyle ? VisualCue.NoteTypes.CIRCLE : VisualCue.NoteTypes.BAR;
 
                     if (held)
                     {
                         visualCue.hold = true;
                         visualCue.topEndTime = heldtime + chartTimeOffset;
                         visualCue.evaluationTime = visualCue.topEndTime;
-                        visualCue.type = VisualCue.NoteTypes.LONGBAR;
+                        visualCue.type = osuStyle ? VisualCue.NoteTypes.LONGCIRCLE : VisualCue.NoteTypes.LONGBAR;
                     }
 
                     visualCues.Add(visualCue);
