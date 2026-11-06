@@ -16,7 +16,7 @@ public class VisualCue
 
     public double evaluationTime;
 
-    public Note note;
+    public OsuNote note;
 
     public enum NoteTypes
     {

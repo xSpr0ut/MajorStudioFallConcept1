@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7112049736021762619}
   - component: {fileID: 5135319011034101659}
-  - component: {fileID: 935648227790794396}
+  - component: {fileID: -9221297985163574762}
   m_Layer: 0
   m_Name: NoteCircleLong
   m_TagString: Untagged
@@ -93,7 +93,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
   m_BlendShapeWeights: []
---- !u!114 &935648227790794396
+--- !u!114 &-9221297985163574762
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -102,6 +102,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 1134502198839590523}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 78472e59687661c45b6c08e9cbe4ac48, type: 3}
+  m_Script: {fileID: 11500000, guid: dcbf5354e99614d018fa00ab761f271c, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::NoteCircleLong
+  m_EditorClassIdentifier: Assembly-CSharp::HoldCircle
+  body: {fileID: 0}
+  approachRing: {fileID: 0}
+  ringSprite: {fileID: -3620832804750024740, guid: 07dfca8f9cfd94c4ab0528ea72850542, type: 3}
+  approachStartScale: 3
+  fadeInPortion: 0.4
+  hitFadeTime: 0.12
+  missFadeTime: 0.25
+  hitGrowScale: 1.3
+  missTint: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  unitsPerSecond: 3
+  minLength: 1
+  maxLength: 4
+  pathAlpha: 0.35
+  pathWidthScale: 0.9
+  ballSprite: {fileID: 0}
+  ballScale: 0.6
+  followRingScale: 1.6
