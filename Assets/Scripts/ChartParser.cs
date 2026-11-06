@@ -136,7 +136,7 @@ public class ChartParser
                     visualCue.actualTime = timeToPress + chartTimeOffset;
                     visualCue.evaluationTime = timeToPress + chartTimeOffset;
                     visualCue.lane = lane;
-                    visualCue.type = VisualCue.NoteTypes.BAR;
+                    visualCue.type = VisualCue.NoteTypes.CIRCLE;
                     visualCue.colour = isColour;
 
                     if (held)
@@ -144,7 +144,7 @@ public class ChartParser
                         visualCue.hold = true;
                         visualCue.topEndTime = heldtime + chartTimeOffset;
                         visualCue.evaluationTime = visualCue.topEndTime;
-                        visualCue.type = VisualCue.NoteTypes.LONGBAR;
+                        visualCue.type = VisualCue.NoteTypes.LONGCIRCLE;
                     }
 
                     visualCues.Add(visualCue);

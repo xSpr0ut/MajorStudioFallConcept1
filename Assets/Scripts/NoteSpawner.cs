@@ -13,7 +13,7 @@ public class NoteSpawner : MonoBehaviour
     [SerializeField] private List<Transform> level1locs = new List<Transform>();
 
     [Header("Colour Stuff")]
-    [SerializeField] private Color[] noteColours = {Color.red, Color.blue};
+    private Color[] noteColours = {new Color32(0xFF, 0x7A, 0xA9, 0xFF), new Color32(0x77, 0xB8, 0xE0, 0xFF)};
 
 
     public List<Transform> level4locs = new List<Transform>();

@@ -59,6 +59,9 @@ public class GameManager : MonoBehaviour
     // list of keys for easy looping
     private List<KeyControl> keys = new List<KeyControl>();
 
+    // private colour conversation tracking
+    private int characterScore = 0;
+
     // singleton bs
     private static GameManager Manager;
     public static GameManager Instance { get { return Manager; } }
@@ -282,6 +285,21 @@ public class GameManager : MonoBehaviour
             }
 
             scorer.inputScore(timeDifference, lane);
+
+            // colour code tracking
+            VisualCue hitCue = allLanes[lane][closestNoteToBottom[lane]];
+
+            // try to stay 0 which is middle
+
+            // seduce character +1
+            if(hitCue.colour == 0)
+            {
+                characterScore += 1;
+            // threaten character -1
+            } else if(hitCue.colour == 1)
+            {
+                characterScore -= 1;
+            }
 
             // put this back when we want sound effects with our music ig
             //if (!String.IsNullOrEmpty(allLanes[lane][closestNoteToBottom[lane]].name))
