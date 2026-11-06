@@ -14,7 +14,7 @@ public class ChartParser
     private string playLevel;
 
     // mappings
-    Dictionary<string, string> wavs = new Dictionary<string, string>(); // for converting pairs to file name
+    Dictionary<string, string> wavs = new Dictionary<string, string>(); // for converting pairs to file name (parsing)
 
     private double prescheduleTime = 1;
     public double chartTimeOffset = 0.5; // global shift (s) added to ALL note times to align the chart to the music
@@ -32,10 +32,10 @@ public class ChartParser
             allLanes[i] = new List<VisualCue>();
         }
     }
-    public void parseChart(SongSelector.Song song, double approachTime)
+    public void parseChart(SongSelector.Song song, double noteSpeed, float initialHeight)
     {
         parseCSV(song);
-        addDspTimeCSV(approachTime);
+        addDspTimeCSV(noteSpeed, initialHeight);
     }
     void parseCSV(SongSelector.Song song)
     {
@@ -99,9 +99,9 @@ public class ChartParser
                             lane = 3;
                             break;
 
-                        default:
-
-                            continue;
+                        case ' ':
+                            lane = 4;
+                            break;
                     }
 
                     // get held notes
@@ -124,14 +124,14 @@ public class ChartParser
                     visualCue.actualTime = timeToPress + chartTimeOffset;
                     visualCue.evaluationTime = timeToPress + chartTimeOffset;
                     visualCue.lane = lane;
-                    visualCue.type = VisualCue.NoteTypes.CIRCLE;
+                    visualCue.type = VisualCue.NoteTypes.BAR;
 
                     if (held)
                     {
                         visualCue.hold = true;
                         visualCue.topEndTime = heldtime + chartTimeOffset;
                         visualCue.evaluationTime = visualCue.topEndTime;
-                        visualCue.type = VisualCue.NoteTypes.LONGCIRCLE;
+                        visualCue.type = VisualCue.NoteTypes.LONGBAR;
                     }
 
                     visualCues.Add(visualCue);
@@ -152,13 +152,16 @@ public class ChartParser
         audioCues.Add(cue);
     }
 
-    void addDspTimeCSV(double approachTime)
+    void addDspTimeCSV(double noteSpeed, float initialHeight)
     {
         for (int i = 0; i < visualCues.Count; i++)
         {
-            // circle appears approachTime seconds before it should be hit, then the approach ring shrinks onto it
-            visualCues[i].spawnTime = visualCues[i].actualTime - approachTime;
-            allLanes[visualCues[i].lane].Add(visualCues[i]); 
+            visualCues[i].spawnTime = visualCues[i].actualTime - (initialHeight / noteSpeed); // this MIGHT be a negative value but don't worry
+            if (visualCues[i].hold)
+            {
+                visualCues[i].topSpawnTime = visualCues[i].topEndTime - (initialHeight / noteSpeed);
+            }
+            allLanes[visualCues[i].lane].Add(visualCues[i]); // add to lane for easy player input
         }
 
         //Debug.Log

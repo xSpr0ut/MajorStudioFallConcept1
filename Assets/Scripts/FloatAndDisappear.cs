@@ -13,6 +13,7 @@ public class FloatAndDisappear : MonoBehaviour
 
     public TextMeshProUGUI textMeshPro;
 
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         textMeshPro.text = text;
@@ -24,6 +25,7 @@ public class FloatAndDisappear : MonoBehaviour
         StartCoroutine(destroyAfterSecs());
     }
 
+    // Update is called once per frame
     void Update()
     {
         transform.position += new Vector3(xdir, yspd, zdir) * Time.deltaTime;

@@ -126,7 +126,7 @@ public class Scoring : MonoBehaviour
 
     public void spawnRank(Score score, int lane)
     {
-        var frp = GameManager.Instance.spawnAtLocation(floatingRankPrefab, GameManager.Instance.getLanePosition(lane) + Vector3.up * frpOffset);
+        var frp = GameManager.Instance.spawnAtLocation(floatingRankPrefab, new Vector3(-3 + lane * 2, -3.7f, 0));
 
         frp.GetComponent<FloatAndDisappear>().text = score.name;
         frp.GetComponent<FloatAndDisappear>().color = score.color;
@@ -134,7 +134,7 @@ public class Scoring : MonoBehaviour
 
     public void spawnParticle(Score score, int lane)
     {
-        var partSys = GameManager.Instance.spawnAtLocation(partSysPrefab, GameManager.Instance.getLanePosition(lane));
+        var partSys = GameManager.Instance.spawnAtLocation(partSysPrefab, new Vector3(-3 + lane * 2, -3.7f, 0));
 
         var mainMod = partSys.GetComponent<ParticleSystem>().main;
 
@@ -203,6 +203,8 @@ public class Scoring : MonoBehaviour
         restartUI.SetActive(true);
     }
 
+
+    // will implement if we need a high score function, but as of now it's useless
     public void resetScore()
     {
         score = 0;

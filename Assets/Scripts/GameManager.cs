@@ -7,6 +7,7 @@ using UnityEngine.Assemblies;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Controls;
 
+// unbastardized documentation https://docs.unity3d.com/ScriptReference/AudioSettings-dspTime.html
 public class GameManager : MonoBehaviour
 {
     #region vars and such
@@ -18,7 +19,6 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject longNotePrefab;
 
     [SerializeField] private double noteSpeed = 5; // in units/second, player controlled
-    [SerializeField] private double approachTime = 0.8; // seconds a circle is visible before it should be hit (osu "approach rate")
 
     [SerializeField] private float initialHeight = 5f;
     [SerializeField] private float endHeight = 0f;
@@ -117,7 +117,7 @@ public class GameManager : MonoBehaviour
 
         chartParser = new ChartParser();
         selectedSong = songToPlay;
-        chartParser.parseChart(selectedSong, approachTime);
+        chartParser.parseChart(selectedSong, noteSpeed, initialHeight);
 
         visualCues = chartParser.getVisualCues();
         audioCues = chartParser.getAudioCues();
@@ -137,7 +137,18 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        // no key lines anymore: notes appear on the D/F/J/K speaker circles (NoteSpawner.level1locs)
+        // lines to indicate timing
+        for (int i = 0; i < 4; i++)
+        {
+            var k = spawnAtLocation(keyPrefab, new Vector3(-3 + 2 * i, -4, 0));
+
+            //Image keyRect = k.transform.GetChild(0).GetChild(0).GetComponent<Image>();
+            //keyRect.sprite = arrows[i];
+            ////keyRect.rotation = Quaternion.Euler(0, 90, i * 45);
+            //k.transform.GetChild(0).GetChild(1).GetComponent<TextMeshProUGUI>().text = i.ToString();
+            keyLines.Add(k);
+            noteSpawner.level4locs.Add(k.transform);
+        }
 
         scorer.gameObject.SetActive(true);
 
@@ -148,7 +159,7 @@ public class GameManager : MonoBehaviour
         started = true;
         startTime = AudioSettings.dspTime + startDelay;
 
-        gameEndTime = Math.Max(a.length, visualCues[visualCues.Count - 1].evaluationTime + (scorer.getMissRange())/1000) + startTime + 1f;
+        gameEndTime = Math.Max(a.length, visualCues[visualCues.Count - 1].actualTime + (scorer.getMissRange())/1000) + startTime + 1f;
     }
 
     public void endGame()
@@ -173,7 +184,7 @@ public class GameManager : MonoBehaviour
         // spawning notes
         while (currentVisualCue < visualCues.Count && visualCues[currentVisualCue].spawnTime + startTime <= currentTime)
         {
-            OsuNote n = noteSpawner.spawnVisualCue(visualCues[currentVisualCue], startTime);
+            Note n = noteSpawner.spawnVisualCue(visualCues[currentVisualCue], startTime, noteSpeed);
 
             // lot of shuffling but you assign the note object to the Note value in one of the VisualCues in the current lane
             int currentLane = visualCues[currentVisualCue].lane;
@@ -187,37 +198,59 @@ public class GameManager : MonoBehaviour
 
     private void checkMissedNotes(double currentTime)
     {
-        double missWindow = (double)scorer.getMissRange() / 1000.0;
-
+        // check if any notes escape from the bottom
         for (int i = 0; i < allLanes.Length; i++)
         {
-            while (closestNoteToBottom[i] < allLanes[i].Count)
+            int count = 0;
+            while (closestNoteToBottom[i] < allLanes[i].Count && allLanes[i][closestNoteToBottom[i]].evaluationTime + startTime + (double)scorer.getMissRange() / 1000.0 <= currentTime)
             {
-                VisualCue cue = allLanes[i][closestNoteToBottom[i]];
-
-                // circle (or slider head) was never pressed and its window has passed -> miss
-                // (judged on the head, so a missed slider no longer blocks the lane until its tail)
-                if (!cue.hit && cue.actualTime + startTime + missWindow <= currentTime)
+                // sometimes it breaks idk
+                if (allLanes[i][closestNoteToBottom[i]].note != null)
                 {
+                    Destroy(allLanes[i][closestNoteToBottom[i]].note.gameObject);
+                    allLanes[i][closestNoteToBottom[i]].note = null;
+
                     scorer.inputScore(scorer.getMiss(), i);
-                    if (cue.note != null) cue.note.onMiss();
-                    cue.note = null;
+
                     closestNoteToBottom[i]++;
                     continue;
                 }
 
-                // slider held all the way to the end -> full hit, like osu
-                if (cue.hold && cue.hit && cue.topEndTime + startTime <= currentTime)
+                count++;
+                if (count == 5)
                 {
-                    scorer.inputScore(0.0, i);
-                    if (cue.note != null) cue.note.onComplete();
-                    cue.note = null;
-                    closestNoteToBottom[i]++;
-                    continue;
+                    Debug.Log("OOPS! INIFNITE LOP " + (allLanes[i][closestNoteToBottom[i]].actualTime + startTime) + (double)scorer.getMissRange() / 1000.0 + "   " + currentTime);
+                    break;
+                }
+            }
+
+            while (closestNoteToBottom[i] < allLanes[i].Count &&
+                   allLanes[i][closestNoteToBottom[i]].hold &&
+                   allLanes[i][closestNoteToBottom[i]].evaluationTime + startTime + (double)scorer.getMissRange() / 1000.0 <= currentTime)
+            {
+                // sometimes it breaks idk
+                if (allLanes[i][closestNoteToBottom[i]].note != null)
+                {
+                    if (!allLanes[i][closestNoteToBottom[i]].hit)
+                    {
+                        allLanes[i][closestNoteToBottom[i]].note.disableNote();
+                        allLanes[i][closestNoteToBottom[i]].note = null;
+
+                        scorer.inputScore(scorer.getMiss(), i);
+
+                        closestNoteToBottom[i]++;
+                        continue;
+                    }
                 }
 
-                break;
+                count++;
+                if (count == 5)
+                {
+                    Debug.Log("OOPS! INIFNITE LOP HOLD" + (allLanes[i][closestNoteToBottom[i]].actualTime + startTime) + (double)scorer.getMissRange() / 1000.0 + "   " + currentTime);
+                    break;
+                }
             }
+
         }
     }
     private void detectKeyPress()
@@ -237,67 +270,77 @@ public class GameManager : MonoBehaviour
     }
     public void resolveHit(int lane)
     {
-        if (closestNoteToBottom[lane] >= allLanes[lane].Count) return; // no notes left in the lane
-
-        VisualCue cue = allLanes[lane][closestNoteToBottom[lane]];
-
-        // already holding this slider, a second press shouldn't score it again
-        if (cue.hit) return;
-
-        // time difference = time labelled on note - current time
-        double timeDifference = Math.Abs((cue.actualTime + startTime) - AudioSettings.dspTime);
-
-        // if the note is nowhere near the player, don't accept input
-        if (timeDifference > (double)scorer.getMissRange() / 1000)
+        if (closestNoteToBottom[lane] < allLanes[lane].Count) // if there are notes in the lane
         {
-            return;
-        }
+            // time difference = time labelled on note - current time
+            double timeDifference = Math.Abs(((double)allLanes[lane][closestNoteToBottom[lane]].actualTime + startTime) - AudioSettings.dspTime);
 
-        scorer.inputScore(timeDifference, lane);
-        cue.hit = true;
+            // if the note is nowhere near the player, don't accept input
+            if (timeDifference > (double)scorer.getMissRange() / 1000)
+            {
+                return;
+            }
 
-        if (cue.hold)
-        {
-            // slider: head is hit, ball starts rolling, player keeps holding
-            if (cue.note != null) cue.note.onHit();
-        }
-        else
-        {
-            if (cue.note != null) cue.note.onHit();
-            cue.note = null;
-            closestNoteToBottom[lane]++;
+            scorer.inputScore(timeDifference, lane);
+
+            // put this back when we want sound effects with our music ig
+            //if (!String.IsNullOrEmpty(allLanes[lane][closestNoteToBottom[lane]].name))
+            //{
+            //    AudioClip clip = defaultClip;
+            //    clip = Resources.Load<AudioClip>(selectedSong.musicFilePath + allLanes[lane][closestNoteToBottom[lane]].name.Replace(".wav", ""));
+            //    audioSrc.PlayOneShot(clip);
+            //}
+
+            allLanes[lane][closestNoteToBottom[lane]].hit = true;
+            if (allLanes[lane][closestNoteToBottom[lane]].hold)
+            {
+                // lmfao
+                allLanes[lane][closestNoteToBottom[lane]].note.gameObject.GetComponent<NoteBarLong>().onHold();
+            }
+            else
+            {
+                Destroy(allLanes[lane][closestNoteToBottom[lane]].note.gameObject);
+                //allLanes[lane][closestNoteToBottom[lane]].note.disableNote();
+                allLanes[lane][closestNoteToBottom[lane]].note = null;
+                closestNoteToBottom[lane]++;
+            }
         }
     }
 
     public void resolveRelease(int lane)
     {
-        if (closestNoteToBottom[lane] >= allLanes[lane].Count) return;
-
-        VisualCue cue = allLanes[lane][closestNoteToBottom[lane]];
-
-        if (!cue.hold || !cue.hit) return;
-
-        double timeDifference = Math.Abs((cue.topEndTime + startTime) - AudioSettings.dspTime);
-
-        if (timeDifference > (double)scorer.getMissRange() / 1000)
+        if (closestNoteToBottom[lane] < allLanes[lane].Count) // if there are notes in the lane
         {
-            // let go way too early -> slider break
-            scorer.inputScore(scorer.getMiss(), lane);
-            if (cue.note != null) cue.note.onMiss();
-        }
-        else
-        {
+            // if it's not a long note, don't do anything
+            if (!allLanes[lane][closestNoteToBottom[lane]].hold)
+            {
+                return;
+            }
+
+            // if somehow the player has started holding down before they were supposed to start and the note doesn't register as hit, don't do anything
+            if (!allLanes[lane][closestNoteToBottom[lane]].hit)
+            {
+                return;
+            }
+
+            double initialTimeDifference = ((double)allLanes[lane][closestNoteToBottom[lane]].actualTime + startTime) - AudioSettings.dspTime;
+
+            // if the note hasn't even started yet, don't do anything
+            if (initialTimeDifference > 0)
+            {
+                return;
+            }
+
+            // release will for sure be after note started
+            double timeDifference = Math.Abs(((double)allLanes[lane][closestNoteToBottom[lane]].topEndTime + startTime) - AudioSettings.dspTime);
+
             scorer.inputScore(timeDifference, lane);
-            if (cue.note != null) cue.note.onComplete();
-        }
 
-        cue.note = null;
-        closestNoteToBottom[lane]++;
-    }
-    
-    public Vector3 getLanePosition(int lane)
-    {
-        return noteSpawner.getLanePosition(lane);
+            //Destroy(allLanes[lane][closestNoteToBottom[lane]].note.gameObject);
+            allLanes[lane][closestNoteToBottom[lane]].note.disableNote();
+            allLanes[lane][closestNoteToBottom[lane]].note = null;
+            closestNoteToBottom[lane]++;
+        }
     }
 
     public GameObject spawnAtLocation(GameObject noteToSpawn, Vector2 loc)
