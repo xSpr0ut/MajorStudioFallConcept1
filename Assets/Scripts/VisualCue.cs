@@ -18,12 +18,15 @@ public class VisualCue
 
     public Note note;
 
+    public int colour;
+
     public enum NoteTypes
     {
         BAR,
         LONGBAR,
         CIRCLE,
-        LONGCIRCLE
+        LONGCIRCLE,
+        DIALOGUE
     }
 
 

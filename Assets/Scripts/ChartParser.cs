@@ -81,6 +81,7 @@ public class ChartParser
                     int lane = 0;
                     bool held = false;
                     double heldtime = 0.0;
+                    int isColour = -1;
 
                     switch (c)
                     {
@@ -120,11 +121,23 @@ public class ChartParser
                         }
                     }
 
+                    // add if here to check colour of the note
+                    // set colour here for visual cue
+
+                    if (columns[7].Equals("0"))
+                    {
+                        isColour = 0;
+                    } else if (columns[7].Equals("1"))
+                    {
+                        isColour = 1;
+                    }
+
                     VisualCue visualCue = new VisualCue();
                     visualCue.actualTime = timeToPress + chartTimeOffset;
                     visualCue.evaluationTime = timeToPress + chartTimeOffset;
                     visualCue.lane = lane;
                     visualCue.type = VisualCue.NoteTypes.BAR;
+                    visualCue.colour = isColour;
 
                     if (held)
                     {

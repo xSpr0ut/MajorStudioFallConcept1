@@ -12,6 +12,10 @@ public class NoteSpawner : MonoBehaviour
     [Header("Note locations here")]
     [SerializeField] private List<Transform> level1locs = new List<Transform>();
 
+    [Header("Colour Stuff")]
+    [SerializeField] private Color[] noteColours = {Color.red, Color.blue};
+
+
     public List<Transform> level4locs = new List<Transform>();
 
     public Note spawnVisualCue(VisualCue cue, double startTime, double noteSpeed)
@@ -50,10 +54,17 @@ public class NoteSpawner : MonoBehaviour
 
         n = GameManager.Instance.spawnAtLocation(notePrefab, startLoc);
 
+        // picking colours
+        Color noteColour = Color.white;
+        if(cue.colour >= 0 && cue.colour < noteColours.Length)
+        {
+            noteColour = noteColours[cue.colour];
+        }
+
         n.GetComponent<Note>().setVars(cue.spawnTime + startTime,
                                        cue.actualTime + startTime,
                                        noteSpeed,
-                                       endLoc, Color.white);
+                                       endLoc, noteColour);
 
 
         if (cue.hold)
