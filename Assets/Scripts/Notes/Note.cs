@@ -21,6 +21,7 @@ public abstract class Note : MonoBehaviour
     protected double startTime;
     protected double endTime;
     protected Vector3 endLocation;
+    // change colour here (in this script)
     protected Color color;
 
     // set by noteSpawner for long notes only
@@ -40,6 +41,7 @@ public abstract class Note : MonoBehaviour
     }
 
     // called in noteSpawner immediately after Instantiate()
+    // change colour here (this is where note is Instantiate)
     public void setVars(double startTime, double endTime, double fallSpd, Vector3 endLocation, Color color)
     {
         this.startTime = startTime;
@@ -47,6 +49,8 @@ public abstract class Note : MonoBehaviour
         this.fallSpd = fallSpd;
         this.endLocation = endLocation;
         this.color = color;
+
+        spriteRenderer.color = color;
 
         disableColor = new Color(color.r, color.g, color.b, 0.5f);
     }

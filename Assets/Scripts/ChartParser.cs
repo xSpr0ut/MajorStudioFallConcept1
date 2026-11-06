@@ -8,10 +8,10 @@ using Unity.Tutorials.Editor;
 using System.Security.Cryptography;
 public class ChartParser
 {
-    private string title;
-    private string artist;
-    private double bpm;
-    private string playLevel;
+    // private string title;
+    // private string artist;
+    // private double bpm;
+    // private string playLevel;
 
     // mappings
     Dictionary<string, string> wavs = new Dictionary<string, string>(); // for converting pairs to file name
@@ -70,7 +70,9 @@ public class ChartParser
                 //}
             }
 
+            // reads when the user is supposed to press the note 
             double timeToPress = 0;
+            // TryParse makes sure it's a double when reading a string
             if (double.TryParse(columns[0].Trim(), out double result))
             {
                 timeToPress = result;
@@ -81,6 +83,7 @@ public class ChartParser
                     int lane = 0;
                     bool held = false;
                     double heldtime = 0.0;
+                    int isColour = -1;
 
                     switch (c)
                     {
@@ -118,13 +121,27 @@ public class ChartParser
                                 heldtime = ht;
                             }
                         }
+
                     }
+
+                    // add if here to check colour of the note
+                    // set colour here for visual cue
+
+                    if (columns[7].Equals("0"))
+                    {
+                        isColour = 0;
+                    } else if (columns[7].Equals("1"))
+                    {
+                        isColour = 1;
+                    }
+                    
 
                     VisualCue visualCue = new VisualCue();
                     visualCue.actualTime = timeToPress + chartTimeOffset;
                     visualCue.evaluationTime = timeToPress + chartTimeOffset;
                     visualCue.lane = lane;
                     visualCue.type = VisualCue.NoteTypes.CIRCLE;
+                    visualCue.colour = isColour;
 
                     if (held)
                     {

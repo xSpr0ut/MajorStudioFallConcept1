@@ -17,13 +17,16 @@ public class VisualCue
     public double evaluationTime;
 
     public OsuNote note;
+    public string dialogueText;
+    public int colour;
 
     public enum NoteTypes
     {
         BAR,
         LONGBAR,
         CIRCLE,
-        LONGCIRCLE
+        LONGCIRCLE,
+        DIALOGUE
     }
 
 
