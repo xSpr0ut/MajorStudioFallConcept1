@@ -100,9 +100,12 @@ public class ChartParser
                             lane = 3;
                             break;
 
-                        case ' ':
-                            lane = 4;
-                            break;
+                        // case ' ':
+                        //     lane = 4;
+                        //     break;
+
+                        default:
+                            continue;
                     }
 
                     // get held notes

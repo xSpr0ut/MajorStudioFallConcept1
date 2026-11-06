@@ -517,7 +517,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a24028a418ab1c4d9554cd35e1de7fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  listOfSongs: {fileID: 4900000, guid: 155aa6577786a5d4d88ed5c62e9aefde, type: 3}
+  listOfSongs: {fileID: 4900000, guid: d76ab26661767e7478a52359ca9ca1be, type: 3}
   contentContainer: {fileID: 1971386919}
   songPrefab: {fileID: 636267982140661258, guid: 08686f9dc3f306c4f9a9057265eb3b84, type: 3}
   selectedSongFrame: {fileID: 559049025}
