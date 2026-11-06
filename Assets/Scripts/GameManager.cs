@@ -60,7 +60,7 @@ public class GameManager : MonoBehaviour
     private List<KeyControl> keys = new List<KeyControl>();
 
     // private colour conversation tracking
-    private int characterScore = 0;
+    private int characterScore = -25;
 
     // singleton bs
     private static GameManager Manager;
@@ -89,6 +89,8 @@ public class GameManager : MonoBehaviour
 
         audioSrc = GetComponent<AudioSource>();
 
+        characterScore = -25;
+
         // these may take a while
         Resources.LoadAll("Resouces"); // CHANGE LATER WHEN ORGANIZED
     }
@@ -111,8 +113,17 @@ public class GameManager : MonoBehaviour
             }
 
             detectKeyPress();
+
+            Debug.Log("Character Score: " + characterScore);
         }
     }
+
+    // get method for character score
+    public int getCharacterScore()
+    {
+        return characterScore;
+    }
+
 
     public void startGame(SongSelector.Song songToPlay)
     {
@@ -294,11 +305,11 @@ public class GameManager : MonoBehaviour
             // seduce character +1
             if(hitCue.colour == 0)
             {
-                characterScore += 1;
+                characterScore -= UnityEngine.Random.Range(1, 9);
             // threaten character -1
             } else if(hitCue.colour == 1)
             {
-                characterScore -= 1;
+                characterScore += UnityEngine.Random.Range(1, 9);
             }
 
             // put this back when we want sound effects with our music ig
