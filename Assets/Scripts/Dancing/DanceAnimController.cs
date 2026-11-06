@@ -15,7 +15,9 @@ public class DanceAnimController : MonoBehaviour
     [SerializeField] List<DanceRoutine> danceRoutine;
     [SerializeField] public Sprite danceFailFrame;
 
+    private SpriteRenderer spriteRend;
     private Sprite currentFrame;
+    private Coroutine danceCoroutine;
     private float bpm;
 
     public void Awake()
@@ -31,20 +33,34 @@ public class DanceAnimController : MonoBehaviour
 
     public void Start()
     {
-        currentFrame = player.GetComponent<Sprite>();
+        spriteRend = player.GetComponent<SpriteRenderer>();
+        currentFrame = spriteRend.sprite;
+        player.SetActive(false);
     }
 
     public void StartDancing()
     {
+        player.SetActive(true);
+
         //bpm = get song bpm
         bpm = 131f;
 
-        StartCoroutine(Dance());
+        if (danceCoroutine != null) { 
+            StopCoroutine(danceCoroutine);  
+        }
+
+        danceCoroutine = StartCoroutine(Dance());
     }
 
     public void StopDancing()
     {
-        StopCoroutine(Dance());
+        if (danceCoroutine != null) { 
+            //StopCoroutine(danceCoroutine);
+            danceCoroutine = null;
+        }
+
+        player.SetActive(false);
+
     }
 
     public void TriggerFailFrame()
@@ -54,26 +70,29 @@ public class DanceAnimController : MonoBehaviour
 
     public IEnumerator Dance()
     {
-        float secondsPer4Frames = ( 60f / bpm ) * 16f;
+        float secondsPer4Frames = (60f / bpm) * 4f;
         float outerFrameHold = secondsPer4Frames * 0.15f;
         float innerFrameHold = secondsPer4Frames * 0.1f;
+
+        Debug.Log("dance routine" + danceRoutine.Count) ;
 
         while (true)
         {
             for (int _i = 0; _i < danceRoutine.Count; _i++)
             {
-                for (int _j = 0; _j < 2; _j++)
+                for (int _j = 0; _j < 4; _j++)
                 {
-                    currentFrame = danceRoutine[_i].danceFrames[1];
+                    Debug.Log("move");
+                    spriteRend.sprite = danceRoutine[_i].danceFrames[0];
                     yield return new WaitForSeconds(outerFrameHold);
 
-                    currentFrame = danceRoutine[_i].danceFrames[2];
+                    spriteRend.sprite = danceRoutine[_i].danceFrames[1];
                     yield return new WaitForSeconds(innerFrameHold);
 
-                    currentFrame = danceRoutine[_i].danceFrames[3];
+                    spriteRend.sprite = danceRoutine[_i].danceFrames[2];
                     yield return new WaitForSeconds(outerFrameHold);
 
-                    currentFrame = danceRoutine[_i].danceFrames[2];
+                    spriteRend.sprite = danceRoutine[_i].danceFrames[1];
                     yield return new WaitForSeconds(innerFrameHold);
                 }
             }

@@ -171,6 +171,8 @@ public class GameManager : MonoBehaviour
     {
         started = false;
         scorer.endGame();
+
+        DanceAnimController.Instance.StopDancing();
     }
     private void spawnAudioCue(double currentTime)
     {

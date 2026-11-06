@@ -360,7 +360,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 526660d34edf38e40974558c28c98672, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StartButton
-  startScene: week1showcase
+  startScene: Main
 --- !u!1 &409941980
 GameObject:
   m_ObjectHideFlags: 0
