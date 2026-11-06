@@ -45,5 +45,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DanceAnimController
   player: {fileID: 0}
-  danceRoutine: []
+  danceRoutine:
+  - danceID: 0
+    danceFrames:
+    - {fileID: 21300000, guid: 69f1fcffbbdfec54bb89eb1cdd386a51, type: 3}
+    - {fileID: 21300000, guid: 97e7c6915ebfdc442a9e2ac2a1ad21e5, type: 3}
+    - {fileID: 21300000, guid: fc790aea6886b414296d8bfb9cbbbe13, type: 3}
+  - danceID: 0
+    danceFrames:
+    - {fileID: 21300000, guid: b241b46e7e420114581eb137998e01bf, type: 3}
+    - {fileID: 21300000, guid: 56d53072b2099bc4dbbd794ac221dc50, type: 3}
+    - {fileID: 21300000, guid: bb431602e63ed134c9f410b3db53002d, type: 3}
+  - danceID: 0
+    danceFrames:
+    - {fileID: 21300000, guid: d4fcab0dea0610249a488139f5b537a2, type: 3}
+    - {fileID: 21300000, guid: d5d3052678f5460488eaacdf432dd786, type: 3}
+    - {fileID: 21300000, guid: a4eca7c067be1b74d95247a61d6794ca, type: 3}
   danceFailFrame: {fileID: 0}
