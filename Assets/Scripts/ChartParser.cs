@@ -127,13 +127,13 @@ public class ChartParser
                     // add if here to check colour of the note
                     // set colour here for visual cue
 
-                    if (columns[7].Equals("0"))
+                    if (columns.Length > 7 && columns[7].Trim() == "0")
                     {
                         isColour = 0;
-                    } else if (columns[7].Equals("1"))
+                    } else if (columns.Length > 7 && columns[7].Trim() == "1")
                     {
                         isColour = 1;
-                    }
+                    } 
 
                     VisualCue visualCue = new VisualCue();
                     visualCue.actualTime = timeToPress + chartTimeOffset;
