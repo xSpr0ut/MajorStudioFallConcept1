@@ -71,8 +71,8 @@ public class DanceAnimController : MonoBehaviour
     public IEnumerator Dance()
     {
         float secondsPer4Frames = (60f / bpm) * 4f;
-        float outerFrameHold = secondsPer4Frames * 0.15f;
-        float innerFrameHold = secondsPer4Frames * 0.1f;
+        float outerFrameHold = secondsPer4Frames * 0.18f;
+        float innerFrameHold = secondsPer4Frames * 0.07f;
 
         Debug.Log("dance routine" + danceRoutine.Count) ;
 
