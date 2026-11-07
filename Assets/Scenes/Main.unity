@@ -1729,6 +1729,7 @@ MonoBehaviour:
   keyPrefab: {fileID: 1267710823031275884, guid: 09d91370b06276749aab504b70865661, type: 3}
   arrows: []
   scorer: {fileID: 1958808551}
+  driftDirection: -0.0075
 --- !u!82 &1158347980
 AudioSource:
   m_ObjectHideFlags: 0
@@ -2073,6 +2074,7 @@ GameObject:
   - component: {fileID: 1212176835}
   - component: {fileID: 1212176834}
   - component: {fileID: 1212176833}
+  - component: {fileID: 1212176836}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -2154,6 +2156,26 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1212176836
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1212176832}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f0874e6170868884ab400803d7498225, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PulsingCamera
+  pulsingAmp: 0.4
+  camBase: 0
+  pulseTimer: 0
+  kickOfs: 0
+  clampMin: 4.8
+  beatOfs: 0
+  cam: {fileID: 0}
+  bpm: 131
 --- !u!1 &1277270531
 GameObject:
   m_ObjectHideFlags: 0
