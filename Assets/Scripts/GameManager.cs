@@ -60,11 +60,19 @@ public class GameManager : MonoBehaviour
     private List<KeyControl> keys = new List<KeyControl>();
 
     // private colour conversation tracking
-    private int characterScore = -25;
+    private float characterScore = -25f;
 
     // singleton bs
     private static GameManager Manager;
     public static GameManager Instance { get { return Manager; } }
+
+    // joella's stuff, negotiation scale
+    
+    private float driftDirection = -0.0075f;
+    private float driftFlipTimer = 0f;
+    private float driftTimer = 0f;
+
+    
     #endregion
     private void Awake()
     {
@@ -89,7 +97,12 @@ public class GameManager : MonoBehaviour
 
         audioSrc = GetComponent<AudioSource>();
 
-        characterScore = -25;
+
+        // joella's stuff
+        // DO NOT DELETE
+
+        characterScore = -25f;
+
 
         // these may take a while
         Resources.LoadAll("Resouces"); // CHANGE LATER WHEN ORGANIZED
@@ -113,17 +126,36 @@ public class GameManager : MonoBehaviour
             }
 
             detectKeyPress();
+            driftSystem();
 
             Debug.Log("Character Score: " + characterScore);
         }
     }
 
     // get method for character score
-    public int getCharacterScore()
+    public float getCharacterScore()
     {
         return characterScore;
     }
 
+    public void driftSystem()
+    {
+        
+        driftTimer -= Time.deltaTime;
+
+        // switch direction of drift
+        if(driftTimer <= 0f)
+        {
+            driftDirection *= -1;
+            driftTimer = UnityEngine.Random.Range(3f, 15f);
+        }
+
+        if(driftTimer >= 1 && characterScore >= -40 && characterScore <= 40)
+        {
+            characterScore += driftDirection;
+        }
+
+    }
 
     public void startGame(SongSelector.Song songToPlay)
     {
