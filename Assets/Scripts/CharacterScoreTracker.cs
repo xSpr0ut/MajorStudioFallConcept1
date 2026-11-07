@@ -14,7 +14,7 @@ public class CharacterScoreTracker : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
         float x = GameManager.Instance.getCharacterScore() * movementUnit;
         transform.position = new Vector3(x, transform.position.y, transform.position.z);
 
