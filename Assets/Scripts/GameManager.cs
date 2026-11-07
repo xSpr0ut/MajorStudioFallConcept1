@@ -68,7 +68,7 @@ public class GameManager : MonoBehaviour
 
     // joella's stuff, negotiation scale
     
-    private float driftDirection = -0.0075f;
+    public float driftDirection = -0.0075f;
     private float driftFlipTimer = 0f;
     private float driftTimer = 0f;
 
@@ -148,6 +148,16 @@ public class GameManager : MonoBehaviour
         {
             driftDirection *= -1;
             driftTimer = UnityEngine.Random.Range(3f, 15f);
+        }
+
+        if((driftDirection == 0.0075f || driftDirection == -0.0075f) && driftTimer >= 1 && characterScore >= -20 && characterScore <= 20)
+        {
+            driftDirection *= 2;
+        } else if((driftDirection == 0.015f || driftDirection == -0.015f) && driftTimer >= 1 && characterScore >= -20 && characterScore <= 20)
+        {
+
+            driftDirection /= 2;
+
         }
 
         if(driftTimer >= 1 && characterScore >= -40 && characterScore <= 40)
