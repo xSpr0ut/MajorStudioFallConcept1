@@ -72,6 +72,11 @@ public class GameManager : MonoBehaviour
     private float driftFlipTimer = 0f;
     private float driftTimer = 0f;
 
+    // for stopping drift bar
+    [SerializeField] private GameObject driftBar;
+    private bool driftBarActive = false;
+    private double driftEndTime = 0;
+
     
     #endregion
     private void Awake()
@@ -126,7 +131,11 @@ public class GameManager : MonoBehaviour
             }
 
             detectKeyPress();
-            driftSystem();
+
+            // DRIFT SYSTEM
+            if(driftBarActive && currentTime < driftEndTime){
+                driftSystem();
+            }
 
             Debug.Log("Character Score: " + characterScore);
         }
@@ -214,6 +223,15 @@ public class GameManager : MonoBehaviour
         string filePath = "Audio/" + selectedSong.musicFilePath + audioCues[currentAudioCue].name.Replace(".wav", "").Replace(".mp3", "");
         AudioClip a = Resources.Load<AudioClip>(filePath);
 
+        // DRIFT BAR STUFF GUH
+        driftBarActive = (songToPlay.chartFilePath == "level2Achart" || songToPlay.chartFilePath == "level2Bchart");
+        driftBar.SetActive(driftBarActive);
+
+        driftEndTime = startTime + visualCues[visualCues.Count - 1].evaluationTime + scorer.getMissRange()/1000.0;
+
+        characterScore = -25f;
+        driftTimer = 0f;
+
         started = true;
         startTime = AudioSettings.dspTime + startDelay;
 
@@ -223,6 +241,7 @@ public class GameManager : MonoBehaviour
     public void endGame()
     {
         started = false;
+        driftBar.SetActive(false);
         scorer.endGame();
 
         DanceAnimController.Instance.StopDancing();

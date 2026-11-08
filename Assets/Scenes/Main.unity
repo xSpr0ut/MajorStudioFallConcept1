@@ -1729,6 +1729,8 @@ MonoBehaviour:
   keyPrefab: {fileID: 1267710823031275884, guid: 09d91370b06276749aab504b70865661, type: 3}
   arrows: []
   scorer: {fileID: 1958808551}
+  driftDirection: -0.0075
+  driftBar: {fileID: 1678804931}
 --- !u!82 &1158347980
 AudioSource:
   m_ObjectHideFlags: 0
