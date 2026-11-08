@@ -77,6 +77,12 @@ public class GameManager : MonoBehaviour
     private bool driftBarActive = false;
     private double driftEndTime = 0;
 
+    // MIDDLE CUT SCENE BULL POOP
+    [SerializeField] private SongSelector songSelector;
+    [SerializeField] private GameObject cutscenePanel;
+    private int scoredNeededForLevel2B = 75000;
+    private string nextChart;
+
     
     #endregion
     private void Awake()
@@ -227,13 +233,13 @@ public class GameManager : MonoBehaviour
         driftBarActive = (songToPlay.chartFilePath == "level2Achart" || songToPlay.chartFilePath == "level2Bchart");
         driftBar.SetActive(driftBarActive);
 
-        driftEndTime = startTime + visualCues[visualCues.Count - 1].evaluationTime + scorer.getMissRange()/1000.0;
-
         characterScore = -25f;
         driftTimer = 0f;
 
         started = true;
         startTime = AudioSettings.dspTime + startDelay;
+
+        driftEndTime = startTime + visualCues[visualCues.Count - 1].evaluationTime + scorer.getMissRange()/1000.0;
 
         gameEndTime = Math.Max(a.length, visualCues[visualCues.Count - 1].actualTime + (scorer.getMissRange())/1000) + startTime + 1f;
     }
