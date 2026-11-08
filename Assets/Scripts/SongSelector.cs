@@ -105,6 +105,24 @@ public class SongSelector : MonoBehaviour
         }
     }
 
+// girl what
+    public bool getSong(string chart, out Song song)
+    {
+
+        foreach(Song s in listOfTracks)
+        {
+            if(s.chartFilePath == chart)
+            {
+                song = s;
+                return true;
+            }
+        }
+
+        
+        song = default;
+        return false;
+        
+    }
     private void readCSV()
     {
         string assetPath = AssetDatabase.GetAssetPath(listOfSongs);
