@@ -1910,6 +1910,8 @@ MonoBehaviour:
   scorer: {fileID: 1958808551}
   driftDirection: -0.0075
   driftBar: {fileID: 1678804931}
+  songSelector: {fileID: 224041862}
+  cutscenePanel: {fileID: 1130260047}
 --- !u!82 &1158347980
 AudioSource:
   m_ObjectHideFlags: 0
@@ -4070,3 +4072,4 @@ SceneRoots:
   - {fileID: 1081507845}
   - {fileID: 1775220253640036532}
   - {fileID: 1130260051}
+  - {fileID: 1591368478}

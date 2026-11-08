@@ -80,7 +80,7 @@ public class GameManager : MonoBehaviour
     // MIDDLE CUT SCENE BULL POOP
     [SerializeField] private SongSelector songSelector;
     [SerializeField] private GameObject cutscenePanel;
-    private int scoredNeededForLevel2B = 75000;
+    private int scoreNeededForLevel2A = 75000;
     private string nextChart;
 
     
@@ -248,10 +248,59 @@ public class GameManager : MonoBehaviour
     {
         started = false;
         driftBar.SetActive(false);
-        scorer.endGame();
+        
 
         DanceAnimController.Instance.StopDancing();
+
+        if(selectedSong.chartFilePath == "level1chart2")
+        {
+            if(scorer.getScore() >= scoreNeededForLevel2A)
+            {
+                nextChart = "level2Achart";
+            } else
+            {
+                nextChart = "level2Bchart";
+            }
+
+            cutscenePanel.SetActive(true);
+            // for cut scene
+            Invoke(nameof(playNextLevel), 10f);
+
+
+        } else
+        {
+            scorer.endGame();
+        }
+
     }
+
+    // more cut scene bull poop
+    private void playNextLevel()
+    {
+        
+        cutscenePanel.SetActive(false);
+        songSelector.getSong(nextChart, out SongSelector.Song next);
+
+        // resetting stuff
+        currentAudioCue = 0;
+        currentVisualCue = 0;
+        Array.Clear(currentNoteSpawning, 0, 5);
+        Array.Clear(closestNoteToBottom, 0 , 5);
+        startDelay = 0;
+
+        foreach(GameObject k in keyLines)
+        {
+            Destroy(k);
+        }
+
+        keyLines.Clear();
+        noteSpawner.level4locs.Clear();
+
+        startGame(next);
+
+    }
+
+
     private void spawnAudioCue(double currentTime)
     {
         double songTime = currentTime - startTime; 
