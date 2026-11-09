@@ -47,8 +47,8 @@ public class NoteSpawner : MonoBehaviour
                 break;
             case (VisualCue.NoteTypes.LONGCIRCLE):
                 notePrefab = longCircleNote;
-                endLoc = level1locs[cue.lane].position;
-                startLoc = new Vector3(endLoc.x, endLoc.y - 5, endLoc.z);
+                startLoc = level1locs[cue.lane].position;
+                endLoc = startLoc;
                 break;
         }
 
@@ -70,6 +70,11 @@ public class NoteSpawner : MonoBehaviour
         if (cue.hold)
         {
             n.GetComponent<Note>().setLongNoteVars(cue.topSpawnTime + startTime);
+        }
+
+        if (cue.type == VisualCue.NoteTypes.CIRCLE)
+        {
+            n.transform.localScale = new Vector3(0, 0, 1);
         }
 
         // lot of shuffling but you assign the note object to the Note value in one of the VisualCues in the current lane

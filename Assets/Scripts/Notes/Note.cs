@@ -30,7 +30,7 @@ public abstract class Note : MonoBehaviour
     protected Vector3 originalLocation;
     protected double totalTravelTime;
     protected Vector3 totalDistance;
-    private Color disableColor;
+    protected Color disableColor;
 
     protected SpriteRenderer spriteRenderer;
 
@@ -83,16 +83,14 @@ public abstract class Note : MonoBehaviour
     protected abstract void move();
 
     // only for long notes that player is currently holding
-    public void onHold()
+    public virtual void onHold()
     {
         spriteRenderer.color = Color.greenYellow;
     }
 
     // only for long notes when player hits the initial note but releases too early
-    public void disableNote()
+    public virtual void disableNote()
     {
         spriteRenderer.color = disableColor;
     }
-
-    
 }

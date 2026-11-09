@@ -8,6 +8,12 @@ using UnityEngine;
 
 public class NoteCircleLong : NoteCircle
 {
+
+    [SerializeField] private GameObject outerRing;
+    [SerializeField] private GameObject innerRing;
+
+    private Color holdColor;
+
     // used for calculating percentage
     private float numTotalDistance;
     private void Start()
@@ -17,6 +23,10 @@ public class NoteCircleLong : NoteCircle
         totalTravelTime = endTime - startTime;
         totalDistance = originalLocation - endLocation;
         numTotalDistance = Vector3.Distance(originalLocation, endLocation);
+        outerRing.GetComponent<SpriteRenderer>().color = color;
+
+        //lol. i hate unity color space 
+        holdColor = new Color((color.r * 255 + 30) / 255, (color.g * 255 + 30) / 255, (color.b * 255 + 30) / 255);
     }
 
     // Hi Jessica feel free to delete this method and replace it with your own
@@ -27,26 +37,39 @@ public class NoteCircleLong : NoteCircle
     {
         double currentTime = AudioSettings.dspTime;
 
-        // closer to player
-        float percentageTravelledBottom = Mathf.Clamp01((float)((currentTime - startTime) / totalTravelTime));
-        Vector3 bottomCoord = new Vector3(originalLocation.x,
-                                          originalLocation.y - (totalDistance.y * percentageTravelledBottom),
-                                          originalLocation.z);
+        // manual lerp because I'm stupid. 
+        float percentageTravelledOuter = (float)((currentTime - startTime) / totalTravelTime);
+        float percentageTravelledInner = (float)((currentTime - topStartTime) / totalTravelTime);
 
-        // further from player 
-        float percentageTravelledTop = Mathf.Clamp01((float)((currentTime - topStartTime) / totalTravelTime));
-        Vector3 topCoord = new Vector3(originalLocation.x,
-                                       originalLocation.y - (totalDistance.y * percentageTravelledTop),
-                                       originalLocation.z);
+        // because of the way notes still exist after the hit time is over to give leniency for player, the mask interacts weird with other long notes
+        // for this reason im doing a manual resetting back to 0 when note is over to ensure the mask doesnt overlap weird
+        if (percentageTravelledInner > 1.0f)
+        {
+            percentageTravelledOuter = 0;
+            percentageTravelledInner = 0;
+            GetComponent<SpriteRenderer>().enabled = false;
+        }
 
-        Vector3 midPoint = (topCoord + bottomCoord) / 2;
-        float scale = Mathf.Clamp(Vector3.Distance(topCoord, bottomCoord), 0, Vector3.Distance(originalLocation, endLocation));
 
-        Debug.Log(percentageTravelledBottom + "  " + percentageTravelledTop);
+        // scale the scale by % traveled and multiply by 5 because the outer ring is scaled by 5
+        // they are initially the same size, so whatever scale the other ring is just change this number
+        float scaleOuter = Mathf.Clamp01(percentageTravelledOuter);
+        float scaleInner = Mathf.Clamp01(percentageTravelledInner);
 
-        transform.position = midPoint;
+        
 
-        GetComponent<SpriteRenderer>().size = new Vector2(1, scale);
-        //transform.localScale = new Vector3(transform.localScale.x, scale, transform.localScale.z);
+        // set the scale
+        outerRing.transform.localScale = new Vector3(scaleOuter, scaleOuter, 1);
+        innerRing.transform.localScale = new Vector3(scaleInner, scaleInner, 1);
+    }
+
+    public override void onHold()
+    {
+        outerRing.GetComponent<SpriteRenderer>().color = holdColor;
+    }
+    public override void disableNote()
+    {
+        base.disableNote();
+        outerRing.GetComponent<SpriteRenderer>().color = disableColor;
     }
 }

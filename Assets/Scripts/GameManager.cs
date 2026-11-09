@@ -297,7 +297,15 @@ public class GameManager : MonoBehaviour
                 {
                     if (!allLanes[i][closestNoteToBottom[i]].hit)
                     {
-                        allLanes[i][closestNoteToBottom[i]].note.disableNote();
+                        if (allLanes[i][closestNoteToBottom[i]].note.GetComponent<NoteCircleLong>() != null)
+                        {
+                            allLanes[i][closestNoteToBottom[i]].note.GetComponent<NoteCircleLong>().disableNote();
+                        }
+                        else
+                        {
+                            allLanes[i][closestNoteToBottom[i]].note.disableNote();
+                        }
+                        
                         allLanes[i][closestNoteToBottom[i]].note = null;
 
                         scorer.inputScore(scorer.getMiss(), i);
@@ -374,7 +382,7 @@ public class GameManager : MonoBehaviour
             if (allLanes[lane][closestNoteToBottom[lane]].hold)
             {
                 // lmfao
-                allLanes[lane][closestNoteToBottom[lane]].note.gameObject.GetComponent<NoteBarLong>().onHold();
+                allLanes[lane][closestNoteToBottom[lane]].note.gameObject.GetComponent<Note>().onHold();
             }
             else
             {
