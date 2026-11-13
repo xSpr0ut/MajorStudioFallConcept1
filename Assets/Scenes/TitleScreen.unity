@@ -839,6 +839,10 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: 2cfae625244eec843b854c98abc46a61, type: 2}
+    - target: {fileID: 7905146124825396405, guid: f4be2527904b4504e8a8314800d0f718, type: 3}
+      propertyPath: startScene
+      value: Cutscene
+      objectReference: {fileID: 0}
     - target: {fileID: 8634104673319563401, guid: f4be2527904b4504e8a8314800d0f718, type: 3}
       propertyPath: m_IsActive
       value: 0
