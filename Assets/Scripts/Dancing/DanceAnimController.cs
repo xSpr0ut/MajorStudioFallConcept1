@@ -19,6 +19,7 @@ public class DanceAnimController : MonoBehaviour
     private Sprite currentFrame;
     private Coroutine danceCoroutine;
     private float bpm;
+    private Sprite currentDance;
 
     public void Awake()
     {

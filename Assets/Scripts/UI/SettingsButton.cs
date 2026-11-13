@@ -13,6 +13,7 @@ public class SettingsButton : MonoBehaviour
     private void Settings()
     {
         SettingsController.Instance.OpenSettings();
+
     }
 
     void Update()

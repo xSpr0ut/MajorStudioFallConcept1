@@ -27,7 +27,13 @@ public class SettingsController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (isOpen)
+            {
+                CloseSettings();
+            }
+        }
     }
 
     public void OpenSettings()
@@ -40,5 +46,10 @@ public class SettingsController : MonoBehaviour
     {
         isOpen= false;
         settings.SetActive(false);
+    }
+
+    public bool GetIsOpen()
+    {
+        return isOpen;
     }
 }
