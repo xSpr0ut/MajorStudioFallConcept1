@@ -224,6 +224,7 @@ GameObject:
   - component: {fileID: 4888883087034420841}
   - component: {fileID: 999424612033642761}
   - component: {fileID: 3547482036998838550}
+  - component: {fileID: 3464861853129555046}
   m_Layer: 5
   m_Name: Button (3)
   m_TagString: Untagged
@@ -333,6 +334,19 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &3464861853129555046
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 928797741294374396}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7deebd775a50bb24dabdf804484790b8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MainMenuButton
+  mainMenuScene: TitleScreen
 --- !u!1 &2238585005680362905
 GameObject:
   m_ObjectHideFlags: 0
@@ -613,6 +627,7 @@ GameObject:
   - component: {fileID: 1623073069530087591}
   - component: {fileID: 4166629512194528595}
   - component: {fileID: 1559124668806850699}
+  - component: {fileID: 6663674977455297328}
   m_Layer: 5
   m_Name: Button (2)
   m_TagString: Untagged
@@ -722,6 +737,19 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &6663674977455297328
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5071776622964575199}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eec7d9451ade93746940818de9642922, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SongSelectionButton
+  selectionScene: Main
 --- !u!1 &5876387279439360490
 GameObject:
   m_ObjectHideFlags: 0
@@ -1118,7 +1146,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4400683215018130923
 Transform:
   m_ObjectHideFlags: 0
