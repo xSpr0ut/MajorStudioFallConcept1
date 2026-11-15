@@ -60,6 +60,10 @@ public class NoteSpawner : MonoBehaviour
         {
             noteColour = noteColours[cue.colour];
         }
+        else
+        {
+            noteColour = Color.white;
+        }
 
         n.GetComponent<Note>().setVars(cue.spawnTime + startTime,
                                        cue.actualTime + startTime,
