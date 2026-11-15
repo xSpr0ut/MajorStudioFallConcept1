@@ -2,8 +2,10 @@ using UnityEngine;
 using System.Collections.Generic;
 using System;
 using TMPro;
+// are we using this???
 using UnityEngine.UI;
 using UnityEngine.Assemblies;
+using System.Collections;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Controls;
 
@@ -80,7 +82,26 @@ public class GameManager : MonoBehaviour
     // MIDDLE CUT SCENE BULL POOP
     [SerializeField] private SongSelector songSelector;
     [SerializeField] private GameObject cutscenePanel;
-    private int scoreNeededForLevel2A = 75000;
+    public TextMeshProUGUI cutsceneText;
+    private float cutsceneMessageWaitTime = 3f;
+
+    // cut scene messages
+    private string[] goodSceneMessages =
+    {
+        "You have sucessfully located the target.",
+        "Please approach with caution.",
+        "Recall the charm & logic strategy, and balance your approach."
+    };
+
+    private string[] badSceneMessages =
+    {
+        "You have failed to locate the target.",
+        "Please make a call to HQ regarding next steps.",
+        "Remember: when pleading with your boss, the charm & logic strategy can still be effective."
+        
+    };
+    
+    private int scoreNeededForLevel2A = 10000;
     private string nextChart;
 
     
@@ -257,20 +278,38 @@ public class GameManager : MonoBehaviour
             if(scorer.getScore() >= scoreNeededForLevel2A)
             {
                 nextChart = "level2Achart";
+                StartCoroutine(playCutscene(goodSceneMessages));
             } else
             {
                 nextChart = "level2Bchart";
+                StartCoroutine(playCutscene(badSceneMessages));
             }
 
             cutscenePanel.SetActive(true);
             // for cut scene
-            Invoke(nameof(playNextLevel), 10f);
+           // Invoke(nameof(playNextLevel), 10f);
 
 
         } else
         {
             scorer.endGame();
         }
+
+    }
+
+    //cutscene stuff
+    private IEnumerator playCutscene(string[] messages)
+    {
+        
+        foreach(string n in messages)
+        {
+            cutsceneText.text = n;
+            yield return new WaitForSeconds(cutsceneMessageWaitTime);
+            cutsceneText.text = "";
+            yield return new WaitForSeconds(0.5f);
+        }
+
+        playNextLevel();
 
     }
 
