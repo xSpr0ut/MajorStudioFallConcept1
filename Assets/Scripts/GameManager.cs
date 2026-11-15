@@ -337,12 +337,17 @@ public class GameManager : MonoBehaviour
 
         startGame(next);
 
+        DanceAnimController.Instance.StopDancing();
+        PulsingCamera.Instance.StopPulsing();
     }
 
 
     private void spawnAudioCue(double currentTime)
     {
-        double songTime = currentTime - startTime; 
+        double songTime = currentTime - startTime;
+
+        
+        PulsingCamera.Instance.StartPulsing();
 
         while (currentAudioCue < audioCues.Count && audioCues[currentAudioCue].actualTime + startTime <= currentTime)
         {

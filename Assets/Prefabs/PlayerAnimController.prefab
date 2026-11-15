@@ -61,4 +61,9 @@ MonoBehaviour:
     - {fileID: 21300000, guid: d4fcab0dea0610249a488139f5b537a2, type: 3}
     - {fileID: 21300000, guid: d5d3052678f5460488eaacdf432dd786, type: 3}
     - {fileID: 21300000, guid: a4eca7c067be1b74d95247a61d6794ca, type: 3}
-  danceFailFrame: {fileID: 0}
+  - danceID: 0
+    danceFrames:
+    - {fileID: 5688420880891791381, guid: 736ce9dafa40e614ab88837b33a24d41, type: 3}
+    - {fileID: 2946206925753757452, guid: 5176cab37f70c324fb7cf4a4b634bbcd, type: 3}
+    - {fileID: 1777597687285521279, guid: cb06379984dc96c438886bbf8545fd47, type: 3}
+  danceFailFrame: {fileID: -8312023311497570788, guid: 0be4875c9e7cf6e408dc7b50c92fa31d, type: 3}
