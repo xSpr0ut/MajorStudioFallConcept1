@@ -12,7 +12,7 @@ public class Text : MonoBehaviour
     private TMP_Text _textBox;
 
     [Header("Test String")]
-    [SerializeField] private string testText;
+    [SerializeField] public string testText;
     private int _currentVisibleCharacterIndex;
     private Coroutine _typewriterCoroutine;
     private WaitForSeconds _simpleDelay;
