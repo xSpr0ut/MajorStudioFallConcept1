@@ -101,7 +101,9 @@ public class GameManager : MonoBehaviour
         
     };
     
-    private int scoreNeededForLevel2A = 10000;
+    private int scoreNeededForLevel2A = 120000;
+    // for drift
+    public bool driftSafe = false;
     private string nextChart;
 
     // TUTORIAL STUFF
@@ -296,6 +298,10 @@ public class GameManager : MonoBehaviour
         started = false;
         driftBar.SetActive(false);
         
+        if(characterScore >= -15f && characterScore <= 15f)
+        {
+            driftSafe = true;
+        }
 
         DanceAnimController.Instance.StopDancing();
 
