@@ -3,6 +3,8 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
 using Unity.VisualScripting.Antlr3.Runtime.Tree;
+using UnityEngine.SceneManagement;
+
 public class Scoring : MonoBehaviour
 {
     [Header("UI")]
@@ -223,6 +225,11 @@ public class Scoring : MonoBehaviour
 
         rankName.text += "Score" + "\n";
         rankNum.text += score + "\n";
+
+        if (GameManager.Instance.selectedSong.chartFilePath == "level2Achart" || GameManager.Instance.selectedSong.chartFilePath == "level2Bchart")
+        {
+            PersistentStats.Instance.CalculateEnding();
+        }
 
         yield return new WaitForSeconds(1);
         restartUI.SetActive(true);

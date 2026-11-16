@@ -141,7 +141,7 @@ public class GameManager : MonoBehaviour
         {
             Manager = this;
         }
-        DontDestroyOnLoad(gameObject);
+        //DontDestroyOnLoad(gameObject);
 
         noteSpawner = GetComponent<NoteSpawner>();  
     }
@@ -295,6 +295,14 @@ public class GameManager : MonoBehaviour
             DanceAnimController.Instance.player.SetActive(false);
             DanceTarget.Instance.target.SetActive(true);
             DanceTarget.Instance.StartBobbing();
+            DanceTarget.Instance.bpm = 132;
+        }
+        if (songToPlay.chartFilePath == "level2Bchart")
+        {
+            DanceAnimController.Instance.player.SetActive(false);
+            DanceTarget.Instance.target.SetActive(true);
+            DanceTarget.Instance.StartBobbing();
+            DanceTarget.Instance.bpm = 122;
         }
 
         double finalColoredNoteTime = 0f;
