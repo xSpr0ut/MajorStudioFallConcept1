@@ -12,7 +12,7 @@ public class Text : MonoBehaviour
     private TMP_Text _textBox;
 
     [Header("Test String")]
-    [SerializeField] private string testText;
+    [SerializeField] public string testText;
     private int _currentVisibleCharacterIndex;
     private Coroutine _typewriterCoroutine;
     private WaitForSeconds _simpleDelay;
@@ -34,6 +34,7 @@ public class Text : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        //EndScreen.Instance.SetEnding("notfired");
         SetText(testText);
     }
 
@@ -44,6 +45,7 @@ public class Text : MonoBehaviour
             StopCoroutine(_typewriterCoroutine);
         }
         _textBox.text = text;
+        _textBox.ForceMeshUpdate();
         _textBox.maxVisibleCharacters = 0;
         _currentVisibleCharacterIndex = 0;
 
