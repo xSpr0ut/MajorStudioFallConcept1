@@ -1,17 +1,29 @@
+using TMPro;
 using UnityEngine;
 
-public class NoteDialogue : MonoBehaviour
+public class NoteDialogue : Note
 {
     public string textToDisplay;
+
+    [SerializeField] private TextMeshProUGUI textToChange;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        initialTime = AudioSettings.dspTime;
+
+        originalLocation = transform.position;
+        textToChange.text = textToDisplay;
     }
 
-    // Update is called once per frame
-    void Update()
+
+    override
+    protected void move()
     {
-        
+        //double currentTime = AudioSettings.dspTime;
+
+        //if (currentTime >= topStartTime)
+        //{
+
+        //}
     }
 }

@@ -359,7 +359,7 @@ public class GameManager : MonoBehaviour
         // spawning notes
         while (currentVisualCue < visualCues.Count && visualCues[currentVisualCue].spawnTime + startTime <= currentTime)
         {
-            Note n = noteSpawner.spawnVisualCue(visualCues[currentVisualCue], startTime, noteSpeed, characterScore);
+            Note n = noteSpawner.spawnVisualCue(visualCues[currentVisualCue], startTime, noteSpeed, characterScore, selectedSong.songName);
 
             // lot of shuffling but you assign the note object to the Note value in one of the VisualCues in the current lane
             int currentLane = visualCues[currentVisualCue].lane;
