@@ -386,6 +386,7 @@ public class GameManager : MonoBehaviour
                     allLanes[i][closestNoteToBottom[i]].note = null;
 
                     scorer.inputScore(scorer.getMiss(), i);
+                    DanceAnimController.Instance.TriggerFailFrame();
 
                     closestNoteToBottom[i]++;
                     continue;
@@ -420,6 +421,7 @@ public class GameManager : MonoBehaviour
                         allLanes[i][closestNoteToBottom[i]].note = null;
 
                         scorer.inputScore(scorer.getMiss(), i);
+                        DanceAnimController.Instance.TriggerFailFrame();
 
                         closestNoteToBottom[i]++;
                         continue;
@@ -427,6 +429,7 @@ public class GameManager : MonoBehaviour
                 }
 
                 count++;
+                
                 if (count == 5)
                 {
                     Debug.Log("OOPS! INIFNITE LOP HOLD" + (allLanes[i][closestNoteToBottom[i]].actualTime + startTime) + (double)scorer.getMissRange() / 1000.0 + "   " + currentTime);
