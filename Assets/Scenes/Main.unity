@@ -2260,7 +2260,7 @@ MonoBehaviour:
   longBarNote: {fileID: 5087948777329422413, guid: 413167333ff506148841ee78448565a6, type: 3}
   circleNote: {fileID: 1134502198839590523, guid: 9b506b74a4fa4e6499c1e7763fb9cc01, type: 3}
   longCircleNote: {fileID: 1134502198839590523, guid: db58a3ac09a49eb47af63701feff4942, type: 3}
-  dialogueNote: {fileID: 0}
+  dialogueNote: {fileID: 6005289021275893629, guid: 0d3d4b39b6bf9df459ef936a3dc5a856, type: 3}
   level1locs:
   - {fileID: 707911582}
   - {fileID: 1882933990}
@@ -3023,7 +3023,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -23, y: 964}
+  m_AnchoredPosition: {x: -23, y: -443.6}
   m_SizeDelta: {x: 609.7407, y: 16.6223}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1453161901
@@ -3252,7 +3252,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1678804932
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3285,7 +3285,7 @@ MonoBehaviour:
   m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 3840, y: 2160}
+  m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
