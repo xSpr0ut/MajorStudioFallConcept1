@@ -185,7 +185,7 @@ public class GameManager : MonoBehaviour
                 driftSystem();
             }
 
-            Debug.Log("Character Score: " + characterScore);
+            //Debug.Log("Character Score: " + characterScore);
         }
     }
 

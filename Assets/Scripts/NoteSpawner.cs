@@ -117,7 +117,7 @@ public class NoteSpawner : MonoBehaviour
         }
         else if (cue.type == VisualCue.NoteTypes.DIALOGUE)
         {
-            n.GetComponent<NoteDialogue>().textToDisplay = getCorrectDialogue(score, songName);
+            n.GetComponent<NoteDialogue>().changeText(getCorrectDialogue(score, songName));
         }
         // lot of shuffling but you assign the note object to the Note value in one of the VisualCues in the current lane
         int currentLane = cue.lane;
@@ -155,7 +155,7 @@ public class NoteSpawner : MonoBehaviour
         }
         else
         {
-            return twoBDialogue[Random.Range(index, index + 1)];
+            return twoADialogue[Random.Range(index, index + 1)];
         }
     }
 }
