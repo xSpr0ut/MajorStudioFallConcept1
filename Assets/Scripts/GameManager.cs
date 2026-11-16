@@ -280,12 +280,13 @@ public class GameManager : MonoBehaviour
 
         // DRIFT BAR STUFF GUH
         driftBarActive = (songToPlay.chartFilePath == "tutorialchart" || songToPlay.chartFilePath == "level2Achart" || songToPlay.chartFilePath == "level2Bchart");
+        Debug.Log(songToPlay.chartFilePath);
         driftBar.SetActive(driftBarActive);
 
         if(songToPlay.chartFilePath == "tutorialchart")
         {
             StartCoroutine(playTutorial(tutorialMessages));
-            driftBar.SetActive(false);
+            //driftBar.SetActive(false);
         }
         if (songToPlay.chartFilePath == "level1chart2")
         {
