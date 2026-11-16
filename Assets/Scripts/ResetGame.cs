@@ -15,7 +15,7 @@ public class ResetGame : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Keyboard.current.dKey.wasPressedThisFrame)
+        if (Keyboard.current.dKey.wasPressedThisFrame || Keyboard.current.rightArrowKey.wasPressedThisFrame)
         {
             if (GameManager.Instance.selectedSong.chartFilePath == "level2Achart" || GameManager.Instance.selectedSong.chartFilePath == "level2Bchart")
             {
