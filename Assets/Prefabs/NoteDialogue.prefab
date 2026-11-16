@@ -34,7 +34,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 142.2}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 7.89, y: 1.8}
+  m_AnchoredPosition: {x: 7.17, y: 1.41}
   m_SizeDelta: {x: 3.35, y: 2.97}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7671043588496613022
@@ -259,7 +259,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NoteDialogue
   color: {r: 0, g: 0, b: 0, a: 0}
-  textToDisplay: 
   textToChange: {fileID: 1049828058674597268}
 --- !u!1 &7515388386412976024
 GameObject:
@@ -379,7 +378,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NoteDialogue
   color: {r: 0, g: 0, b: 0, a: 0}
-  textToDisplay: 
   textToChange: {fileID: 1049828058674597268}
 --- !u!212 &4816478401936839910
 SpriteRenderer:
@@ -506,7 +504,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: w
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: cabbead2b56aa4e439e317b6e308c0ac, type: 2}
   m_sharedMaterial: {fileID: 5146049173843213574, guid: cabbead2b56aa4e439e317b6e308c0ac, type: 2}
@@ -533,8 +531,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 2
-  m_fontSizeBase: 2
+  m_fontSize: 1
+  m_fontSizeBase: 1
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
