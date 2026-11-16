@@ -326,10 +326,12 @@ public class GameManager : MonoBehaviour
             {
                 nextChart = "level2Achart";
                 StartCoroutine(playCutscene(goodSceneMessages));
+                scorer.resetScore();
             } else
             {
                 nextChart = "level2Bchart";
                 StartCoroutine(playCutscene(badSceneMessages));
+                scorer.resetScore();
             }
 
             cutscenePanel.SetActive(true);
