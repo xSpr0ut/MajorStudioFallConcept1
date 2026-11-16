@@ -13,7 +13,7 @@ public class DanceAnimController : MonoBehaviour
 {
     public static DanceAnimController Instance { get; private set; }
 
-    [SerializeField] private GameObject player;
+    [SerializeField] public GameObject player;
     [SerializeField] private List<DanceRoutine> danceRoutine;
     [SerializeField] private Sprite danceFailFrame;
 
