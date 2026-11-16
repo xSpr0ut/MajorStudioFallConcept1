@@ -337,6 +337,8 @@ public class GameManager : MonoBehaviour
 
         startGame(next);
 
+        DanceAnimController.Instance.StopDancing();
+        PulsingCamera.Instance.StopPulsing();
     }
 
 
