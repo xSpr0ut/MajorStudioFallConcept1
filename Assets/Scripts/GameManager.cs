@@ -101,8 +101,31 @@ public class GameManager : MonoBehaviour
         
     };
     
-    private int scoreNeededForLevel2A = 10000;
+    private int scoreNeededForLevel2A = 120000;
+    // for drift
+    public bool driftSafe = false;
     private string nextChart;
+
+    // TUTORIAL STUFF
+    [SerializeField] private TextMeshProUGUI tutorialText;
+    [SerializeField] private GameObject tutorialBackground;
+    [SerializeField] private GameObject animationObject;
+
+    private string[] tutorialMessages =
+    {
+        "This is the tutorial level.",
+        "Use D, F to hit the notes on your left.",
+        "Use J, K to hit the notes on your right.",
+        "Long, solid colour notes are hold notes.",
+        "Miss/Bad notes will break your combo.",
+        "Special notes that are coloured.",
+        "Pay attention to the colour bar.",
+        "It's important you balance the colours.",
+        "Otherwise, you may lose even if you have a good score.",
+        "Good Luck, Agent!",
+        "This mission will be hard.",
+        "Much harder than you think."
+    };
 
     
     #endregion
@@ -162,10 +185,9 @@ public class GameManager : MonoBehaviour
             // DRIFT SYSTEM
             if(driftBarActive && currentTime < driftEndTime){
                 driftSystem();
-                UpdateTargetFrame();
             }
 
-            Debug.Log("Character Score: " + characterScore);
+            //Debug.Log("Character Score: " + characterScore);
         }
     }
 
@@ -217,7 +239,6 @@ public class GameManager : MonoBehaviour
         allLanes = chartParser.getAllLanes();
 
         DanceAnimController.Instance.StartDancing();
-        DanceTarget.Instance.StartBobbing();
 
         // it's possible some events start very early, so we need to make sure that they start properly
         // also, I anticipate the above two methods taking a long time, so dspTime will definitely be positive when update comes around
@@ -253,13 +274,12 @@ public class GameManager : MonoBehaviour
         AudioClip a = Resources.Load<AudioClip>(filePath);
 
         // DRIFT BAR STUFF GUH
-        driftBarActive = (songToPlay.chartFilePath == "level2Achart" || songToPlay.chartFilePath == "level2Bchart");
+        driftBarActive = (songToPlay.chartFilePath == "tutorialchart" || songToPlay.chartFilePath == "level2Achart" || songToPlay.chartFilePath == "level2Bchart");
         driftBar.SetActive(driftBarActive);
 
-        if (songToPlay.chartFilePath == "level2Achart")
+        if(songToPlay.chartFilePath == "tutorialchart")
         {
-            DanceTarget.Instance.target.SetActive(true);
-            DanceAnimController.Instance.player.SetActive(false);
+            StartCoroutine(playTutorial(tutorialMessages));
         }
 
         characterScore = -25f;
@@ -278,11 +298,14 @@ public class GameManager : MonoBehaviour
         started = false;
         driftBar.SetActive(false);
         
+        if(characterScore >= -15f && characterScore <= 15f)
+        {
+            driftSafe = true;
+        }
 
         DanceAnimController.Instance.StopDancing();
-        DanceTarget.Instance.StopBobbing();
 
-        if (selectedSong.chartFilePath == "level1chart2")
+        if(selectedSong.chartFilePath == "level1chart2")
         {
             if(scorer.getScore() >= scoreNeededForLevel2A)
             {
@@ -322,7 +345,33 @@ public class GameManager : MonoBehaviour
 
     }
 
+    // tutorial card code lol
+
     // more cut scene bull poop
+
+       // tutorial card code lol, same logic as other one
+
+        private IEnumerator playTutorial(string[] instructions)
+    {
+        
+       // Debug.Log("IS RUNNING?");
+
+        animationObject.SetActive(false);
+        tutorialBackground.SetActive(true);
+
+        foreach(string n in instructions)
+        {
+            tutorialText.text = "";
+            yield return new WaitForSeconds(0.5f);
+            tutorialText.text = n;
+            yield return new WaitForSeconds(3.5f);
+    
+        }
+
+        playNextLevel();
+
+    }
+
     private void playNextLevel()
     {
         
@@ -368,7 +417,7 @@ public class GameManager : MonoBehaviour
         // spawning notes
         while (currentVisualCue < visualCues.Count && visualCues[currentVisualCue].spawnTime + startTime <= currentTime)
         {
-            Note n = noteSpawner.spawnVisualCue(visualCues[currentVisualCue], startTime, noteSpeed, characterScore);
+            Note n = noteSpawner.spawnVisualCue(visualCues[currentVisualCue], startTime, noteSpeed, characterScore, selectedSong.songName);
 
             // lot of shuffling but you assign the note object to the Note value in one of the VisualCues in the current lane
             int currentLane = visualCues[currentVisualCue].lane;
@@ -565,21 +614,6 @@ public class GameManager : MonoBehaviour
     private float toRadians(float value)
     {
         return value * (Mathf.PI / 180);
-    }
-    private void UpdateTargetFrame()
-    {
-        if (characterScore <= -35)
-        {
-            DanceTarget.Instance.SetSeduced();
-        }
-        else if (characterScore <= -15 && characterScore >= 15)
-        {
-            DanceTarget.Instance.SetNeutral();
-        }
-        else
-        {
-            DanceTarget.Instance.SetThreatened();
-        }
     }
 
 }

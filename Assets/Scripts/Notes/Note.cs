@@ -47,7 +47,9 @@ public abstract class Note : MonoBehaviour
         this.fallSpd = fallSpd;
         this.endLocation = endLocation;
         this.color = color;
-        
+
+        spriteRenderer = GetComponent<SpriteRenderer>();
+
         spriteRenderer.color = color;
 
         disableColor = new Color(color.r, color.g, color.b, 0.5f);

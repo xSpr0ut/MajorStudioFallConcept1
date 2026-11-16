@@ -16,9 +16,6 @@ public class SongSelector : MonoBehaviour
     [SerializeField] private GameObject selectedSongFrame;
     [SerializeField] private TextMeshProUGUI selectedSongName;
 
-    private string[] twoADialogue;
-    private string[] twoBDialogue;
-
     private RectTransform cc;
     private int songPrefabHeight = 100;
 

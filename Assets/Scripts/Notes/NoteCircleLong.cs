@@ -26,7 +26,14 @@ public class NoteCircleLong : NoteCircle
         outerRing.GetComponent<SpriteRenderer>().color = color;
 
         //lol. i hate unity color space 
-        holdColor = new Color((color.r * 255 + 30) / 255, (color.g * 255 + 30) / 255, (color.b * 255 + 30) / 255);
+        if (holdColor.Equals(Color.white))
+        {
+            holdColor = Color.limeGreen;
+        }
+        else
+        {
+            holdColor = new Color((color.r * 255 + 30) / 255, (color.g * 255 + 30) / 255, (color.b * 255 + 30) / 255);
+        }
     }
 
     // Hi Jessica feel free to delete this method and replace it with your own
