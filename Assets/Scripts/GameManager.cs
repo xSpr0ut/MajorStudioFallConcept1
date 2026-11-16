@@ -2,8 +2,10 @@ using UnityEngine;
 using System.Collections.Generic;
 using System;
 using TMPro;
+// are we using this???
 using UnityEngine.UI;
 using UnityEngine.Assemblies;
+using System.Collections;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Controls;
 
@@ -72,6 +74,36 @@ public class GameManager : MonoBehaviour
     private float driftFlipTimer = 0f;
     private float driftTimer = 0f;
 
+    // for stopping drift bar
+    [SerializeField] private GameObject driftBar;
+    private bool driftBarActive = false;
+    private double driftEndTime = 0;
+
+    // MIDDLE CUT SCENE BULL POOP
+    [SerializeField] private SongSelector songSelector;
+    [SerializeField] private GameObject cutscenePanel;
+    public TextMeshProUGUI cutsceneText;
+    private float cutsceneMessageWaitTime = 3f;
+
+    // cut scene messages
+    private string[] goodSceneMessages =
+    {
+        "You have sucessfully located the target.",
+        "Please approach with caution.",
+        "Recall the charm & logic strategy, and balance your approach."
+    };
+
+    private string[] badSceneMessages =
+    {
+        "You have failed to locate the target.",
+        "Please make a call to HQ regarding next steps.",
+        "Remember: when pleading with your boss, the charm & logic strategy can still be effective."
+        
+    };
+    
+    private int scoreNeededForLevel2A = 10000;
+    private string nextChart;
+
     
     #endregion
     private void Awake()
@@ -126,7 +158,11 @@ public class GameManager : MonoBehaviour
             }
 
             detectKeyPress();
-            driftSystem();
+
+            // DRIFT SYSTEM
+            if(driftBarActive && currentTime < driftEndTime){
+                driftSystem();
+            }
 
             Debug.Log("Character Score: " + characterScore);
         }
@@ -214,8 +250,17 @@ public class GameManager : MonoBehaviour
         string filePath = "Audio/" + selectedSong.musicFilePath + audioCues[currentAudioCue].name.Replace(".wav", "").Replace(".mp3", "");
         AudioClip a = Resources.Load<AudioClip>(filePath);
 
+        // DRIFT BAR STUFF GUH
+        driftBarActive = (songToPlay.chartFilePath == "level2Achart" || songToPlay.chartFilePath == "level2Bchart");
+        driftBar.SetActive(driftBarActive);
+
+        characterScore = -25f;
+        driftTimer = 0f;
+
         started = true;
         startTime = AudioSettings.dspTime + startDelay;
+
+        driftEndTime = startTime + visualCues[visualCues.Count - 1].evaluationTime + scorer.getMissRange()/1000.0;
 
         gameEndTime = Math.Max(a.length, visualCues[visualCues.Count - 1].actualTime + (scorer.getMissRange())/1000) + startTime + 1f;
     }
@@ -223,17 +268,81 @@ public class GameManager : MonoBehaviour
     public void endGame()
     {
         started = false;
-        scorer.endGame();
+        driftBar.SetActive(false);
+        
 
         DanceAnimController.Instance.StopDancing();
-        PulsingCamera.Instance.StopPulsing();
+
+        if(selectedSong.chartFilePath == "level1chart2")
+        {
+            if(scorer.getScore() >= scoreNeededForLevel2A)
+            {
+                nextChart = "level2Achart";
+                StartCoroutine(playCutscene(goodSceneMessages));
+            } else
+            {
+                nextChart = "level2Bchart";
+                StartCoroutine(playCutscene(badSceneMessages));
+            }
+
+            cutscenePanel.SetActive(true);
+            // for cut scene
+           // Invoke(nameof(playNextLevel), 10f);
+
+
+        } else
+        {
+            scorer.endGame();
+        }
+
     }
+
+    //cutscene stuff
+    private IEnumerator playCutscene(string[] messages)
+    {
+        
+        foreach(string n in messages)
+        {
+            cutsceneText.text = n;
+            yield return new WaitForSeconds(cutsceneMessageWaitTime);
+            cutsceneText.text = "";
+            yield return new WaitForSeconds(0.5f);
+        }
+
+        playNextLevel();
+
+    }
+
+    // more cut scene bull poop
+    private void playNextLevel()
+    {
+        
+        cutscenePanel.SetActive(false);
+        songSelector.getSong(nextChart, out SongSelector.Song next);
+
+        // resetting stuff
+        currentAudioCue = 0;
+        currentVisualCue = 0;
+        Array.Clear(currentNoteSpawning, 0, 5);
+        Array.Clear(closestNoteToBottom, 0 , 5);
+        startDelay = 0;
+
+        foreach(GameObject k in keyLines)
+        {
+            Destroy(k);
+        }
+
+        keyLines.Clear();
+        noteSpawner.level4locs.Clear();
+
+        startGame(next);
+
+    }
+
+
     private void spawnAudioCue(double currentTime)
     {
-        double songTime = currentTime - startTime;
-
-        
-        PulsingCamera.Instance.StartPulsing();
+        double songTime = currentTime - startTime; 
 
         while (currentAudioCue < audioCues.Count && audioCues[currentAudioCue].actualTime + startTime <= currentTime)
         {
