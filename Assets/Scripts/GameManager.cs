@@ -116,7 +116,7 @@ public class GameManager : MonoBehaviour
         "Use J, K to hit the notes on your right.",
         "Long, solid colour notes are hold notes.",
         "Miss/Bad notes will break your combo.",
-        "We also have special notes that are coloured.",
+        "Special notes that are coloured.",
         "Pay attention to the colour bar.",
         "It's important you balance the colours.",
         "Otherwise, you may lose even if you have a good score.",
