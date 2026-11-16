@@ -185,7 +185,9 @@ public class GameManager : MonoBehaviour
             // DRIFT SYSTEM
             if(driftBarActive && currentTime < driftEndTime){
                 driftSystem();
+                UpdateTargetFrame();
             }
+
 
             //Debug.Log("Character Score: " + characterScore);
         }
@@ -238,7 +240,7 @@ public class GameManager : MonoBehaviour
         audioCues = chartParser.getAudioCues();
         allLanes = chartParser.getAllLanes();
 
-        DanceAnimController.Instance.StartDancing();
+        
 
         // it's possible some events start very early, so we need to make sure that they start properly
         // also, I anticipate the above two methods taking a long time, so dspTime will definitely be positive when update comes around
@@ -281,6 +283,16 @@ public class GameManager : MonoBehaviour
         {
             StartCoroutine(playTutorial(tutorialMessages));
         }
+        if (songToPlay.chartFilePath == "level1chart2")
+        {
+            DanceAnimController.Instance.StartDancing();
+        }
+        if (songToPlay.chartFilePath == "level2Achart")
+        {
+            DanceAnimController.Instance.player.SetActive(false);
+            DanceTarget.Instance.target.SetActive(true);
+            DanceTarget.Instance.StartBobbing();
+        }
 
         characterScore = -25f;
         driftTimer = 0f;
@@ -304,8 +316,9 @@ public class GameManager : MonoBehaviour
         }
 
         DanceAnimController.Instance.StopDancing();
+        DanceTarget.Instance.StopBobbing();
 
-        if(selectedSong.chartFilePath == "level1chart2")
+        if (selectedSong.chartFilePath == "level1chart2")
         {
             if(scorer.getScore() >= scoreNeededForLevel2A)
             {
@@ -616,4 +629,19 @@ public class GameManager : MonoBehaviour
         return value * (Mathf.PI / 180);
     }
 
+    private void UpdateTargetFrame()
+    {
+        if (characterScore <= -35)
+        {
+            DanceTarget.Instance.SetThreatened();
+        }
+        else if (characterScore >= -15 && characterScore <= 15)
+        {
+            DanceTarget.Instance.SetNeutral();
+        }
+        else
+        {
+            DanceTarget.Instance.SetSeduced();
+        }
+    }
 }
