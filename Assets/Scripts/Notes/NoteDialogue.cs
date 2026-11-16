@@ -32,6 +32,6 @@ public class NoteDialogue : Note
     {
         textToChange.text = text;
         textToDisplay = text;
-        Debug.Log("text in  method is " + textToChange.text);
+        //Debug.Log("text in  method is " + textToChange.text);
     }
 }

@@ -63,6 +63,7 @@ public class GameManager : MonoBehaviour
 
     // private colour conversation tracking
     private float characterScore = -25f;
+    private float acceptableRange = 20f;
 
     // singleton bs
     private static GameManager Manager;
@@ -282,13 +283,24 @@ public class GameManager : MonoBehaviour
             StartCoroutine(playTutorial(tutorialMessages));
         }
 
+        double finalColoredNoteTime = 0f;
+
+        for (int i = 0; i < visualCues.Count; i++)
+        {
+            if (visualCues[i].colour != -1)
+            {
+                Debug.Log("note " + i + " is a colored note: " + visualCues[i].evaluationTime);
+                finalColoredNoteTime = visualCues[i].evaluationTime;
+            }
+        }
+
         characterScore = -25f;
         driftTimer = 0f;
 
         started = true;
         startTime = AudioSettings.dspTime + startDelay;
 
-        driftEndTime = startTime + visualCues[visualCues.Count - 1].evaluationTime + scorer.getMissRange()/1000.0;
+        driftEndTime = startTime + finalColoredNoteTime + scorer.getMissRange()/1000.0;
 
         gameEndTime = Math.Max(a.length, visualCues[visualCues.Count - 1].actualTime + (scorer.getMissRange())/1000) + startTime + 1f;
     }
@@ -444,7 +456,14 @@ public class GameManager : MonoBehaviour
                     // also don't count dialogue notes
                     if (allLanes[i][closestNoteToBottom[i]].note.color.Equals(Color.white) && !(allLanes[i][closestNoteToBottom[i]].type == VisualCue.NoteTypes.DIALOGUE))
                     {
-                        scorer.inputScore(scorer.getMiss(), i);
+                        bool isInRange = Mathf.Abs(characterScore) <= acceptableRange;
+
+                        if (selectedSong.songName == "Level 1")
+                        {
+                            isInRange = true;
+                        }
+
+                        scorer.inputScore(scorer.getMiss(), i, isInRange);
                         DanceAnimController.Instance.TriggerFailFrame();
                     }
 
@@ -483,7 +502,14 @@ public class GameManager : MonoBehaviour
                         
                         allLanes[i][closestNoteToBottom[i]].note = null;
 
-                        scorer.inputScore(scorer.getMiss(), i);
+                        bool isInRange = Mathf.Abs(characterScore) <= acceptableRange;
+
+                        if (selectedSong.songName == "Level 1")
+                        {
+                            isInRange = true;
+                        }
+
+                        scorer.inputScore(scorer.getMiss(), i, isInRange);
                         DanceAnimController.Instance.TriggerFailFrame();
 
                         closestNoteToBottom[i]++;
@@ -530,7 +556,14 @@ public class GameManager : MonoBehaviour
                 return;
             }
 
-            scorer.inputScore(timeDifference, lane);
+            bool isInRange = Mathf.Abs(characterScore) <= acceptableRange;
+
+            if (selectedSong.songName == "Level 1")
+            {
+                isInRange = true;
+            }
+
+            scorer.inputScore(timeDifference, lane, isInRange);
 
             // colour code tracking
             VisualCue hitCue = allLanes[lane][closestNoteToBottom[lane]];
@@ -601,8 +634,14 @@ public class GameManager : MonoBehaviour
             // not a colored long note
             if (allLanes[lane][closestNoteToBottom[lane]].colour == -1)
             {
-                Debug.Log(timeDifference);
-                scorer.inputScore(timeDifference, lane);
+                bool isInRange = Mathf.Abs(characterScore) <= acceptableRange;
+
+                if (selectedSong.songName == "Level 1")
+                {
+                    isInRange = true;
+                }
+
+                scorer.inputScore(timeDifference, lane, isInRange);
             }
             
             //Destroy(allLanes[lane][closestNoteToBottom[lane]].note.gameObject);

@@ -93,13 +93,13 @@ public class SongSelector : MonoBehaviour
         }
 
         // only want this if we want to display more than one song
-        if (Keyboard.current.wKey.wasPressedThisFrame)
+        if (Keyboard.current.wKey.wasPressedThisFrame || Keyboard.current.upArrowKey.wasPressedThisFrame)
         {
             selectedSong = Mathf.Clamp(selectedSong - 1, 0, listOfTracks.Count - 1);
             moveTarget = Mathf.Clamp(moveTarget - songPrefabHeight, minScroll, maxScroll);
 
         }
-        else if (Keyboard.current.sKey.wasPressedThisFrame)
+        else if (Keyboard.current.sKey.wasPressedThisFrame || Keyboard.current.downArrowKey.wasPressedThisFrame)
         {
             selectedSong = Mathf.Clamp(selectedSong + 1, 0, listOfTracks.Count - 1);
             moveTarget = Mathf.Clamp(moveTarget + songPrefabHeight, minScroll, maxScroll);

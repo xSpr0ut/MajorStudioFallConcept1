@@ -15,7 +15,7 @@ public class ResetGame : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Keyboard.current.dKey.wasPressedThisFrame)
+        if (Keyboard.current.dKey.wasPressedThisFrame || Keyboard.current.rightArrowKey.wasPressedThisFrame)
         {
             // reload game
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);

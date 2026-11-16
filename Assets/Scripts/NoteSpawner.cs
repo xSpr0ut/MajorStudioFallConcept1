@@ -155,7 +155,7 @@ public class NoteSpawner : MonoBehaviour
         }
         else
         {
-            return twoADialogue[Random.Range(index, index + 1)];
+            return twoBDialogue[Random.Range(index, index + 1)];
         }
     }
 }

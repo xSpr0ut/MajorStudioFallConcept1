@@ -2,6 +2,7 @@ using TMPro;
 using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
+using Unity.VisualScripting.Antlr3.Runtime.Tree;
 public class Scoring : MonoBehaviour
 {
     [Header("UI")]
@@ -49,7 +50,7 @@ public class Scoring : MonoBehaviour
     Score Bad = new Score("BAD", 250, 100, Color.red, 0);
     Score Miss = new Score("MISS", 250, 0, Color.gray, 0);
 
-    public void inputScore(double timeDifference, int lane)
+    public void inputScore(double timeDifference, int lane, bool inRange)
     {
         Score scoreToAdd = Miss;
 
@@ -102,7 +103,15 @@ public class Scoring : MonoBehaviour
             maxCombo = combo;
         }
 
-        score += scoreToAdd.points;
+        int pts = scoreToAdd.points;
+
+        if (!inRange)
+        {
+            pts /= 2;
+        }
+        particles.inRange(inRange);
+        score += pts;
+        Debug.Log("added " + pts + "    from a score of " + scoreToAdd.name + "  supposed to be " + scoreToAdd.points);
         scoreDisplay.text = score.ToString();
         rankDisplay.text = scoreToAdd.name;
         comboDisplay.text = "Combo: " + combo.ToString();
@@ -119,7 +128,7 @@ public class Scoring : MonoBehaviour
         }
     }
 
-    public void inputScore(Score scoreToAdd, int lane)
+    public void inputScore(Score scoreToAdd, int lane, bool inRange)
     {
         if (scoreToAdd.name == "BAD")
         {

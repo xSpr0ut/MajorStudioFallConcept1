@@ -4,6 +4,7 @@ public class ParticleManager : MonoBehaviour
 {
     [SerializeField] private ParticleSystem longParticles;
     [SerializeField] private ParticleSystem shortParticles;
+    [SerializeField] private GameObject notInRangeScreen;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -36,5 +37,10 @@ public class ParticleManager : MonoBehaviour
     public bool isPlaying()
     {
         return longParticles.isPlaying;
+    }
+
+    public void inRange(bool inR)
+    {
+        notInRangeScreen.SetActive(!inR);
     }
 }
