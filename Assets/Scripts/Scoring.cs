@@ -11,6 +11,8 @@ public class Scoring : MonoBehaviour
     public GameObject endUI;
     public GameObject restartUI;
     public GameObject floatingRankPrefab;
+
+    public ParticleManager particles;
     private float frpOffset = 0.3f;
 
     public GameObject partSysPrefab;
@@ -86,6 +88,7 @@ public class Scoring : MonoBehaviour
             scoreToAdd = Bad;
             Bad.count++;
             combo = 0;
+            particles.stopParticles();
         }
 
         if (combo > maxCombo)
@@ -102,6 +105,11 @@ public class Scoring : MonoBehaviour
         if (scoreToAdd.points != Miss.points)
         {
             spawnParticle(scoreToAdd, lane);
+        }
+
+        if (combo == 20)
+        {
+            particles.activateParticles();
         }
     }
 
