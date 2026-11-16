@@ -359,7 +359,7 @@ public class GameManager : MonoBehaviour
         // spawning notes
         while (currentVisualCue < visualCues.Count && visualCues[currentVisualCue].spawnTime + startTime <= currentTime)
         {
-            Note n = noteSpawner.spawnVisualCue(visualCues[currentVisualCue], startTime, noteSpeed);
+            Note n = noteSpawner.spawnVisualCue(visualCues[currentVisualCue], startTime, noteSpeed, characterScore);
 
             // lot of shuffling but you assign the note object to the Note value in one of the VisualCues in the current lane
             int currentLane = visualCues[currentVisualCue].lane;
@@ -383,7 +383,8 @@ public class GameManager : MonoBehaviour
                 if (allLanes[i][closestNoteToBottom[i]].note != null)
                 {
                     // only count as a miss if player misses white note, otherwise just silently delete
-                    if (allLanes[i][closestNoteToBottom[i]].note.color.Equals(Color.white))
+                    // also don't count dialogue notes
+                    if (allLanes[i][closestNoteToBottom[i]].note.color.Equals(Color.white) && allLanes[i][closestNoteToBottom[i]].type == VisualCue.NoteTypes.DIALOGUE)
                     {
                         scorer.inputScore(scorer.getMiss(), i);
                         DanceAnimController.Instance.TriggerFailFrame();

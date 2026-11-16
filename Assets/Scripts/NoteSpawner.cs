@@ -8,6 +8,7 @@ public class NoteSpawner : MonoBehaviour
     [SerializeField] private GameObject longBarNote;
     [SerializeField] private GameObject circleNote;
     [SerializeField] private GameObject longCircleNote;
+    [SerializeField] private GameObject dialogueNote;
 
     [Header("Note locations here")]
     [SerializeField] private List<Transform> level1locs = new List<Transform>();
@@ -18,7 +19,7 @@ public class NoteSpawner : MonoBehaviour
 
     public List<Transform> level4locs = new List<Transform>();
 
-    public Note spawnVisualCue(VisualCue cue, double startTime, double noteSpeed)
+    public Note spawnVisualCue(VisualCue cue, double startTime, double noteSpeed, float score)
     {
         // create a note prefab
         GameObject n;
@@ -49,6 +50,9 @@ public class NoteSpawner : MonoBehaviour
                 notePrefab = longCircleNote;
                 startLoc = level1locs[cue.lane].position;
                 endLoc = startLoc;
+                break;
+            case (VisualCue.NoteTypes.DIALOGUE):
+                notePrefab = dialogueNote;
                 break;
         }
 
