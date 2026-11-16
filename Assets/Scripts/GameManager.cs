@@ -386,13 +386,11 @@ public class GameManager : MonoBehaviour
                     if (allLanes[i][closestNoteToBottom[i]].note.color.Equals(Color.white))
                     {
                         scorer.inputScore(scorer.getMiss(), i);
+                        DanceAnimController.Instance.TriggerFailFrame();
                     }
 
                     Destroy(allLanes[i][closestNoteToBottom[i]].note.gameObject);
                     allLanes[i][closestNoteToBottom[i]].note = null;
-
-                    scorer.inputScore(scorer.getMiss(), i);
-                    DanceAnimController.Instance.TriggerFailFrame();
 
                     closestNoteToBottom[i]++;
                     continue;
