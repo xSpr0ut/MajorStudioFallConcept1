@@ -2,17 +2,10 @@ using UnityEditor;
 using UnityEngine;
 using System.IO;
 using System.Collections.Generic;
-using JetBrains.Annotations;
 using System;
 using Unity.Tutorials.Editor;
-using System.Security.Cryptography;
 public class ChartParser
 {
-    private string title;
-    private string artist;
-    private double bpm;
-    private string playLevel;
-
     // mappings
     Dictionary<string, string> wavs = new Dictionary<string, string>(); // for converting pairs to file name (parsing)
 
@@ -100,9 +93,9 @@ public class ChartParser
                             lane = 3;
                             break;
 
-                        // case ' ':
-                        //     lane = 4;
-                        //     break;
+                        case ' ':
+                            lane = 4;
+                            break;
 
                         default:
                             continue;
@@ -134,6 +127,10 @@ public class ChartParser
                     {
                         isColour = 1;
                     } 
+                    else
+                    {
+                        isColour = -1;
+                    }
 
                     VisualCue visualCue = new VisualCue();
                     visualCue.actualTime = timeToPress + chartTimeOffset;
@@ -148,6 +145,11 @@ public class ChartParser
                         visualCue.topEndTime = heldtime + chartTimeOffset;
                         visualCue.evaluationTime = visualCue.topEndTime;
                         visualCue.type = VisualCue.NoteTypes.LONGCIRCLE;
+
+                        if (lane == 4)
+                        {
+                            visualCue.type = VisualCue.NoteTypes.DIALOGUE;
+                        }
                     }
 
                     visualCues.Add(visualCue);

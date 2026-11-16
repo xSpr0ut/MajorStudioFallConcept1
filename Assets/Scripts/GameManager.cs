@@ -70,7 +70,7 @@ public class GameManager : MonoBehaviour
 
     // joella's stuff, negotiation scale
     
-    public float driftDirection = -0.0075f;
+    public float driftDirection = -0.01f;
     private float driftFlipTimer = 0f;
     private float driftTimer = 0f;
 
@@ -103,6 +103,27 @@ public class GameManager : MonoBehaviour
     
     private int scoreNeededForLevel2A = 10000;
     private string nextChart;
+
+    // TUTORIAL STUFF
+    [SerializeField] private TextMeshProUGUI tutorialText;
+    [SerializeField] private GameObject tutorialBackground;
+    [SerializeField] private GameObject animationObject;
+
+    private string[] tutorialMessages =
+    {
+        "This is the tutorial level.",
+        "Use D, F to hit the notes on your left.",
+        "Use J, K to hit the notes on your right.",
+        "Long, solid colour notes are hold notes.",
+        "Miss/Bad notes will break your combo.",
+        "We also have special notes that are coloured.",
+        "Pay attention to the colour bar.",
+        "It's important you balance the colours.",
+        "Otherwise, you may lose even if you have a good score.",
+        "Good Luck, Agent!",
+        "This mission will be hard.",
+        "Much harder than you think."
+    };
 
     
     #endregion
@@ -186,10 +207,10 @@ public class GameManager : MonoBehaviour
             driftTimer = UnityEngine.Random.Range(3f, 15f);
         }
 
-        if((driftDirection == 0.0075f || driftDirection == -0.0075f) && driftTimer >= 1 && characterScore >= -20 && characterScore <= 20)
+        if((driftDirection == 0.01f || driftDirection == -0.01f) && driftTimer >= 1 && characterScore >= -20 && characterScore <= 20)
         {
             driftDirection *= 2;
-        } else if((driftDirection == 0.015f || driftDirection == -0.015f) && driftTimer >= 1 && characterScore >= -20 && characterScore <= 20)
+        } else if((driftDirection == 0.02f || driftDirection == -0.02f) && driftTimer >= 1 && characterScore >= -20 && characterScore <= 20)
         {
 
             driftDirection /= 2;
@@ -251,8 +272,13 @@ public class GameManager : MonoBehaviour
         AudioClip a = Resources.Load<AudioClip>(filePath);
 
         // DRIFT BAR STUFF GUH
-        driftBarActive = (songToPlay.chartFilePath == "level2Achart" || songToPlay.chartFilePath == "level2Bchart");
+        driftBarActive = (songToPlay.chartFilePath == "tutorialchart" || songToPlay.chartFilePath == "level2Achart" || songToPlay.chartFilePath == "level2Bchart");
         driftBar.SetActive(driftBarActive);
+
+        if(songToPlay.chartFilePath == "tutorialchart")
+        {
+            StartCoroutine(playTutorial(tutorialMessages));
+        }
 
         characterScore = -25f;
         driftTimer = 0f;
@@ -313,7 +339,33 @@ public class GameManager : MonoBehaviour
 
     }
 
+    // tutorial card code lol
+
     // more cut scene bull poop
+
+       // tutorial card code lol, same logic as other one
+
+        private IEnumerator playTutorial(string[] instructions)
+    {
+        
+       // Debug.Log("IS RUNNING?");
+
+        animationObject.SetActive(false);
+        tutorialBackground.SetActive(true);
+
+        foreach(string n in instructions)
+        {
+            tutorialText.text = "";
+            yield return new WaitForSeconds(0.5f);
+            tutorialText.text = n;
+            yield return new WaitForSeconds(3.5f);
+    
+        }
+
+        playNextLevel();
+
+    }
+
     private void playNextLevel()
     {
         
@@ -344,10 +396,7 @@ public class GameManager : MonoBehaviour
 
     private void spawnAudioCue(double currentTime)
     {
-        double songTime = currentTime - startTime;
-
-        
-        PulsingCamera.Instance.StartPulsing();
+        double songTime = currentTime - startTime; 
 
         while (currentAudioCue < audioCues.Count && audioCues[currentAudioCue].actualTime + startTime <= currentTime)
         {
@@ -362,7 +411,7 @@ public class GameManager : MonoBehaviour
         // spawning notes
         while (currentVisualCue < visualCues.Count && visualCues[currentVisualCue].spawnTime + startTime <= currentTime)
         {
-            Note n = noteSpawner.spawnVisualCue(visualCues[currentVisualCue], startTime, noteSpeed);
+            Note n = noteSpawner.spawnVisualCue(visualCues[currentVisualCue], startTime, noteSpeed, characterScore);
 
             // lot of shuffling but you assign the note object to the Note value in one of the VisualCues in the current lane
             int currentLane = visualCues[currentVisualCue].lane;
@@ -385,10 +434,16 @@ public class GameManager : MonoBehaviour
                 // sometimes it breaks idk
                 if (allLanes[i][closestNoteToBottom[i]].note != null)
                 {
+                    // only count as a miss if player misses white note, otherwise just silently delete
+                    // also don't count dialogue notes
+                    if (allLanes[i][closestNoteToBottom[i]].note.color.Equals(Color.white) && allLanes[i][closestNoteToBottom[i]].type == VisualCue.NoteTypes.DIALOGUE)
+                    {
+                        scorer.inputScore(scorer.getMiss(), i);
+                        DanceAnimController.Instance.TriggerFailFrame();
+                    }
+
                     Destroy(allLanes[i][closestNoteToBottom[i]].note.gameObject);
                     allLanes[i][closestNoteToBottom[i]].note = null;
-
-                    scorer.inputScore(scorer.getMiss(), i);
 
                     closestNoteToBottom[i]++;
                     continue;
@@ -423,6 +478,7 @@ public class GameManager : MonoBehaviour
                         allLanes[i][closestNoteToBottom[i]].note = null;
 
                         scorer.inputScore(scorer.getMiss(), i);
+                        DanceAnimController.Instance.TriggerFailFrame();
 
                         closestNoteToBottom[i]++;
                         continue;
@@ -430,6 +486,7 @@ public class GameManager : MonoBehaviour
                 }
 
                 count++;
+                
                 if (count == 5)
                 {
                     Debug.Log("OOPS! INIFNITE LOP HOLD" + (allLanes[i][closestNoteToBottom[i]].actualTime + startTime) + (double)scorer.getMissRange() / 1000.0 + "   " + currentTime);

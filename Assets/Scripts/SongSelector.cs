@@ -16,6 +16,9 @@ public class SongSelector : MonoBehaviour
     [SerializeField] private GameObject selectedSongFrame;
     [SerializeField] private TextMeshProUGUI selectedSongName;
 
+    private string[] twoADialogue;
+    private string[] twoBDialogue;
+
     private RectTransform cc;
     private int songPrefabHeight = 100;
 
@@ -85,13 +88,14 @@ public class SongSelector : MonoBehaviour
             selectedSongName.text = listOfTracks[selectedSong].songName;
             canStart = true;
 
-            if (Keyboard.current.dKey.wasPressedThisFrame)
+            if (Keyboard.current.dKey.wasPressedThisFrame || Keyboard.current.leftArrowKey.wasPressedThisFrame)
             {
                 GameManager.Instance.startGame(listOfTracks[selectedSong]);
                 gameObject.SetActive(false);
             }
         }
 
+        // only want this if we want to display more than one song
         if (Keyboard.current.wKey.wasPressedThisFrame)
         {
             selectedSong = Mathf.Clamp(selectedSong - 1, 0, listOfTracks.Count - 1);
@@ -166,5 +170,15 @@ public class SongSelector : MonoBehaviour
             Image[] i = placedSong.GetComponentsInChildren<Image>();
             i[1].sprite = Resources.Load<Sprite>("SongImages/" + song.image);
         }
+
+        // the player can only choose song 1
+        //GameObject placedSong = Instantiate(songPrefab, contentContainer);
+
+        //TextMeshProUGUI textComp = placedSong.GetComponentInChildren<TextMeshProUGUI>();
+        //textComp.text = listOfTracks[0].songName;
+
+        //// can you BELIEVE getcomponentinchildren includes the calling gameobject!!?
+        //Image[] i = placedSong.GetComponentsInChildren<Image>();
+        //i[1].sprite = Resources.Load<Sprite>("SongImages/" + listOfTracks[0].image);
     }
 }

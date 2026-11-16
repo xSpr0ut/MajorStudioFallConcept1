@@ -1,2 +1,5 @@
-NAME,CHART FILE PATH,MUSIC FILE PATH,IMAGE FILE PATH
-Level 1.1,level1chart2,level1song,level1image
+NAME,CHART FILE PATH,MUSIC FILE PATH,IMAGE FILE PATH,BPM
+Tutorial,tutorialchart,tutorialsong,tutorialimage,122
+Level 1,level1chart2,level1song,level1image,122
+Level 2A,level2Achart,level2Asong,level2Aimage,132
+Level2B,level2Bchart,level2Bsong,level2Bimage,122
