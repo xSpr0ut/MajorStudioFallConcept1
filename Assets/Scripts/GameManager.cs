@@ -382,11 +382,15 @@ public class GameManager : MonoBehaviour
                 // sometimes it breaks idk
                 if (allLanes[i][closestNoteToBottom[i]].note != null)
                 {
+                    // only count as a miss if player misses white note, otherwise just silently delete
+                    if (allLanes[i][closestNoteToBottom[i]].note.color.Equals(Color.white))
+                    {
+                        scorer.inputScore(scorer.getMiss(), i);
+                        DanceAnimController.Instance.TriggerFailFrame();
+                    }
+
                     Destroy(allLanes[i][closestNoteToBottom[i]].note.gameObject);
                     allLanes[i][closestNoteToBottom[i]].note = null;
-
-                    scorer.inputScore(scorer.getMiss(), i);
-                    DanceAnimController.Instance.TriggerFailFrame();
 
                     closestNoteToBottom[i]++;
                     continue;
