@@ -119,16 +119,9 @@ public class DanceAnimController : MonoBehaviour
             spriteRend.sprite = currentDanceFrame;
         }
     }
-    public void SetBPM(string songName)
+    public void SetBPM(int songBPM)
     {
-        if (songName == "No Broke Boys" || songName == "Telephone")
-        {
-            bpm = 122;
-        }
-        else if (songName == "Hot and Cold")
-        {
-            bpm = 132;
-        }
+        bpm = songBPM;
     }
 
     public IEnumerator Dance()

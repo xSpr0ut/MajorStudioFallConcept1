@@ -34,13 +34,15 @@ public class SongSelector : MonoBehaviour
         public string chartFilePath;
         public string musicFilePath;
         public string image;
+        public int songBPM;
 
-        public Song(string sn, string cfp, string mfp, string img)
+        public Song(string sn, string cfp, string mfp, string img, int bpm)
         {
             songName = sn;
             chartFilePath = cfp;
             musicFilePath = mfp;
             image = img;
+            songBPM = bpm;
         }
     }
 
@@ -88,6 +90,7 @@ public class SongSelector : MonoBehaviour
             if (Keyboard.current.dKey.wasPressedThisFrame || Keyboard.current.leftArrowKey.wasPressedThisFrame)
             {
                 GameManager.Instance.startGame(listOfTracks[selectedSong]);
+                DanceAnimController.Instance.SetBPM(listOfTracks[selectedSong].songBPM);
                 gameObject.SetActive(false);
             }
         }
@@ -144,13 +147,22 @@ public class SongSelector : MonoBehaviour
             string chartFilePath;
             string musicFilePath;
             string imageFilePath;
+            int songBPM;
 
             songName = columns[0].Trim();
             chartFilePath = columns[1].Trim();
             musicFilePath = columns[2].Trim();
             imageFilePath = columns[3].Trim();
+            if (int.TryParse(columns[4].Trim(), out int bpm))
+            {
+                songBPM = bpm;
+            }
+            else
+            {
+                continue;
+            }
 
-            Song song = new Song(songName, chartFilePath, musicFilePath, imageFilePath);
+            Song song = new Song(songName, chartFilePath, musicFilePath, imageFilePath, songBPM);
             listOfTracks.Add(song);
         }
     }
