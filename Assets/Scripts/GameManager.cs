@@ -285,10 +285,15 @@ public class GameManager : MonoBehaviour
         if(songToPlay.chartFilePath == "tutorialchart")
         {
             StartCoroutine(playTutorial(tutorialMessages));
+            driftBar.SetActive(false);
         }
         if (songToPlay.chartFilePath == "level1chart2")
         {
             DanceAnimController.Instance.StartDancing();
+            DanceAnimController.Instance.player.SetActive(true);
+            driftBar.SetActive(false);
+            DancePhone.Instance.phone.SetActive(false);
+            DanceTarget.Instance.target.SetActive(false);
         }
         if (songToPlay.chartFilePath == "level2Achart")
         {
@@ -296,13 +301,18 @@ public class GameManager : MonoBehaviour
             DanceTarget.Instance.target.SetActive(true);
             DanceTarget.Instance.StartBobbing();
             DanceTarget.Instance.bpm = 132;
+            DancePhone.Instance.phone.SetActive(false);
+            driftBar.SetActive(true);
         }
         if (songToPlay.chartFilePath == "level2Bchart")
         {
             DanceAnimController.Instance.player.SetActive(false);
-            DanceTarget.Instance.target.SetActive(true);
-            DanceTarget.Instance.StartBobbing();
-            DanceTarget.Instance.bpm = 122;
+            DanceTarget.Instance.target.SetActive(false);
+            DancePhone.Instance.phone.SetActive(true);
+            DancePhone.Instance.StartBobbing();
+            DancePhone.Instance.bpm = 122;
+            driftBar.SetActive(true);
+            //DancePhone.Instance.DriftBarSet();
         }
 
         double finalColoredNoteTime = 0f;
@@ -339,6 +349,7 @@ public class GameManager : MonoBehaviour
 
         DanceAnimController.Instance.StopDancing();
         DanceTarget.Instance.StopBobbing();
+        DancePhone.Instance.StopBobbing();
 
         if (selectedSong.chartFilePath == "level1chart2")
         {
