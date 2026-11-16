@@ -216,6 +216,7 @@ public class GameManager : MonoBehaviour
         allLanes = chartParser.getAllLanes();
 
         DanceAnimController.Instance.StartDancing();
+        DanceTarget.Instance.StartBobbing();
 
         // it's possible some events start very early, so we need to make sure that they start properly
         // also, I anticipate the above two methods taking a long time, so dspTime will definitely be positive when update comes around
@@ -272,8 +273,9 @@ public class GameManager : MonoBehaviour
         
 
         DanceAnimController.Instance.StopDancing();
+        DanceTarget.Instance.StopBobbing();
 
-        if(selectedSong.chartFilePath == "level1chart2")
+        if (selectedSong.chartFilePath == "level1chart2")
         {
             if(scorer.getScore() >= scoreNeededForLevel2A)
             {
