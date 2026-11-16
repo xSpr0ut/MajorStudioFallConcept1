@@ -2144,6 +2144,7 @@ MonoBehaviour:
   songSelector: {fileID: 224041862}
   cutscenePanel: {fileID: 1435968716}
   cutsceneText: {fileID: 1077188375}
+  driftSafe: 0
   tutorialText: {fileID: 2138691546}
   tutorialBackground: {fileID: 2126816699}
   animationObject: {fileID: 2135908894}
@@ -3023,7 +3024,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -23, y: -443.6}
+  m_AnchoredPosition: {x: -23, y: -378}
   m_SizeDelta: {x: 609.7407, y: 16.6223}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1453161901
