@@ -344,10 +344,7 @@ public class GameManager : MonoBehaviour
 
     private void spawnAudioCue(double currentTime)
     {
-        double songTime = currentTime - startTime;
-
-        
-        PulsingCamera.Instance.StartPulsing();
+        double songTime = currentTime - startTime; 
 
         while (currentAudioCue < audioCues.Count && audioCues[currentAudioCue].actualTime + startTime <= currentTime)
         {
@@ -385,10 +382,15 @@ public class GameManager : MonoBehaviour
                 // sometimes it breaks idk
                 if (allLanes[i][closestNoteToBottom[i]].note != null)
                 {
+                    // only count as a miss if player misses white note, otherwise just silently delete
+                    if (allLanes[i][closestNoteToBottom[i]].note.color.Equals(Color.white))
+                    {
+                        scorer.inputScore(scorer.getMiss(), i);
+                        DanceAnimController.Instance.TriggerFailFrame();
+                    }
+
                     Destroy(allLanes[i][closestNoteToBottom[i]].note.gameObject);
                     allLanes[i][closestNoteToBottom[i]].note = null;
-
-                    scorer.inputScore(scorer.getMiss(), i);
 
                     closestNoteToBottom[i]++;
                     continue;
@@ -423,6 +425,7 @@ public class GameManager : MonoBehaviour
                         allLanes[i][closestNoteToBottom[i]].note = null;
 
                         scorer.inputScore(scorer.getMiss(), i);
+                        DanceAnimController.Instance.TriggerFailFrame();
 
                         closestNoteToBottom[i]++;
                         continue;
@@ -430,6 +433,7 @@ public class GameManager : MonoBehaviour
                 }
 
                 count++;
+                
                 if (count == 5)
                 {
                     Debug.Log("OOPS! INIFNITE LOP HOLD" + (allLanes[i][closestNoteToBottom[i]].actualTime + startTime) + (double)scorer.getMissRange() / 1000.0 + "   " + currentTime);

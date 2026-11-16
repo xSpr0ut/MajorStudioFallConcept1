@@ -21,7 +21,7 @@ public abstract class Note : MonoBehaviour
     protected double startTime;
     protected double endTime;
     protected Vector3 endLocation;
-    protected Color color;
+    public Color color;
 
     // set by noteSpawner for long notes only
     protected double topStartTime;
