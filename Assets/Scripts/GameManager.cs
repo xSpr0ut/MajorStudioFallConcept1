@@ -162,6 +162,7 @@ public class GameManager : MonoBehaviour
             // DRIFT SYSTEM
             if(driftBarActive && currentTime < driftEndTime){
                 driftSystem();
+                UpdateTargetFrame();
             }
 
             Debug.Log("Character Score: " + characterScore);
@@ -254,6 +255,12 @@ public class GameManager : MonoBehaviour
         // DRIFT BAR STUFF GUH
         driftBarActive = (songToPlay.chartFilePath == "level2Achart" || songToPlay.chartFilePath == "level2Bchart");
         driftBar.SetActive(driftBarActive);
+
+        if (songToPlay.chartFilePath == "level2Achart")
+        {
+            DanceTarget.Instance.target.SetActive(true);
+            DanceAnimController.Instance.player.SetActive(false);
+        }
 
         characterScore = -25f;
         driftTimer = 0f;
@@ -558,6 +565,21 @@ public class GameManager : MonoBehaviour
     private float toRadians(float value)
     {
         return value * (Mathf.PI / 180);
+    }
+    private void UpdateTargetFrame()
+    {
+        if (characterScore <= -35)
+        {
+            DanceTarget.Instance.SetSeduced();
+        }
+        else if (characterScore <= -15 && characterScore >= 15)
+        {
+            DanceTarget.Instance.SetNeutral();
+        }
+        else
+        {
+            DanceTarget.Instance.SetThreatened();
+        }
     }
 
 }

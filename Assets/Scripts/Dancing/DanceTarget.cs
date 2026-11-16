@@ -2,6 +2,9 @@ using UnityEngine;
 
 public class DanceTarget : MonoBehaviour
 {
+    [SerializeField] Sprite neutral;
+    [SerializeField] Sprite threatened;
+    [SerializeField] Sprite seduced;
     public static DanceTarget Instance { get; private set; }
 
     private float bobbingSpeed;
@@ -15,6 +18,7 @@ public class DanceTarget : MonoBehaviour
 
     [SerializeField] public GameObject target;
     [SerializeField] public float bpm;
+    private Sprite targetSpr;
 
     private void Awake()
     {
@@ -28,21 +32,26 @@ public class DanceTarget : MonoBehaviour
     }
     void Start()
     {
-        StartBobbing();
+        basePos = new Vector3(-0.24f, -1.6f, 0f);
+        target.SetActive(false);
+        //StartBobbing();
+        targetSpr = GetComponent<Sprite>();
     }
 
     void Update()
     {
         if (isBobbing)
         {
-            bobbingSpeed = bpm / 60f * Mathf.PI;
+            bobTimer += Time.deltaTime;
 
-            float bobWave = Mathf.Abs(Mathf.Cos(bobTimer * bobbingSpeed));
-            float cam_ofs = bobWave * bobbingAmp + kickOfs;
-            Vector3 camofsv = new Vector3(basePos.x, cam_ofs, basePos.z);
-            camofsv.y = Mathf.Max(camofsv.y, clampMin);
+            bobbingSpeed = (bpm / 60f) * Mathf.PI / 2;
 
-            transform.position = camofsv;
+            float bobWave = Mathf.Abs(Mathf.Cos(bobTimer * bobbingSpeed)) + kickOfs;
+            float yOffset = (bobWave * bobbingAmp);
+            float newY = basePos.y + yOffset;
+            newY = Mathf.Max(newY, clampMin);
+            Vector3 newPos = new Vector3(basePos.x, newY, basePos.z);
+            target.transform.position = newPos;
         }
     }
 
@@ -53,5 +62,20 @@ public class DanceTarget : MonoBehaviour
     public void StopBobbing()
     {
         isBobbing = false;
+    }
+
+    public void SetThreatened()
+    {
+        targetSpr = threatened;
+    }
+
+    public void SetNeutral()
+    {
+        targetSpr = neutral;
+    }
+
+    public void SetSeduced()
+    {
+        targetSpr = seduced;
     }
 }

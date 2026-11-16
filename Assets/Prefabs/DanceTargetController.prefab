@@ -1,0 +1,55 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &8116317311642811196
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5204172376976367022}
+  - component: {fileID: 5785698906999399662}
+  m_Layer: 0
+  m_Name: DanceTargetController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5204172376976367022
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8116317311642811196}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.15363, y: -1.81267, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5785698906999399662
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8116317311642811196}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca3a00c298569db4e85e70dfba7d939e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DanceTarget
+  neutral: {fileID: 21300000, guid: 134e185713a9e7d43b23f2a00d97e208, type: 3}
+  threatened: {fileID: 21300000, guid: 6728b29f1528c8d4089ced916ea484f4, type: 3}
+  seduced: {fileID: 21300000, guid: da5cf88ee850b1046bb32f4cd8cae2e6, type: 3}
+  bobbingAmp: 0.4
+  kickOfs: -0.2
+  bobTimer: 0
+  clampMin: -1.94
+  target: {fileID: 0}
+  bpm: 132
