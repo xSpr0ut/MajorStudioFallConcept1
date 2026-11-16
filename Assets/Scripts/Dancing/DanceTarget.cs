@@ -18,7 +18,7 @@ public class DanceTarget : MonoBehaviour
 
     [SerializeField] public GameObject target;
     [SerializeField] public float bpm;
-    private SpriteRenderer targetSpr;
+    [SerializeField] private SpriteRenderer targetSpr;
 
     private void Awake()
     {
@@ -29,13 +29,14 @@ public class DanceTarget : MonoBehaviour
         }
 
         Instance = this;
+        //targetSpr = GetComponent<SpriteRenderer>();
     }
     void Start()
     {
         basePos = new Vector3(-0.24f, -1.6f, 0f);
         target.SetActive(false);
         //StartBobbing();
-        targetSpr = GetComponent<SpriteRenderer>();
+        
     }
 
     void Update()
