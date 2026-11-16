@@ -2165,6 +2165,7 @@ MonoBehaviour:
   longBarNote: {fileID: 5087948777329422413, guid: 413167333ff506148841ee78448565a6, type: 3}
   circleNote: {fileID: 1134502198839590523, guid: 9b506b74a4fa4e6499c1e7763fb9cc01, type: 3}
   longCircleNote: {fileID: 1134502198839590523, guid: db58a3ac09a49eb47af63701feff4942, type: 3}
+  dialogueNote: {fileID: 0}
   level1locs:
   - {fileID: 707911582}
   - {fileID: 1882933990}
@@ -4335,6 +4336,10 @@ PrefabInstance:
     - target: {fileID: 6321927252779507935, guid: d822d4b6801af374593494356d4b81fb, type: 3}
       propertyPath: m_Name
       value: Settings
+      objectReference: {fileID: 0}
+    - target: {fileID: 6321927252779507935, guid: d822d4b6801af374593494356d4b81fb, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6540824689539601985, guid: d822d4b6801af374593494356d4b81fb, type: 3}
       propertyPath: m_AnchorMax.x

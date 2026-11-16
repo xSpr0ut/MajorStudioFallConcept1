@@ -16,6 +16,9 @@ public class SongSelector : MonoBehaviour
     [SerializeField] private GameObject selectedSongFrame;
     [SerializeField] private TextMeshProUGUI selectedSongName;
 
+    private string[] twoADialogue;
+    private string[] twoBDialogue;
+
     private RectTransform cc;
     private int songPrefabHeight = 100;
 
@@ -93,17 +96,17 @@ public class SongSelector : MonoBehaviour
         }
 
         // only want this if we want to display more than one song
-        //if (Keyboard.current.wKey.wasPressedThisFrame)
-        //{
-        //    selectedSong = Mathf.Clamp(selectedSong - 1, 0, listOfTracks.Count - 1);
-        //    moveTarget = Mathf.Clamp(moveTarget - songPrefabHeight, minScroll, maxScroll);
+        if (Keyboard.current.wKey.wasPressedThisFrame)
+        {
+            selectedSong = Mathf.Clamp(selectedSong - 1, 0, listOfTracks.Count - 1);
+            moveTarget = Mathf.Clamp(moveTarget - songPrefabHeight, minScroll, maxScroll);
 
-        //}
-        //else if (Keyboard.current.sKey.wasPressedThisFrame)
-        //{
-        //    selectedSong = Mathf.Clamp(selectedSong + 1, 0, listOfTracks.Count - 1);
-        //    moveTarget = Mathf.Clamp(moveTarget + songPrefabHeight, minScroll, maxScroll);
-        //}
+        }
+        else if (Keyboard.current.sKey.wasPressedThisFrame)
+        {
+            selectedSong = Mathf.Clamp(selectedSong + 1, 0, listOfTracks.Count - 1);
+            moveTarget = Mathf.Clamp(moveTarget + songPrefabHeight, minScroll, maxScroll);
+        }
     }
 
 // girl what
@@ -156,26 +159,26 @@ public class SongSelector : MonoBehaviour
     }
     private void populateList()
     {
-        //foreach (Song song in listOfTracks)
-        //{
-        //    GameObject placedSong = Instantiate(songPrefab, contentContainer);
+        foreach (Song song in listOfTracks)
+        {
+            GameObject placedSong = Instantiate(songPrefab, contentContainer);
 
-        //    TextMeshProUGUI textComp = placedSong.GetComponentInChildren<TextMeshProUGUI>();
-        //    textComp.text = song.songName;
+            TextMeshProUGUI textComp = placedSong.GetComponentInChildren<TextMeshProUGUI>();
+            textComp.text = song.songName;
 
-        //    // can you BELIEVE getcomponentinchildren includes the calling gameobject!!?
-        //    Image[] i = placedSong.GetComponentsInChildren<Image>();
-        //    i[1].sprite = Resources.Load<Sprite>("SongImages/" + song.image);
-        //}
+            // can you BELIEVE getcomponentinchildren includes the calling gameobject!!?
+            Image[] i = placedSong.GetComponentsInChildren<Image>();
+            i[1].sprite = Resources.Load<Sprite>("SongImages/" + song.image);
+        }
 
         // the player can only choose song 1
-        GameObject placedSong = Instantiate(songPrefab, contentContainer);
+        //GameObject placedSong = Instantiate(songPrefab, contentContainer);
 
-        TextMeshProUGUI textComp = placedSong.GetComponentInChildren<TextMeshProUGUI>();
-        textComp.text = listOfTracks[0].songName;
+        //TextMeshProUGUI textComp = placedSong.GetComponentInChildren<TextMeshProUGUI>();
+        //textComp.text = listOfTracks[0].songName;
 
-        // can you BELIEVE getcomponentinchildren includes the calling gameobject!!?
-        Image[] i = placedSong.GetComponentsInChildren<Image>();
-        i[1].sprite = Resources.Load<Sprite>("SongImages/" + listOfTracks[0].image);
+        //// can you BELIEVE getcomponentinchildren includes the calling gameobject!!?
+        //Image[] i = placedSong.GetComponentsInChildren<Image>();
+        //i[1].sprite = Resources.Load<Sprite>("SongImages/" + listOfTracks[0].image);
     }
 }
