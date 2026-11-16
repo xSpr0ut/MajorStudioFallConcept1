@@ -1353,6 +1353,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SettingsSliders
   audio: {fileID: 0}
   slider: {fileID: 8963623320363196635}
+  cam: {fileID: 0}
+  slider2: {fileID: 7436227509480508736}
 --- !u!1 &6361533741386744863
 GameObject:
   m_ObjectHideFlags: 0
