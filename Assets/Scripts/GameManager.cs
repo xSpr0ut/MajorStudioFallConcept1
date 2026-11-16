@@ -70,7 +70,7 @@ public class GameManager : MonoBehaviour
 
     // joella's stuff, negotiation scale
     
-    public float driftDirection = -0.01f;
+    public float driftDirection = -0.0075f;
     private float driftFlipTimer = 0f;
     private float driftTimer = 0f;
 
@@ -117,8 +117,8 @@ public class GameManager : MonoBehaviour
         "Use D, F to hit the notes on your left.",
         "Use J, K to hit the notes on your right.",
         "Long, solid colour notes are hold notes.",
-        "Miss/Bad notes will break your combo.",
-        "Special notes that are coloured.",
+        "Miss/Bad white notes will break your combo.",
+        "Special notes are coloured.",
         "Pay attention to the colour bar.",
         "It's important you balance the colours.",
         "Otherwise, you may lose even if you have a good score.",
@@ -209,10 +209,10 @@ public class GameManager : MonoBehaviour
             driftTimer = UnityEngine.Random.Range(3f, 15f);
         }
 
-        if((driftDirection == 0.01f || driftDirection == -0.01f) && driftTimer >= 1 && characterScore >= -20 && characterScore <= 20)
+        if((driftDirection == 0.0075f || driftDirection == -0.0075f) && driftTimer >= 1 && characterScore >= -20 && characterScore <= 20)
         {
             driftDirection *= 2;
-        } else if((driftDirection == 0.02f || driftDirection == -0.02f) && driftTimer >= 1 && characterScore >= -20 && characterScore <= 20)
+        } else if((driftDirection == 0.015f || driftDirection == -0.015f) && driftTimer >= 1 && characterScore >= -20 && characterScore <= 20)
         {
 
             driftDirection /= 2;
