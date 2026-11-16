@@ -556,7 +556,7 @@ MonoBehaviour:
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0
+  m_MatchWidthOrHeight: 0.5
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
@@ -701,7 +701,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!199 &382552751
 ParticleSystemRenderer:
   serializedVersion: 7
@@ -864,7 +864,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 1, g: 1, b: 1, a: 0.31764707}
+      maxColor: {r: 1, g: 1, b: 1, a: 0.1764706}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -1061,7 +1061,7 @@ ParticleSystem:
     donutRadius: 0.2
     m_Position: {x: 0, y: 0, z: 0}
     m_Rotation: {x: 0, y: 0, z: 0}
-    m_Scale: {x: 19.90505, y: 1, z: 10.30649}
+    m_Scale: {x: 19.1, y: 1, z: 10.834591}
     placementMode: 0
     m_MeshMaterialIndex: 0
     m_MeshNormalOffset: 0
@@ -4437,7 +4437,7 @@ MonoBehaviour:
   keyPrefab: {fileID: 1267710823031275884, guid: 09d91370b06276749aab504b70865661, type: 3}
   arrows: []
   scorer: {fileID: 1958808551}
-  driftDirection: -0.01
+  driftDirection: -0.0075
   driftBar: {fileID: 1678804931}
   songSelector: {fileID: 224041862}
   cutscenePanel: {fileID: 1435968716}
@@ -5175,7 +5175,7 @@ Transform:
   m_GameObject: {fileID: 1336726064}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: 0.003600848, w: 0.9999935}
-  m_LocalPosition: {x: -0.32, y: -0.56, z: 4}
+  m_LocalPosition: {x: -0.06, y: -0.56, z: 4}
   m_LocalScale: {x: 0.9561819, y: 0.9561819, z: 0.9561819}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -6099,7 +6099,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!199 &1904964435
 ParticleSystemRenderer:
   serializedVersion: 7
@@ -6459,7 +6459,7 @@ ParticleSystem:
     donutRadius: 0.2
     m_Position: {x: 0, y: 0, z: 0}
     m_Rotation: {x: 0, y: 0, z: 0}
-    m_Scale: {x: 19.47, y: 1, z: 9.84}
+    m_Scale: {x: 19.6, y: 1, z: 10.89}
     placementMode: 0
     m_MeshMaterialIndex: 0
     m_MeshNormalOffset: 0
@@ -6753,8 +6753,8 @@ ParticleSystem:
       maxColor: {r: 1, g: 1, b: 1, a: 1}
       maxGradient:
         serializedVersion: 2
-        key0: {r: 0, g: 0.8321996, b: 1, a: 1}
-        key1: {r: 0.05098039, g: 1, b: 0.80512553, a: 0.5294118}
+        key0: {r: 0, g: 0.8321996, b: 1, a: 0.41960785}
+        key1: {r: 0.05098039, g: 1, b: 0.80512553, a: 0}
         key2: {r: 0.97675306, g: 1, b: 0.050943315, a: 0}
         key3: {r: 0, g: 0, b: 0, a: 0}
         key4: {r: 0, g: 0, b: 0, a: 0}
@@ -6769,8 +6769,8 @@ ParticleSystem:
         ctime5: 0
         ctime6: 0
         ctime7: 0
-        atime0: 16577
-        atime1: 50655
+        atime0: 13493
+        atime1: 48959
         atime2: 0
         atime3: 0
         atime4: 0
@@ -9376,7 +9376,7 @@ Transform:
   m_GameObject: {fileID: 2138642220}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0.0028489872, w: 0.99999595}
-  m_LocalPosition: {x: 0.08, y: -0.51, z: 4}
+  m_LocalPosition: {x: -0.06, y: -0.51, z: 4}
   m_LocalScale: {x: 0.9561819, y: 0.9561819, z: 0.9561819}
   m_ConstrainProportionsScale: 0
   m_Children:

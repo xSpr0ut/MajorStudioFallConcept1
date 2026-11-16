@@ -1,10 +1,6 @@
 using UnityEngine;
 using TMPro;
-using Unity.VisualScripting;
-using Unity.Hierarchy.Editor;
 using System.Collections;
-using UnityEditor.AssetImporters;
-using NUnit.Framework;
 
 [RequireComponent(typeof(TMP_Text))]
 public class Text : MonoBehaviour

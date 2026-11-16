@@ -126,32 +126,34 @@ public class SongSelector : MonoBehaviour
     }
     private void readCSV()
     {
-        string assetPath = AssetDatabase.GetAssetPath(listOfSongs);
-
-        foreach (string line in File.ReadLines(assetPath))
+        using (StringReader reader = new StringReader(listOfSongs.text))
         {
-            if (string.IsNullOrWhiteSpace(line)) continue;
-
-            // Split line into columns based on commas
-            string[] columns = line.Split(',');
-            
-            if (columns[0].Equals("NAME")) // ignore first line
+            string line;
+            while ((line = reader.ReadLine()) != null)
             {
-                continue;
+                if (string.IsNullOrWhiteSpace(line)) continue;
+
+                // Split line into columns based on commas
+                string[] columns = line.Split(',');
+
+                if (columns[0].Equals("NAME")) // ignore first line
+                {
+                    continue;
+                }
+
+                string songName;
+                string chartFilePath;
+                string musicFilePath;
+                string imageFilePath;
+
+                songName = columns[0].Trim();
+                chartFilePath = columns[1].Trim();
+                musicFilePath = columns[2].Trim();
+                imageFilePath = columns[3].Trim();
+
+                Song song = new Song(songName, chartFilePath, musicFilePath, imageFilePath);
+                listOfTracks.Add(song);
             }
-
-            string songName;
-            string chartFilePath;
-            string musicFilePath;
-            string imageFilePath;
-
-            songName = columns[0].Trim();
-            chartFilePath = columns[1].Trim();
-            musicFilePath = columns[2].Trim();
-            imageFilePath = columns[3].Trim();
-
-            Song song = new Song(songName, chartFilePath, musicFilePath, imageFilePath);
-            listOfTracks.Add(song);
         }
     }
     private void populateList()

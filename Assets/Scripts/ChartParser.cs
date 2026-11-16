@@ -3,7 +3,6 @@ using UnityEngine;
 using System.IO;
 using System.Collections.Generic;
 using System;
-using Unity.Tutorials.Editor;
 public class ChartParser
 {
     // mappings
@@ -32,13 +31,18 @@ public class ChartParser
     }
     void parseCSV(SongSelector.Song song)
     {
-        string assetPath = AssetDatabase.GetAssetPath(Resources.Load<TextAsset>("Charts/" + song.chartFilePath));
+        //string assetPath = AssetDatabase.GetAssetPath(Resources.Load<TextAsset>("Charts/" + song.chartFilePath));
+
+        TextAsset chartFile = Resources.Load<TextAsset>("Charts/" + song.chartFilePath);
 
         char[] keyToLanes = new char[5];
 
-        foreach (string line in File.ReadLines(assetPath))
+        using (StringReader reader = new StringReader(chartFile.text))
         {
-            if (string.IsNullOrWhiteSpace(line)) continue;
+            string line;
+            while ((line = reader.ReadLine()) != null)
+            {
+                if (string.IsNullOrWhiteSpace(line)) continue;
 
             // Split line into columns based on commas
             string[] columns = line.Split(',');
@@ -68,92 +72,93 @@ public class ChartParser
             {
                 timeToPress = result;
 
-                // get each key that's pressed in that time and convert to lane
-                foreach (char c in columns[1])
-                {
-                    int lane = 0;
-                    bool held = false;
-                    double heldtime = 0.0;
-                    int isColour = -1;
-
-                    switch (c)
+                    // get each key that's pressed in that time and convert to lane
+                    foreach (char c in columns[1])
                     {
-                        case 'd':
-                            lane = 0;
-                            break;
-                        case 'f':
-                            lane = 1;
-                            break;
+                        int lane = 0;
+                        bool held = false;
+                        double heldtime = 0.0;
+                        int isColour = -1;
 
-                        case 'j':
-                            lane = 2;
-                            break;
-
-                        case 'k':
-                            lane = 3;
-                            break;
-
-                        case ' ':
-                            lane = 4;
-                            break;
-
-                        default:
-                            continue;
-                    }
-
-                    // get held notes
-                    int ind = Array.IndexOf(keyToLanes, c);;
-
-                    if (ind != -1)
-                    {
-                        if (!columns[ind + 2].IsNullOrWhiteSpace())
+                        switch (c)
                         {
-                            held = true;
+                            case 'd':
+                                lane = 0;
+                                break;
+                            case 'f':
+                                lane = 1;
+                                break;
 
-                            if (double.TryParse(columns[ind + 2].Trim(), out double ht))
+                            case 'j':
+                                lane = 2;
+                                break;
+
+                            case 'k':
+                                lane = 3;
+                                break;
+
+                            case ' ':
+                                lane = 4;
+                                break;
+
+                            default:
+                                continue;
+                        }
+
+                        // get held notes
+                        int ind = Array.IndexOf(keyToLanes, c); ;
+
+                        if (ind != -1)
+                        {
+                            if (ind + 2 < columns.Length && columns[ind + 2] != "")
                             {
-                                heldtime = ht;
+                                held = true;
+
+                                if (double.TryParse(columns[ind + 2].Trim(), out double ht))
+                                {
+                                    heldtime = ht;
+                                }
                             }
                         }
-                    }
 
-                    // add if here to check colour of the note
-                    // set colour here for visual cue
+                        // add if here to check colour of the note
+                        // set colour here for visual cue
 
-                    if (columns.Length > 7 && columns[7].Trim() == "0")
-                    {
-                        isColour = 0;
-                    } else if (columns.Length > 7 && columns[7].Trim() == "1")
-                    {
-                        isColour = 1;
-                    } 
-                    else
-                    {
-                        isColour = -1;
-                    }
-
-                    VisualCue visualCue = new VisualCue();
-                    visualCue.actualTime = timeToPress + chartTimeOffset;
-                    visualCue.evaluationTime = timeToPress + chartTimeOffset;
-                    visualCue.lane = lane;
-                    visualCue.type = VisualCue.NoteTypes.CIRCLE;
-                    visualCue.colour = isColour;
-
-                    if (held)
-                    {
-                        visualCue.hold = true;
-                        visualCue.topEndTime = heldtime + chartTimeOffset;
-                        visualCue.evaluationTime = visualCue.topEndTime;
-                        visualCue.type = VisualCue.NoteTypes.LONGCIRCLE;
-
-                        if (lane == 4)
+                        if (columns.Length > 7 && columns[7].Trim() == "0")
                         {
-                            visualCue.type = VisualCue.NoteTypes.DIALOGUE;
+                            isColour = 0;
                         }
+                        else if (columns.Length > 7 && columns[7].Trim() == "1")
+                        {
+                            isColour = 1;
+                        }
+                        else
+                        {
+                            isColour = -1;
+                        }
+
+                        VisualCue visualCue = new VisualCue();
+                        visualCue.actualTime = timeToPress + chartTimeOffset;
+                        visualCue.evaluationTime = timeToPress + chartTimeOffset;
+                        visualCue.lane = lane;
+                        visualCue.type = VisualCue.NoteTypes.CIRCLE;
+                        visualCue.colour = isColour;
+
+                        if (held)
+                        {
+                            visualCue.hold = true;
+                            visualCue.topEndTime = heldtime + chartTimeOffset;
+                            visualCue.evaluationTime = visualCue.topEndTime;
+                            visualCue.type = VisualCue.NoteTypes.LONGCIRCLE;
+
+                            if (lane == 4)
+                            {
+                                visualCue.type = VisualCue.NoteTypes.DIALOGUE;
+                            }
+                        }
+
+                        visualCues.Add(visualCue);
                     }
-
-                    visualCues.Add(visualCue);
-
                 }
             }
         }

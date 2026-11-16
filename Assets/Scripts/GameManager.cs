@@ -442,7 +442,7 @@ public class GameManager : MonoBehaviour
                 {
                     // only count as a miss if player misses white note, otherwise just silently delete
                     // also don't count dialogue notes
-                    if (allLanes[i][closestNoteToBottom[i]].note.color.Equals(Color.white) && allLanes[i][closestNoteToBottom[i]].type == VisualCue.NoteTypes.DIALOGUE)
+                    if (allLanes[i][closestNoteToBottom[i]].note.color.Equals(Color.white) && !(allLanes[i][closestNoteToBottom[i]].type == VisualCue.NoteTypes.DIALOGUE))
                     {
                         scorer.inputScore(scorer.getMiss(), i);
                         DanceAnimController.Instance.TriggerFailFrame();
@@ -598,8 +598,13 @@ public class GameManager : MonoBehaviour
             // release will for sure be after note started
             double timeDifference = Math.Abs(((double)allLanes[lane][closestNoteToBottom[lane]].topEndTime + startTime) - AudioSettings.dspTime);
 
-            scorer.inputScore(timeDifference, lane);
-
+            // not a colored long note
+            if (allLanes[lane][closestNoteToBottom[lane]].colour == -1)
+            {
+                Debug.Log(timeDifference);
+                scorer.inputScore(timeDifference, lane);
+            }
+            
             //Destroy(allLanes[lane][closestNoteToBottom[lane]].note.gameObject);
             allLanes[lane][closestNoteToBottom[lane]].note.disableNote();
             allLanes[lane][closestNoteToBottom[lane]].note = null;

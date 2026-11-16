@@ -90,6 +90,12 @@ public class Scoring : MonoBehaviour
             combo = 0;
             particles.stopParticles();
         }
+        else
+        {
+            Miss.count++;
+            combo = 0;
+            particles.stopParticles();
+        }
 
         if (combo > maxCombo)
         {
@@ -118,11 +124,13 @@ public class Scoring : MonoBehaviour
         if (scoreToAdd.name == "BAD")
         {
             combo = 0;
+            particles.stopParticles();
         }
         else if (scoreToAdd.name == "MISS")
         {
             combo = 0;
             Miss.count++;
+            particles.stopParticles();
         }
 
         score += scoreToAdd.points;
