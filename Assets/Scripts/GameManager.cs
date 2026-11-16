@@ -101,7 +101,9 @@ public class GameManager : MonoBehaviour
         
     };
     
-    private int scoreNeededForLevel2A = 10000;
+    private int scoreNeededForLevel2A = 120000;
+    // for drift
+    public bool driftSafe = false;
     private string nextChart;
 
     // TUTORIAL STUFF
@@ -116,7 +118,7 @@ public class GameManager : MonoBehaviour
         "Use J, K to hit the notes on your right.",
         "Long, solid colour notes are hold notes.",
         "Miss/Bad notes will break your combo.",
-        "We also have special notes that are coloured.",
+        "Special notes that are coloured.",
         "Pay attention to the colour bar.",
         "It's important you balance the colours.",
         "Otherwise, you may lose even if you have a good score.",
@@ -296,6 +298,10 @@ public class GameManager : MonoBehaviour
         started = false;
         driftBar.SetActive(false);
         
+        if(characterScore >= -15f && characterScore <= 15f)
+        {
+            driftSafe = true;
+        }
 
         DanceAnimController.Instance.StopDancing();
 
