@@ -93,9 +93,9 @@ public class ChartParser
                             lane = 3;
                             break;
 
-                        // case ' ':
-                        //     lane = 4;
-                        //     break;
+                        case ' ':
+                            lane = 4;
+                            break;
 
                         default:
                             continue;
@@ -145,6 +145,11 @@ public class ChartParser
                         visualCue.topEndTime = heldtime + chartTimeOffset;
                         visualCue.evaluationTime = visualCue.topEndTime;
                         visualCue.type = VisualCue.NoteTypes.LONGCIRCLE;
+
+                        if (lane == 4)
+                        {
+                            visualCue.type = VisualCue.NoteTypes.DIALOGUE;
+                        }
                     }
 
                     visualCues.Add(visualCue);
