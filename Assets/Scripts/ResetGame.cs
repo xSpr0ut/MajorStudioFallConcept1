@@ -17,9 +17,16 @@ public class ResetGame : MonoBehaviour
     {
         if (Keyboard.current.dKey.wasPressedThisFrame)
         {
+            if (GameManager.Instance.selectedSong.chartFilePath == "level2Achart" || GameManager.Instance.selectedSong.chartFilePath == "level2Bchart")
+            {
+                SceneManager.LoadScene("Ending");
+            }
             // reload game
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-
+            else
+            {
+                SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            }
+            
         }
     }
 }

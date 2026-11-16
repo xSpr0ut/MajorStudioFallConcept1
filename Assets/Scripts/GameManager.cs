@@ -15,7 +15,7 @@ public class GameManager : MonoBehaviour
 {
     #region vars and such
     
-    private SongSelector.Song selectedSong;
+    public SongSelector.Song selectedSong;
 
     [Header("Note info")]
     [SerializeField] private GameObject notePrefab;
@@ -56,7 +56,7 @@ public class GameManager : MonoBehaviour
     // game variables
     private ChartParser chartParser;
     private NoteSpawner noteSpawner;
-    [SerializeField] private Scoring scorer;
+    [SerializeField] public Scoring scorer;
     private bool started = false;
 
     // list of keys for easy looping
@@ -338,10 +338,6 @@ public class GameManager : MonoBehaviour
 
 
         } 
-        else if (selectedSong.chartFilePath == "level2Achart" || selectedSong.chartFilePath == "level2Bchart" )
-        {
-            SceneManager.LoadScene("Ending");
-        }
         else
         {
             scorer.endGame();

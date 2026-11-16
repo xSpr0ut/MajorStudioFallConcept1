@@ -9593,6 +9593,10 @@ PrefabInstance:
       propertyPath: clampMin
       value: -1.94
       objectReference: {fileID: 0}
+    - target: {fileID: 6112234750013922298, guid: 5b7c91fcbb5acd449b63532676e5d70f, type: 3}
+      propertyPath: targetSpr
+      value: 
+      objectReference: {fileID: 8229732236712443930}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -9701,7 +9705,7 @@ PrefabInstance:
       objectReference: {fileID: 5146049173843213574, guid: cabbead2b56aa4e439e317b6e308c0ac, type: 2}
     - target: {fileID: 2491389093020704017, guid: cb2888a2b9d72e648a24af0029090607, type: 3}
       propertyPath: m_hasFontAssetChanged
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2582263920475909147, guid: cb2888a2b9d72e648a24af0029090607, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -9717,7 +9721,7 @@ PrefabInstance:
       objectReference: {fileID: 5146049173843213574, guid: cabbead2b56aa4e439e317b6e308c0ac, type: 2}
     - target: {fileID: 3131159420110887782, guid: cb2888a2b9d72e648a24af0029090607, type: 3}
       propertyPath: m_hasFontAssetChanged
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4400683215018130923, guid: cb2888a2b9d72e648a24af0029090607, type: 3}
       propertyPath: m_LocalPosition.x
@@ -9777,7 +9781,7 @@ PrefabInstance:
       objectReference: {fileID: 5146049173843213574, guid: cabbead2b56aa4e439e317b6e308c0ac, type: 2}
     - target: {fileID: 8199102547284436389, guid: cb2888a2b9d72e648a24af0029090607, type: 3}
       propertyPath: m_hasFontAssetChanged
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8430808470707887908, guid: cb2888a2b9d72e648a24af0029090607, type: 3}
       propertyPath: m_fontAsset
@@ -9789,7 +9793,7 @@ PrefabInstance:
       objectReference: {fileID: 5146049173843213574, guid: cabbead2b56aa4e439e317b6e308c0ac, type: 2}
     - target: {fileID: 8430808470707887908, guid: cb2888a2b9d72e648a24af0029090607, type: 3}
       propertyPath: m_hasFontAssetChanged
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8569602826461538027, guid: cb2888a2b9d72e648a24af0029090607, type: 3}
       propertyPath: m_Name
@@ -9815,18 +9819,6 @@ PrefabInstance:
     - target: {fileID: 676839844107729821, guid: cea382728fbf0ec40aa61e95d5735e5b, type: 3}
       propertyPath: m_Name
       value: TargetDanceAnimations
-      objectReference: {fileID: 0}
-    - target: {fileID: 5780679024530653613, guid: cea382728fbf0ec40aa61e95d5735e5b, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.44243005
-      objectReference: {fileID: 0}
-    - target: {fileID: 5780679024530653613, guid: cea382728fbf0ec40aa61e95d5735e5b, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.44243005
-      objectReference: {fileID: 0}
-    - target: {fileID: 5780679024530653613, guid: cea382728fbf0ec40aa61e95d5735e5b, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 0.44243005
       objectReference: {fileID: 0}
     - target: {fileID: 5780679024530653613, guid: cea382728fbf0ec40aa61e95d5735e5b, type: 3}
       propertyPath: m_LocalPosition.x
@@ -9876,6 +9868,11 @@ PrefabInstance:
 --- !u!1 &8229732236712443929 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 676839844107729821, guid: cea382728fbf0ec40aa61e95d5735e5b, type: 3}
+  m_PrefabInstance: {fileID: 8229732236712443928}
+  m_PrefabAsset: {fileID: 0}
+--- !u!212 &8229732236712443930 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 2632503815638568090, guid: cea382728fbf0ec40aa61e95d5735e5b, type: 3}
   m_PrefabInstance: {fileID: 8229732236712443928}
   m_PrefabAsset: {fileID: 0}
 --- !u!1660057539 &9223372036854775807

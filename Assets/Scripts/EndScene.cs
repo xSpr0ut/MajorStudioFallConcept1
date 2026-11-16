@@ -32,7 +32,35 @@ public class EndScene : MonoBehaviour
 
     void Start()
     {
-        SetEnding("notfired");
+        SetEnding(CalculateEnding());
+    }
+
+    private string CalculateEnding()
+    {
+        if (GameManager.Instance.selectedSong.chartFilePath == "level2Achart")
+        {
+            if (GameManager.Instance.getCharacterScore() < 20 && GameManager.Instance.getCharacterScore() > -20 && GameManager.Instance.scorer.getScore() == 120000)
+            {
+
+                return "success";
+            }
+            else
+            {
+                return "failure";
+            }
+        }
+        else 
+        {
+            if (GameManager.Instance.getCharacterScore() < 20 && GameManager.Instance.getCharacterScore() > -20 && GameManager.Instance.scorer.getScore() == 180000)
+            {
+
+                return "notfired";
+            }
+            else
+            {
+                return "fired";
+            }
+        }
     }
 
     public void SetEnding(string ending)
