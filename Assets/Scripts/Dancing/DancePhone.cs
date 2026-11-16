@@ -1,4 +1,6 @@
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public class DancePhone : MonoBehaviour
 {
@@ -20,6 +22,9 @@ public class DancePhone : MonoBehaviour
     [SerializeField] public GameObject phone;
     [SerializeField] public float bpm;
     [SerializeField] private SpriteRenderer phoneSR;
+
+    [SerializeField] private GameObject leftText;
+    [SerializeField] private GameObject rightText;
 
     private void Awake()
     {
@@ -70,6 +75,12 @@ public class DancePhone : MonoBehaviour
     public void StopBobbing()
     {
         isBobbing = false;
+    }
+
+    public void SetText()
+    {
+        leftText.GetComponent<TextMeshProUGUI>().text = "CHARM";
+        rightText.GetComponent<TextMeshProUGUI>().text = "REASON";
     }
 
 }

@@ -154,7 +154,7 @@ public class GameManager : MonoBehaviour
         keys.Add(Keyboard.current.spaceKey);
 
         audioSrc = GetComponent<AudioSource>();
-
+        driftBar.SetActive(false);
 
         // joella's stuff
         // DO NOT DELETE
@@ -291,6 +291,7 @@ public class GameManager : MonoBehaviour
         {
             DanceAnimController.Instance.StartDancing();
             DanceAnimController.Instance.player.SetActive(true);
+
             driftBar.SetActive(false);
             DancePhone.Instance.phone.SetActive(false);
             DanceTarget.Instance.target.SetActive(false);
@@ -298,9 +299,12 @@ public class GameManager : MonoBehaviour
         if (songToPlay.chartFilePath == "level2Achart")
         {
             DanceAnimController.Instance.player.SetActive(false);
+
             DanceTarget.Instance.target.SetActive(true);
             DanceTarget.Instance.StartBobbing();
+            DanceTarget.Instance.SetText();
             DanceTarget.Instance.bpm = 132;
+
             DancePhone.Instance.phone.SetActive(false);
             driftBar.SetActive(true);
         }
@@ -308,7 +312,9 @@ public class GameManager : MonoBehaviour
         {
             DanceAnimController.Instance.player.SetActive(false);
             DanceTarget.Instance.target.SetActive(false);
+
             DancePhone.Instance.phone.SetActive(true);
+            DancePhone.Instance.SetText();
             DancePhone.Instance.StartBobbing();
             DancePhone.Instance.bpm = 122;
             driftBar.SetActive(true);

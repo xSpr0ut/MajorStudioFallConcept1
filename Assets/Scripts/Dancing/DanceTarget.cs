@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 
 public class DanceTarget : MonoBehaviour
@@ -19,6 +20,9 @@ public class DanceTarget : MonoBehaviour
     [SerializeField] public GameObject target;
     [SerializeField] public float bpm;
     [SerializeField] private SpriteRenderer targetSpr;
+
+    [SerializeField] private GameObject leftText;
+    [SerializeField] private GameObject rightText;
 
     private void Awake()
     {
@@ -78,5 +82,11 @@ public class DanceTarget : MonoBehaviour
     public void SetSeduced()
     {
         targetSpr.sprite = seduced;
+    }
+
+    public void SetText()
+    {
+        leftText.GetComponent<TextMeshProUGUI>().text = "SEDUCE";
+        rightText.GetComponent<TextMeshProUGUI>().text = "THREATEN";
     }
 }
