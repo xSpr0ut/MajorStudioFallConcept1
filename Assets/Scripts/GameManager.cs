@@ -5,6 +5,7 @@ using TMPro;
 // are we using this???
 using UnityEngine.UI;
 using UnityEngine.Assemblies;
+using UnityEngine.SceneManagement;
 using System.Collections;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Controls;
@@ -139,6 +140,7 @@ public class GameManager : MonoBehaviour
         {
             Manager = this;
         }
+        DontDestroyOnLoad(gameObject);
 
         noteSpawner = GetComponent<NoteSpawner>();  
     }
@@ -335,7 +337,12 @@ public class GameManager : MonoBehaviour
            // Invoke(nameof(playNextLevel), 10f);
 
 
-        } else
+        } 
+        else if (selectedSong.chartFilePath == "level2Achart" || selectedSong.chartFilePath == "level2Bchart" )
+        {
+            SceneManager.LoadScene("Ending");
+        }
+        else
         {
             scorer.endGame();
         }
@@ -636,17 +643,17 @@ public class GameManager : MonoBehaviour
 
     private void UpdateTargetFrame()
     {
-        if (characterScore <= -35)
+        if (characterScore < -15)
         {
-            DanceTarget.Instance.SetThreatened();
+            DanceTarget.Instance.SetSeduced();
         }
-        else if (characterScore >= -15 && characterScore <= 15)
+        else if (characterScore <= 15)
         {
             DanceTarget.Instance.SetNeutral();
         }
         else
         {
-            DanceTarget.Instance.SetSeduced();
+            DanceTarget.Instance.SetThreatened();
         }
     }
 }
