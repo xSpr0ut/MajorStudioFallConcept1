@@ -2575,9 +2575,9 @@ MonoBehaviour:
   pulsingAmp: 0.4
   camBase: 0
   pulseTimer: 0
-  kickOfs: 0
+  kickOfs: 0.2
   clampMin: 4.8
-  beatOfs: 0
+  beatOfs: -0.3
   cam: {fileID: 0}
   bpm: 131
 --- !u!1 &1277270531
