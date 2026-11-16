@@ -32,7 +32,7 @@ public class EndScene : MonoBehaviour
 
     void Start()
     {
-        
+        SetEnding(PersistentStats.Instance.ending);
     }
 
     
